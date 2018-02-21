@@ -71,6 +71,47 @@
 				$msg="<span style='color:red'>Pkace Already Exists. Enter New Place</span>";
 			} 
 	}
+        if(isset($_POST["do_update_dcity_place"]) && $_POST["do_update_dcity_place"]=="true")
+	{ 
+			$check_count=duplicate_count_cplace($dcplace_ctyid,$dcplace_name); 
+                        
+                        $dcplace_id=$_GET["dcplace_id"];
+                        $sql="select * from des_city_place where dcplace_id='$dcplace_id'";
+                        $result=mysql_query($sql);
+                        $row=mysql_fetch_array($result);
+                        $place=$row["dcplace_name"];
+                        
+			if($check_count==1)
+			{ 
+				$dcplace_id=$_GET["dcplace_id"];
+                                $sql="update des_city_place set dcplace_ctyid='$dcplace_ctyid',dcplace_name='$dcplace_name',dcplace_crossing='$dcplace_crossing' where dcplace_id='$dcplace_id'";
+				if(mysql_query($sql))
+				{
+					$msg="<span style='color:green'>Place Updated Successfully....</span><meta http-equiv=refresh content='1;url=index.php?do=dcities&tab=tab_content2'>";
+				}
+				else
+				{
+					$msg="<span style='color:red'>Place Not Updated</span>";
+				}
+			}//end of check duplication
+                        elseif($place==$dcplace_name)
+			{ 
+				$dcplace_id=$_GET["dcplace_id"];
+                                $sql="update des_city_place set dcplace_ctyid='$dcplace_ctyid',dcplace_name='$dcplace_name',dcplace_crossing='$dcplace_crossing' where dcplace_id='$dcplace_id'";
+				if(mysql_query($sql))
+				{
+					$msg="<span style='color:green'>Place Updated Successfully....</span><meta http-equiv=refresh content='1;url=index.php?do=dcities&tab=tab_content2'>";
+				}
+				else
+				{
+					$msg="<span style='color:red'>Place Not Updated</span>";
+				}
+			}
+			else
+			{
+				$msg="<span style='color:red'>Place Already Exists. Enter New Place</span>";
+			} 
+	}
 ?>
 <?php 
 	if(isset($_POST["do_add_dcity"]) && $_POST["do_add_dcity"]=="true")
@@ -100,6 +141,86 @@
 			}
 		}	
 	}
+        if(isset($_POST["do_update_dcity"]) && $_POST["do_update_dcity"]=="true")
+	{
+		if(empty($dcty_name))
+		{
+			$msg="<h2 style='color:red'>Please put something on city name...</h2>";
+		}
+		else
+		{
+			$check_count=duplicate_count($dcty_name); 
+                        
+                        $dcty_id=$_GET["dcty_id"];
+                        $sql="select * from des_cities where dcty_id='$dcty_id'";
+                        $result=mysql_query($sql);
+                        $row=mysql_fetch_array($result);
+                        $city=$row["dcty_name"];
+
+			if($check_count==1)
+			{ 
+				$dcty_id=$_GET["dcty_id"];
+                                $sql="update des_cities set dcty_name='$dcty_name',dcty_transport_name='$dcty_transport_name',dcty_transport_add='$dcty_transport_add',dcty_transport_mobno='$dcty_transport_mobno',dcty_cutrate='$dcty_cutrate' where dcty_id='$dcty_id'";
+				if(mysql_query($sql))
+				{
+					$msg="<span style='color:green'>City updated Successfully....</span><meta http-equiv=refresh content='1;url=index.php?do=dcities'>";
+				}
+				else
+				{
+					$msg="<span style='color:red'>City Not Added</span>";
+				}
+			}
+                        elseif($city==$dcty_name)
+                        {
+                           
+                                   $dcty_id=$_GET["dcty_id"];
+                                    $sql="update des_cities set dcty_name='$dcty_name',dcty_transport_name='$dcty_transport_name',dcty_transport_add='$dcty_transport_add',dcty_transport_mobno='$dcty_transport_mobno',dcty_cutrate='$dcty_cutrate' where dcty_id='$dcty_id'";
+                                    if(mysql_query($sql))
+                                    {
+                                            $msg="<span style='color:green'>City Updated Successfully....</span><meta http-equiv=refresh content='1;url=index.php?do=dcities'>";
+                                    }
+                                    else
+                                    {
+                                            $msg="<span style='color:red'>City Not Added</span>";
+                                    }
+                               
+                        }
+                        else
+			{
+                               
+                                   $msg="<span style='color:red'>City Already Exists. Enter New City</span>";
+                               
+			}
+		}	
+	}
+        if(isset($_GET["dcty_id"]))
+        {
+
+        $dcty_id=$_GET["dcty_id"]; 
+
+        $sql="select * from des_cities where dcty_id='$dcty_id'";	
+        $result=mysql_query($sql) or die(mysql_error());
+        $row=mysql_fetch_array($result);
+       
+        $dcty_name=$row["dcty_name"];
+	$dcty_transport_name=$row["dcty_transport_name"];
+	$dcty_transport_add=$row["dcty_transport_add"];
+	$dcty_transport_mobno=$row["dcty_transport_mobno"];
+	$dcty_cutrate=$row["dcty_cutrate"];
+        
+        }
+       if(isset($_GET["dcplace_id"]))
+        {
+             $dcplace_id=$_GET["dcplace_id"]; 
+
+            $sql="select * from des_city_place where dcplace_id='$dcplace_id'";	
+            $result=mysql_query($sql) or die(mysql_error());
+            $row=mysql_fetch_array($result);
+            
+            $dcplace_ctyid=$row["dcplace_ctyid"];
+            $dcplace_name=$row["dcplace_name"];
+            $dcplace_crossing=$row["dcplace_crossing"];
+        }
 ?>
 <script>
 //------------------------------------------------------------------------------------------------------
@@ -152,7 +273,19 @@ if($action=="list")
 												</center>
 											</span>
 												<form class="form-horizontal form-label-left" enctype="multipart/form-data" method="post" action="" novalidate>
-													<input type="hidden" name="do_add_dcity" value="true">  
+													
+                                                                                                        <?php
+                                                                                                        if(isset($_GET["dcty_id"]))
+                                                                                                        { ?>
+                                                                                                            <input type="hidden" name="do_update_dcity" value="true">
+                                                                                                       <?php 
+                                                                                                        }
+                                                                                                        else
+                                                                                                        { ?>
+                                                                                                            <input type="hidden" name="do_add_dcity" value="true"> 
+                                                                                                       <?php }
+                                                                                                        ?>
+                                                                                                        
 													<span class="section"><center>Enter Destination City Details</center></span>
 													<div class="item form-group">
 														<label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">City Name<span class="required">*</span>  </label>
@@ -221,7 +354,8 @@ if($action=="list")
 															<td class=" "><?php echo $row["dcty_transport_mobno"]; ?></td> 
 															<td class=" "><?php echo $row["dcty_cutrate"]; ?></td> 
 															<td class=" last">  
-																<a href="#" onClick="confirm_delete(<?php echo $row['dcty_id']; ?>);" title="delete"><i class="fa fa-trash"></i></a>
+																<!--<a href="#" onClick="confirm_delete(<?php echo $row['dcty_id']; ?>);" title="delete"><i class="fa fa-trash"></i></a>-->
+                                                                                                                                <a class="button-getReport" href="index.php?do=dcities&tab=tab_content1&dcty_id=<?php echo $row['dcty_id'] ?>"><i class="fa fa-edit"></i></i></a>
 															</td>
 														</tr>
 													</form>
@@ -238,7 +372,20 @@ if($action=="list")
 												</center>
 											</span>
 												<form class="form-horizontal form-label-left" enctype="multipart/form-data" method="post" action="" novalidate>
-													<input type="hidden" name="do_add_dcity_place" value="true">
+													
+                                                                                                         <?php
+                                                                                                        if(isset($_GET["dcplace_id"]))
+                                                                                                        { ?>
+                                                                                                            <input type="hidden" name="do_update_dcity_place" value="true">
+                                                                                                       <?php 
+                                                                                                        }
+                                                                                                        else
+                                                                                                        { ?>
+                                                                                                            <input type="hidden" name="do_add_dcity_place" value="true">
+                                                                                                        
+                                                                                                       <?php }
+                                                                                                        ?>
+                                                                                                        
 													<span class="section">Enter City Place Details</span>
 													<div class="item form-group">
 													<label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Destination City <span class="required">*</span>
@@ -250,7 +397,8 @@ if($action=="list")
 															while($f_descity=mysql_fetch_array($res_descity))
 															{
 															?>
-																<option value="<?php echo $f_descity["dcty_id"]?>"><?php echo $f_descity["dcty_name"]?></option>
+															
+                                                                                                                                <option <?php if($f_descity["dcty_id"]==$dcplace_ctyid) echo "selected";?>  value="<?php echo $f_descity["dcty_id"] ?>"><?php echo $f_descity["dcty_name"]?></option>
 															<?php } ?>		
 															</select>
 														</div>
@@ -300,7 +448,8 @@ if($action=="list")
 															<td class=" "><?php echo $row["dcty_name"]; ?></td> 
 															<td class=" "><?php echo $row["dcplace_crossing"]; ?></td>  
 															<td class=" last">  
-																<a href="#" onClick="confirm_delete_place(<?php echo $row['dcplace_id']; ?>);" title="delete"><i class="fa fa-trash"></i></a>
+																<!--<a href="#" onClick="confirm_delete_place(<?php echo $row['dcplace_id']; ?>);" title="delete"><i class="fa fa-trash"></i></a>-->
+                                                                                                                                <a class="button-getReport" href="index.php?do=dcities&tab=tab_content2&dcplace_id=<?php echo $row['dcplace_id'] ?>"><i class="fa fa-edit"></i></i></a>
 															</td>
 														</tr>
 													</form>
