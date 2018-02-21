@@ -173,7 +173,15 @@ function printDiv(divName) {
 												AMRAVATI PH : 0721-2590820<br/>
 												BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721-	2381577<br/>
 												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE 
-									</span> 			
+			<div class="row">						</span> 
+                        <div class="item form-group"> 
+								<div class="col-md-3 col-sm-3 col-xs-12">
+								<label>Search</label> 
+								<input id="search" placeholder="Search..." class="form-control col-md-7 col-xs-12"  name="search" value=""  type="text">
+								</div>  
+														 
+                                        </div> 
+                        </div><br>
                         <table id="example" class="table table-striped responsive-utilities jambo_table" style="overflow-x:auto;">
                             <thead>
                                 <tr class="headings"> 
@@ -192,7 +200,7 @@ function printDiv(divName) {
                                      <th>Delete Booking</th>
                                 </tr>
                             </thead>
-							<tbody>
+							<tbody id="search_body">
 							<?php  
                                                          if($bok_descityid==0)
                                                         {
@@ -372,4 +380,11 @@ function delte_booking(bokid)
     var url=document.URL;
     
 }
+
+   $("#search").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#search_body tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
 </script>
