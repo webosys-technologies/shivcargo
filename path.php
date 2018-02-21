@@ -1,0 +1,11 @@
+<?php 
+	if(isset($_GET["do"]))
+	{
+		$action=$_GET["do"];
+		include("./pages/".$action.".php");
+	}
+	else
+	{
+		include("./pages/home.php");
+	}
+?>
