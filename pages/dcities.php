@@ -112,7 +112,8 @@ function confirm_delete(id)
 		location.replace('index.php?do=dcities&action=delete_city&del_id='+id);
 	}
 }
-</script>
+ </script>
+
 <script>
 //------------------------------------------------------------------------------------------------------
 // Script for conformation of Function call To delete Individual cities 
@@ -191,7 +192,15 @@ if($action=="list")
 															<button type="reset" class="btn btn-primary">Reset</button>
 														</div>
 													</div>
-												</form> 
+                                                                                                         <div class="row">						</span> 
+                                                                                                        <div class="item form-group">
+                                                                                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                                                        <label>Search</label> 
+                                                                                                        <input id="search1" placeholder="Search..." size=""  class="form-control col-md-7 col-xs-12"  name="search" value=""  type="text">
+                                                                                                        </div>
+                                                                                                            </div>
+                                                                                                         </div>
+												</form><br/> 
                                                  <table id="example" class="table table-striped responsive-utilities jambo_table">
 													<thead>
 														<tr class="headings">
@@ -204,7 +213,7 @@ if($action=="list")
 															<th class=" no-link last"><span class="nobr">Action</span></th>
 														</tr>
 													</thead>
-													<tbody>
+													<tbody id="search_dcities">
 													<?php
 													$SrNo=1;
 													$sql="select * from des_cities LIMIT 0,100 ";
@@ -274,6 +283,13 @@ if($action=="list")
 															<button type="reset" class="btn btn-primary">Reset</button>
 														</div>
 													</div>
+                                                                                                        <div class="row">						</span> 
+                                                                                                        <div class="item form-group">  
+                                                                                                         <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                                                        <label>Search</label> 
+                                                                                                        <input id="search2" placeholder="Search..." size=""  class="form-control col-md-7 col-xs-12"  name="search" value=""  type="text">
+                                                                                                        </div>
+                                                                                                        </div></div><br>
 												</form>
 												<table id="example" class="table table-striped responsive-utilities jambo_table">
 													<thead>
@@ -285,7 +301,7 @@ if($action=="list")
 															<th class=" no-link last"><span class="nobr">Action</span></th>
 														</tr>
 													</thead>
-													<tbody>
+													<tbody id="search_city_places">
 													<?php
 													$SrNo=1;
 													$sql="select * from des_city_place dcp join des_cities dc on(dcp.dcplace_ctyid=dc.dcty_id) LIMIT 0,1000 ";
@@ -344,4 +360,23 @@ elseif($action=="delete_city_place")
 		echo "Place Can't Deleted..";
 	}
 } 
-?>				
+?>	
+
+<script>
+ $("#search1").on("keyup", function() {
+//     alert();
+    var value = $(this).val().toLowerCase();
+    $("#search_dcities tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+ 
+ 
+   $("#search2").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#search_city_places tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+
+</script>

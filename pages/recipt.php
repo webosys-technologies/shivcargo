@@ -89,6 +89,15 @@ if($_GET["do"]=="recipt" && isset($_GET["bok_descityid"]) && isset($_GET["bokdat
 						<button class="btn btn-danger"  onclick="printDiv('printableArea')">
 							<i class="fa fa-print"></i> Print
 						</button>
+                                            
+                                            <div class="row">
+                                      <div class="item form-group"> 
+                                      <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <label>Search</label> 
+                                                <input id="search" placeholder="Search..." size=""  class="form-control col-md-7 col-xs-12"  name="search" value=""  type="text">
+                                                </div>
+                                          </div>
+                                          </div><br>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content" id="printableArea">
@@ -105,7 +114,7 @@ if($_GET["do"]=="recipt" && isset($_GET["bok_descityid"]) && isset($_GET["bokdat
                                   
                                 </tr>
                             </thead>
-							<tbody>
+							<tbody id="search_reciept">
 							<?php 
 							$SrNo=1;
 							if($bok_descityid==0)
@@ -170,3 +179,16 @@ if($_GET["do"]=="recipt" && isset($_GET["bok_descityid"]) && isset($_GET["bokdat
 <?php
 }
 ?>	
+
+<script>
+
+
+   $("#search").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#search_reciept tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+  
+   
+</script>

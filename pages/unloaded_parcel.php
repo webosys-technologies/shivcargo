@@ -139,8 +139,17 @@ function printDiv(divName) {
 												BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721-2381577<br/>
 												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE 
 										</span>
+                                         
+                                             <div class="row">
+                                              <div class="item form-group"> 
+                                               <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <label>Search</label> 
+                                                <input id="search" placeholder="Search..." size=""  class="form-control col-md-7 col-xs-12"  name="search" value=""  type="text">
+                                                </div></div></div>
+                                                <br/>
 						<?php if($bok_descityid!=0) { $row_ctyname=mysql_fetch_array(mysql_query("select dcty_name from des_cities where dcty_id='$bok_descityid'"));?> 					
-						<span class="section"><b>City Name</b> :  <?php echo ucwords($row_ctyname["dcty_name"]); }?></span>				
+						<span class="section"><b>City Name</b> :  <?php echo ucwords($row_ctyname["dcty_name"]); }?></span>	
+                                                
                         <table id="example" class="table table-striped responsive-utilities jambo_table">
                             <thead>
                                 <tr class="headings"> 
@@ -156,7 +165,7 @@ function printDiv(divName) {
                                     <th>City</th>  
                                 </tr>
                             </thead>
-							<tbody>
+							<tbody id="search_parcel">
 							<?php 
                                                         
 							if($bok_descityid==0)
@@ -197,4 +206,14 @@ function printDiv(divName) {
     </div>
 <?php
 }
-?>	
+?>
+<script>
+
+
+   $("#search").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#search_parcel tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+</script>	

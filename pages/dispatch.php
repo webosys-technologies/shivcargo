@@ -171,7 +171,14 @@ function printDiv(divName) {
 												BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721-2381577<br/>
 												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									</span> 	
-										
+						                  <div class="row">
+                                      <div class="item form-group"> 
+                                      <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <label>Search</label> 
+                                                <input id="search1" placeholder="Search..." size=""  class="form-control col-md-7 col-xs-12"  name="search" value=""  type="text">
+                                                </div>
+                                          </div>
+                                          </div><br>				
 									<table id="example" class="table table-striped responsive-utilities jambo_table">
 										<thead>
 											<tr class="headings"> 
@@ -184,7 +191,7 @@ function printDiv(divName) {
 												
 											</tr>
 										</thead>
-										<tbody>
+										<tbody id="search_memo">
 										<?php  
 									    
                                                                                 if($bok_descityid==0)
@@ -252,6 +259,8 @@ function printDiv(divName) {
 										<?php //echo ucwords($f_memo["bok_drivername"]);?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>VECHILE NO :</b><?php echo $f_memo["bok_vehicleno"];?><br/> <b>DRIVER ADDRESS:</b><?php ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 										<b>DRIVER CONTACT NUMBER:</b><?php echo ucwords($f_memo["bok_drivermobile"]);?>  
 									</span>	
+                                                                            
+                                                          
 									<table id="example" class="table table-striped responsive-utilities jambo_table">
 										<thead>
 <!--											<tr class="headings"> 
@@ -279,7 +288,7 @@ function printDiv(divName) {
 												<th>CROSS CHARGE</th>  
 											</tr>
 										</thead>
-										<tbody>
+										<tbody id="">
 										<?php  
 									    
                                                                                 $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_loaddate='$bok_loaddate' AND bok_memo='$bok_memo' AND bok_status='1'";	 
@@ -428,3 +437,21 @@ function printDiv(divName) {
                             </div>
                         </div>  
                     </div>
+
+<script>
+
+
+   $("#search1").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#search_memo tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+  
+     $("#search2").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#search_report tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+</script>

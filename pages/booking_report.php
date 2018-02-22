@@ -173,11 +173,12 @@ function printDiv(divName) {
 												AMRAVATI PH : 0721-2590820<br/>
 												BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721-	2381577<br/>
 												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE 
-			<div class="row">						</span> 
-                        <div class="item form-group"> 
+									</span> 
+                                                           <div class="row">
+                                                                <div class="item form-group"> 
 								<div class="col-md-3 col-sm-3 col-xs-12">
 								<label>Search</label> 
-								<input id="search" placeholder="Search..." class="form-control col-md-7 col-xs-12"  name="search" value=""  type="text">
+								<input id="search" placeholder="Search..." size="" class="form-control col-md-7 col-xs-12"  name="search" value=""  type="text">
 								</div>  
 														 
                                         </div> 

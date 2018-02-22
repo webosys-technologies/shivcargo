@@ -43,7 +43,17 @@ th, td { min-width: 50px;
 									<form class="form-horizontal form-label-left" enctype="multipart/form-data" method="get" action="index.php" novalidate>
 									<input type="hidden" name="do" value="booking_report">
 										
-                                       <center> <span class="section"><b>SEARCH BOOKING REPORT</b></span></center>
+                                       <center> <span class="section"><b>SEARCH BOOKING REPORT </b></span></center>
+                                       	<div class="item form-group"> 
+														<div class="col-md-3 col-sm-3 col-xs-12">
+															<label>Start Date</label> 
+															<input id="name" class="form-control col-md-7 col-xs-12"  name="start_date" value="<?php echo $start_date; ?>"  type="date">
+														</div>  
+														<div class="col-md-3 col-sm-3 col-xs-12">
+															<label>End Date</label> 
+															<input id="name" class="form-control col-md-7 col-xs-12"  name="end_date" value="<?php echo $end_date; ?>"  type="date">
+														</div>  
+                                        </div> 
 										<div class="item form-group"> 
 														<div class="col-md-3 col-sm-3 col-xs-12">
 															<label>Start Date</label> 
@@ -173,7 +183,10 @@ function printDiv(divName) {
 												AMRAVATI PH : 0721-2590820<br/>
 												BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721-	2381577<br/>
 												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE 
-									</span> 			
+									</span> 
+                        
+                        	
+                        
                         <table id="example" class="table table-striped responsive-utilities jambo_table" style="overflow-x:auto;">
                             <thead>
                                 <tr class="headings"> 
