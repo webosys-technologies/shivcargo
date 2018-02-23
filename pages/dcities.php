@@ -17,6 +17,7 @@
 		function to check duplicate value dcities
 	---------------------------------------------------------------------------------------------*/
 	function duplicate_count($dcty_name)
+        
 	{
 		$sql="select COUNT(*) as count from des_cities where dcty_name='$dcty_name' ";
 		$result=mysql_query($sql);
