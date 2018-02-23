@@ -12,6 +12,7 @@ if($count==1)
 	<input name="recvmobile" value="<?php echo $row["recvmobile"]; ?>"  type="hidden" >
     <input name="recvaddress" value="<?php echo $row["recvaddress"]; ?>" type="hidden">
     <div class="item form-group">
+        
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Receiver GST Number
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -22,21 +23,21 @@ if($count==1)
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Receiver Name<span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input id="name" class="form-control col-md-7 col-xs-12" value="<?php echo $row["recvname"]; ?>"  required="required" type="text">
+                                                <input id="name" class="form-control col-md-7 col-xs-12" name="recvname" value="<?php echo $row["recvname"]; ?>"  required="required" type="text">
                                             </div>
                                         </div> 
 										<div class="item form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Receiver Mobile Number
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input id="name" class="form-control col-md-7 col-xs-12" value="<?php echo $row["recvmobile"]; ?>"  type="text">
+                                                <input id="name" class="form-control col-md-7 col-xs-12" name="recvmobile" value="<?php echo $row["recvmobile"]; ?>"  type="text">
                                             </div>
                                         </div> 
 										<div class="item form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Receiver Address
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input id="name" class="form-control col-md-7 col-xs-12" value="<?php echo $row["recvaddress"]; ?>"  type="text">
+                                                <input id="name" class="form-control col-md-7 col-xs-12" name="recvaddress" value="<?php echo $row["recvaddress"]; ?>"  type="text">
                                             </div>
                                         </div>  
 <?php } else { ?>
