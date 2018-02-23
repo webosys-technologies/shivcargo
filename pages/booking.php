@@ -99,7 +99,6 @@ th, td { min-width: 50px;
                         $recvid=$row_reciver["recvid"];
                         $sql1="update recivers set recvname='$recvname',recvaddress='$recvaddress',recvmobile='$recvmobile',recvgstno='$recvgstno' where recvid='$recvid'";              
                         $p=mysql_query($sql1);
-                      
                         return $row_reciver["recvid"];
 		}
 		else
@@ -108,6 +107,7 @@ th, td { min-width: 50px;
 			mysql_query("insert into recivers (recvname,recvaddress,recvmobile,recvgstno) values ('$recvname','$recvaddress','$recvmobile','$recvgstno')");
 			$row_recid=mysql_fetch_array(mysql_query("select * from recivers where recvgstno='$recvgstno'"));
 			return $row_recid["recvid"];
+                        
 		}
 	}		
 ?> 
