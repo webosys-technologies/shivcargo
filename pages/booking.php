@@ -93,11 +93,18 @@ th, td { min-width: 50px;
 		$count_reciver=mysql_num_rows($res_reciver);
 		if($count_reciver > 0)
 		{
-			$row_reciver=mysql_fetch_array($res_reciver);
-			return $row_reciver["recvid"];
+			$row_reciver=mysql_fetch_array($res_reciver);  
+                        
+			
+                        $recvid=$row_reciver["recvid"];
+                        $sql1="update recivers set recvname='$recvname',recvaddress='$recvaddress',recvmobile='$recvmobile',recvgstno='$recvgstno' where recvid='$recvid'";              
+                        $p=mysql_query($sql1);
+                      
+                        return $row_reciver["recvid"];
 		}
 		else
 		{
+                        
 			mysql_query("insert into recivers (recvname,recvaddress,recvmobile,recvgstno) values ('$recvname','$recvaddress','$recvmobile','$recvgstno')");
 			$row_recid=mysql_fetch_array(mysql_query("select * from recivers where recvgstno='$recvgstno'"));
 			return $row_recid["recvid"];
@@ -573,7 +580,7 @@ if($action=="add_booking")
 
                                 </div>
                             </div>
-                             <div class="x_content" id="invoice" style="//display:none;">
+                             <div class="x_content" id="invoice" style="display:none;">
                                         
                                         <?php 
                                         if(isset($_GET["bokid"]))
