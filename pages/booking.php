@@ -580,6 +580,7 @@ if($action=="add_booking")
 
                                 </div>
                             </div>
+                                                            
                              <div class="x_content" id="invoice" style="display:none;">
                                         
                                         <?php 
