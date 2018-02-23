@@ -6,6 +6,7 @@ $res=mysql_query($sql);
 $count=mysql_num_rows($res);
 if($count==1)
 {
+	
 	$row=mysql_fetch_array($res);
 ?>
 	<input name="recvname" value="<?php echo $row["recvname"]; ?>" type="hidden">
