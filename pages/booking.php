@@ -356,7 +356,7 @@ if($action=="add_booking")
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                                 
-                                                <select name="dcplace_ctyid" style="width: 234px !important; height: 35px !important;" id="name" onChange="getCity(this.value)" required="required"> 
+                                                <select name="dcplace_id" style="width: 234px !important; height: 35px !important;" id="name" onChange="getCity(this.value)" required="required"> 
                                                     <option value="">Select Place </option> 
                                                     <?php 
                                                     $sql_cityplace="select * from des_city_place"; //where dcplace_ctyid='$bok_descityid'
