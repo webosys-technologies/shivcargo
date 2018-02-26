@@ -180,7 +180,8 @@ if($action=="add_booking")
 		{
 			$msg="<span style='color:red'>Not Added</span>";
 		}
-	}       die($sql);
+                 die($sql);
+	}      
         if(isset($_POST["do_update_booking"]) && $_POST["do_update_booking"]=="true")
 	{ 
            
