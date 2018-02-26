@@ -172,6 +172,9 @@ if($action=="add_booking")
 		$bok_reciverid=check_reciver($recvgstno,$recvname,$recvaddress,$recvmobile); 
 		$bok_total=$bok_freight+$bok_hamali+$bok_others;
 		$sql="insert into booking(boklrno,bokdate,boktime,bok_senderid,bok_reciverid,bok_srccitybranchid,bok_descityid,bok_cityplaceid,bok_paymode,bok_parcel,bok_weight,bok_pivatemark,bok_item,bok_freight,bok_hamali,bok_others,bok_gst,bok_total,bok_remark,amountdeclare_desc,bok_addedby) values ('$boklrno','$bokdate','$boktime','$bok_senderid','$bok_reciverid','$bok_srccitybranchid','$bok_descityid','$bok_cityplaceid','$bok_paymode','$bok_parcel','$bok_weight','$bok_pivatemark','$bok_item','$bok_freight','$bok_hamali','$bok_others','$bok_gst','$bok_total','$bok_remark','$amountdeclare_desc','$admid')";
+                print_r($sql);
+                die()
+                
 		if(mysql_query($sql))
 		{
 			$msg="<span style='color:green'>Added Successfully....</span><meta http-equiv=refresh content='1'>";
@@ -180,7 +183,7 @@ if($action=="add_booking")
 		{
 			$msg="<span style='color:red'>Not Added</span>";
 		}
-                 die($sql);
+                 
 	}      
         if(isset($_POST["do_update_booking"]) && $_POST["do_update_booking"]=="true")
 	{ 
