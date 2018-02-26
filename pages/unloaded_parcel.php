@@ -176,9 +176,10 @@ function printDiv(divName) {
 							else
                                                         {
                                                                 $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' AND bok_status='0' ORDER BY sendname $bok_sorting";	
-                                                                
+                                                             
                                                         }	
 							$result=mysql_query($sql) or die(mysql_error());
+//                                                           die($result);
 							while($row=mysql_fetch_array($result))
 							{
 							?>

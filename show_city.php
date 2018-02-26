@@ -1,7 +1,7 @@
 <?php
 include "db/config.php";
 $dcplace_ctyid=$_POST["dcty_id"]; 
-$bok_cityplaceid=0;
+//$bok_cityplaceid=0;
 //$bok_cityplaceid=$_POST["bok_cityplaceid"];
 $sql_cityplace="select * from des_city_place where dcplace_id='$dcplace_ctyid'";
 $res_cityplace=mysql_query($sql_cityplace) or die(mysql_error());
