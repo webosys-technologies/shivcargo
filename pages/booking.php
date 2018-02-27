@@ -227,6 +227,7 @@ if($action=="add_booking")
 	$bokdate=$row["bokdate"];
 	$boktime=$row["boktime"];
 	$bok_descityid=$row["bok_descityid"];
+	$dcty_name=$row["dcty_name"];
 
 	$bok_cityplaceid=$row["bok_cityplaceid"];
 	$bok_paymode=$row["bok_paymode"];
@@ -367,7 +368,7 @@ if($action=="add_booking")
                                                     while($cplace=mysql_fetch_array($res_cityplace))
                                                     {
                                                     ?>
-                                                    <option value="<?php echo $cplace["dcplace_id"]?>"><?php echo $cplace["dcplace_name"]?></option>
+                                                    <option <?php if($cplace["dcplace_id"]==$bok_cityplaceid) echo "selected";?> value="<?php echo $cplace["dcplace_id"] ?>"><?php echo $cplace["dcplace_name"]?></option>
                                                     <?php } ?>
 												</select>	
                                             </div>
@@ -379,7 +380,7 @@ if($action=="add_booking")
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                                  <div id="show_city">
-                                                	
+                                                     <input id="name" class="form-control col-md-7 col-xs-12" name="bok_descityid" value="<?php echo $dcty_name; ?>" disabled="disabled"  type="text" required="required">
                                                 </div>
                                             </div>
                                         </div> 
@@ -391,6 +392,13 @@ if($action=="add_booking")
                                                 <input id="name" class="form-control col-md-7 col-xs-12" name="bok_item" value="<?php echo $bok_item; ?>"  type="text" required="required">
                                             </div>
                                         </div>
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Private Mark
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="name" class="form-control col-md-7 col-xs-12" name="bok_pivatemark" value="<?php echo $bok_pivatemark; ?>" type="text">
+                                            </div>
+                                        </div> 
                                             <div class="item form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Freight
                                             </label>
@@ -544,13 +552,7 @@ if($action=="add_booking")
                                                 <input id="name" class="form-control col-md-7 col-xs-12" name="bok_weight" value="<?php echo $bok_weight; ?>" type="text">
                                             </div>
                                         </div>  
-										<div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Private Mark
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input id="name" class="form-control col-md-7 col-xs-12" name="bok_pivatemark" value="<?php echo $bok_pivatemark; ?>" type="text">
-                                            </div>
-                                        </div>  
+										 
                                              <div class="item form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Amount declare
                                             </label>

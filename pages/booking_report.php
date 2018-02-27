@@ -6,7 +6,7 @@
     white-space: nowrap;
     }
 th, td { min-width: 50px; 
- border: none;
+ 
     text-align: left;
    }
     
@@ -14,7 +14,8 @@ th, td { min-width: 50px;
 
 <style>
     
-    td{ border: 1px solid #c1c1c1; }
+    td,th{ border: 1px solid #c1c1c1; }
+    
     </style>
 <?php 
 	$start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
@@ -54,7 +55,7 @@ th, td { min-width: 50px;
 															<input id="name" class="form-control col-md-7 col-xs-12"  name="end_date" value="<?php echo $end_date; ?>"  type="date">
 														</div>  
                                         </div> 
-                                       <div class="row">
+<!--                                       <div class="row">
                                             <div class="col-md-3 col-sm-3 col-xs-12">
                                                                                 <label>LR Number</label> 
                                                                                 <input id="name" class="form-control col-md-7 col-xs-12"  name="lr" value="<?php echo $lr; ?>"  type="text">
@@ -63,7 +64,7 @@ th, td { min-width: 50px;
                                                                                 <label>Date</label> 
                                                                                 <input id="name" class="form-control col-md-7 col-xs-12"  name="date" value="<?php echo $date; ?>"  type="date">
                                                                         </div>    
-                                                                                </div>  
+                                                                                </div>  -->
                                                                                     <div class="row">&nbsp</div>
                                                                                     <div class="row">
                                                                                         <div class="col-md-3 col-sm-3 col-xs-12">
@@ -83,7 +84,7 @@ th, td { min-width: 50px;
                                                                                         
                                                                                     </div>
                                                                                     <div class="row">&nbsp</div>
-                                                                                    <div class="row">
+<!--                                                                                    <div class="row">
                                                                                           <div class="col-md-3 col-sm-3 col-xs-12">
                                                                                 <label>Sender GST Number</label> 
                                                                                 <input id="name" class="form-control col-md-7 col-xs-12"  name="s_gst_no" value="<?php echo $s_gst_no; ?>"  type="text">
@@ -95,7 +96,7 @@ th, td { min-width: 50px;
                                                                                    
                                             
                                           
-                                                                                    </div>
+                                                                                    </div>-->
                                         <div class="ln_solid"></div>
                                         <div class="form-group">
                                             <div class="col-md-6 col-md-offset-3">
@@ -196,6 +197,7 @@ function printDiv(divName) {
                                     <th>No of parcel</th>
                                     <th>Loaded Ammount</th>
                                     <th>GST</th>
+                                    <th>Private Mark</th>
                                     <th>Status</th>
                                     <th>Edit Booking</th>
                                      <th>Delete Booking</th>
@@ -206,57 +208,63 @@ function printDiv(divName) {
                                                          if($bok_descityid==0)
                                                         {
 
-                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid)";	 
+                                                            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) ORDER BY boklrno";	 
                                                         }
                                                         else
                                                         {
                                                             
-							    $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' OR bokdate BETWEEN  '$start_date' AND '$end_date'";	 
+							   // $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' OR bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
+                                                            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
                                                         }
 							$result=mysql_query($sql) or die(mysql_error());
                                                         $total_of_bok_total=0;
                                                         $total_gst=0;
                                                         $total_parcel=0;
+                                                        $total_lr=0;
 							while($row=mysql_fetch_array($result))
 							{
 								if($row["bok_status"]==0){$status="Unloaded";} else {$status="Loaded";}
+                                                               $gst_cal=$row["bok_total"]* $row["bok_gst"]/100;
 							?>
                                                             <form method="post" action="">
                                                              <tr class="even pointer">  
-                                                                <td class="a-center "> <?php echo $row["bokdate"]; ?></td>  
-                                                                <td class="a-center "> <?php echo $row["boklrno"]; ?></td>  
-                                                                <td class="a-center "> <?php echo $row["sendname"]; ?></td>  
-                                                                <td class="a-center "> <?php echo $row["sendgstno"]; ?></td>  
-                                                                <td class="a-center "> <?php echo $row["recvname"]; ?></td>  
-                                                                <td class="a-center "> <?php echo $row["recvgstno"]; ?></td>  
-                                                                <td class="a-center "> <?php echo $row["dcplace_name"]; ?></td>
-                                                                 <td class="a-center "> <?php echo $row["bok_item"]; ?></td>
-                                                                 <td class="a-center "> <?php echo $row["bok_total"]; ?></td>  
-                                                                <td class="a-center "> <?php echo $row["bok_gst"]; ?></td>
-                                                                <td class="a-center "> <?php echo $status; ?></td>  
-                                                                <td class="a-center "><a class="button-getReport" href="index.php?do=booking&bokid=<?php echo $row["bokid"] ?>">Edit</a> </td> 
-                                                                <td class="a-center "><a class="button-getReport" onclick="" href="index.php?do=booking_report&start_date=<?php echo $_GET["start_date"] ?>&end_date=<?php echo $_GET["end_date"] ?>&bokid=<?php echo $row["bokid"] ?>">Delete</a> </td> 
+                                                                 <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["bokdate"]; ?></td>  
+                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["boklrno"]; ?></td>  
+                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["sendname"]; ?></td>  
+                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["sendgstno"]; ?></td>  
+                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["recvname"]; ?></td>  
+                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["recvgstno"]; ?></td>  
+                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["dcplace_name"]; ?></td>
+                                                                 <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["bok_item"]; ?></td>
+                                                                 <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["bok_total"]; ?></td>  
+                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $gst_cal; ?></td>
+                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["bok_pivatemark"]; ?></td>
+                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $status; ?></td>  
+                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"><a class="button-getReport" href="index.php?do=booking&bokid=<?php echo $row["bokid"] ?>">Edit</a> </td> 
+                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"><a class="button-getReport" onclick="" href="index.php?do=booking_report&start_date=<?php echo $_GET["start_date"] ?>&end_date=<?php echo $_GET["end_date"] ?>&bokid=<?php echo $row["bokid"] ?>">Delete</a> </td> 
                                                             </tr>
 								</form> 
 							<?php 
                                                         $total_parcel=$total_parcel+$row["bok_item"];
+                                                        $total_lr=$total_lr+1;
                                                         $total_of_bok_total=$total_of_bok_total+$row["bok_total"];
-                                                        $total_gst=$total_gst+$row["bok_gst"];
+                                                        $total_gst=$total_gst+$gst_cal;
                                                                 } ?>	
-                                                        <tr class="even pointer">  
-                                    <td class="a-center "> </td>  
-                                    <td class="a-center "> </td> 
-                                    <td class="a-center "> </td>  
-                                    <td class="a-center "> </td> 
-                                    <td class="a-center "> </td>  
-                                    <td class="a-center "> </td>  
-                                    <td class="a-center " style="font-weight: bold;"> Total</td>
-                                     <td class="a-center " style="font-weight: bold;"> <?php echo $total_parcel ?></td>
-                                     <td class="a-center " style="font-weight: bold;"> <?php echo $total_of_bok_total ?></td>  
-                                    <td class="a-center " style="font-weight: bold;"> <?php echo $total_gst; ?></td>
-                                    <td class="a-center "> </td>  
-                                    <td class="a-center "></td> 
-                                    <td class="a-center "></td> 
+                                                        <tr class="even pointer" >  
+                                    <td class="a-center "style="font-weight: bold;" style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> Total </td>  
+                                    <td class="a-center " style="font-weight: bold;" style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $total_lr; ?> </td> 
+                                    <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> </td>  
+                                    <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> </td> 
+                                    <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> </td>  
+                                    <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> </td>  
+                                    <td class="a-center " style="font-weight: bold;" style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> Total</td>
+                                     <td class="a-center " style="font-weight: bold;" style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $total_parcel ?></td>
+                                     <td class="a-center " style="font-weight: bold;" style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $total_of_bok_total ?></td>  
+                                    <td class="a-center " style="font-weight: bold;" style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $total_gst; ?></td>
+                                     <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> </td>
+                                    <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> </td>  
+                                    <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"></td> 
+                                    <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"></td> 
                                 </tr>
                             </tbody>
 						</table>

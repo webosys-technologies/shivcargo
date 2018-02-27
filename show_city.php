@@ -13,7 +13,7 @@ $res_city=mysql_query($sql_city) or die(mysql_error());
 
 ?>
 										 <select name="bok_descityid" style="width: 234px !important; height: 35px !important;" id="name" required="required">
-													<option value="0">Select City</option>
+													<option>Select City</option>
 												<?php 
 												while($f_city=mysql_fetch_array($res_city))
 												{

@@ -25,7 +25,7 @@
 										<?php if(isset($msg)) echo $msg;?>
                                        <center> <span class="section"><b>SEARCH UNLOADED PARCEL</b></span></center>
 										<div class="item form-group">  
-                                          <div class="row">
+<!--                                          <div class="row">
                                             <div class="col-md-3 col-sm-3 col-xs-12">
                                                                                 <label>LR Number</label> 
                                                                                 <input id="name" class="form-control col-md-7 col-xs-12"  name="lr" value="<?php echo $lr; ?>"  type="text">
@@ -34,13 +34,13 @@
                                                                                 <label>Date</label> 
                                                                                 <input id="name" class="form-control col-md-7 col-xs-12"  name="date" value="<?php echo $date; ?>"  type="date">
                                                                         </div>    
-                                                                                </div>  
+                                                                                </div>  -->
                                                                                     <div class="row">&nbsp</div>
                                                                                     <div class="row">
                                                                                         <div class="col-md-3 col-sm-3 col-xs-12">
 											<label>Destination City *</label> 
-												 <select name="bok_descityid" style="width:250px;height:35px;" id="name" onChange="getPackage(this.value)">
-                                                                                                     <option value="no" selected="selected">Select Destination City</option>
+												 <select name="bok_descityid" style="width:250px;height:35px;" id="name" onChange="getPackage(this.value)"  required="required" >
+                                                                                                    <option value="">Select Destination City</option>
                                                                                                  
 												 <!--<option value="0" <?php if($bok_descityid==0) echo "selected";?>>All City</option>-->
 												<?php
@@ -96,11 +96,11 @@
 if(isset($_GET["bok_descityid"]) || isset($_GET["lr"]) || isset($_GET["date"])|| isset($_GET["s_gst_no"]) || isset($_GET["r_gst_no"]) || isset($_GET["bok_sorting"]))
 { 
 	$bok_descityid=$_GET["bok_descityid"];
-        $lr=isset($_GET["lr"]) ? addslashes($_GET["lr"]):"";
-        $date=isset($_GET["date"]) ? addslashes($_GET["date"]):"";
-        $s_gst_no=isset($_GET["s_gst_no"]) ? addslashes($_GET["s_gst_no"]):"";
-        $r_gst_no=isset($_GET["r_gst_no"]) ? addslashes($_GET["r_gst_no"]):"";
-        $bok_sorting=$_GET["bok_sorting"];
+        //$lr=isset($_GET["lr"]) ? addslashes($_GET["lr"]):"";
+        //$date=isset($_GET["date"]) ? addslashes($_GET["date"]):"";
+        //$s_gst_no=isset($_GET["s_gst_no"]) ? addslashes($_GET["s_gst_no"]):"";
+        //$r_gst_no=isset($_GET["r_gst_no"]) ? addslashes($_GET["r_gst_no"]):"";
+        //$bok_sorting=$_GET["bok_sorting"];
 ?>      
 <script> 
 function printDiv(divName) { 
@@ -171,15 +171,16 @@ function printDiv(divName) {
 							if($bok_descityid==0)
 							{
 								
-                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='0' ORDER BY sendname $bok_sorting";
+                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='0'";
 							}
 							else
                                                         {
-                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' AND bok_status='0' ORDER BY sendname $bok_sorting";	
+                                                                //$sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' AND bok_status='0' ORDER BY sendname $bok_sorting";	
+                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='0'";	
                                                              
                                                         }	
 							$result=mysql_query($sql) or die(mysql_error());
-//                                                           die($result);
+//                                                          
 							while($row=mysql_fetch_array($result))
 							{
 							?>
