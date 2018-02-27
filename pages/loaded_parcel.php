@@ -38,7 +38,7 @@ function printDiv(divName) {
                                        <center> <span class="section"><b>SEARCH LOADED PARCEL</b></span></center>
                                        <span class="section"><b>* Indicate Required Fields</b></span>
                                        <div class="item form-group">  
-                                          <div class="row">
+<!--                                          <div class="row">
                                             <div class="col-md-3 col-sm-3 col-xs-12">
                                                                                 <label>LR Number</label> 
                                                                                 <input id="name" class="form-control col-md-7 col-xs-12"  name="lr" value="<?php echo $lr; ?>"  type="text">
@@ -47,7 +47,7 @@ function printDiv(divName) {
                                                                                 <label>Date</label> 
                                                                                 <input id="name" class="form-control col-md-7 col-xs-12"  name="date" value="<?php echo $date; ?>"  type="date">
                                                                         </div>    
-                                                                                </div>  
+                                                                                </div>  -->
                                                                                     <div class="row">&nbsp</div>
                                                                                     <div class="row">
                                                                                         <div class="col-md-3 col-sm-3 col-xs-12">
@@ -67,7 +67,7 @@ function printDiv(divName) {
                                                                                         
                                                                                     </div>
                                                                                     <div class="row">&nbsp</div>
-                                                                                    <div class="row">
+<!--                                                                                    <div class="row">
                                                                                           <div class="col-md-3 col-sm-3 col-xs-12">
                                                                                 <label>Sender GST Number</label> 
                                                                                 <input id="name" class="form-control col-md-7 col-xs-12"  name="s_gst_no" value="<?php echo $s_gst_no; ?>"  type="text">
@@ -79,7 +79,7 @@ function printDiv(divName) {
                                                                                    
                                             
                                           
-                                                                                    </div>
+                                                                                    </div>-->
                                         </div> 
 										
                                         <div class="ln_solid"></div>
@@ -177,7 +177,8 @@ if(isset($_GET["bok_descityid"]) && isset($_GET["lr"]) && isset($_GET["date"]) &
                                                                             }
                                                                             else
                                                                             {
-                                                                                    $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' AND bok_status='1'";	
+//                                                                                    $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' AND bok_status='1'";	
+                                                                                    $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='1'";	
                                                                             }
 										$result=mysql_query($sql) or die(mysql_error());
                                                                                 $parcel=0;

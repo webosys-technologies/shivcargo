@@ -380,7 +380,8 @@ if($action=="add_booking")
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                                  <div id="show_city">
-                                                     <input id="name" class="form-control col-md-7 col-xs-12" name="bok_descityid" value="<?php echo $dcty_name; ?>" disabled="disabled"  type="text" required="required">
+                                                     <input id="name" class="form-control col-md-7 col-xs-12" name="dcty_name" value="<?php if(isset($dcty_name)) echo $dcty_name; ?>" disabled="disabled"  type="text" required="required">
+                                                     <input id="name" class="form-control col-md-7 col-xs-12" name="bok_descityid" value="<?php if(isset($bok_descityid)) echo $bok_descityid; ?>" disabled="disabled"  type="hidden" required="required">
                                                 </div>
                                             </div>
                                         </div> 

@@ -12,7 +12,7 @@
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="x_panel">
                                 <div class="x_title">
-                                    <h2><i class="fa fa-home"></i> <a href="index.php?do=home">Home</a> / Search Uoloaded Parcel </h2>
+                                    <h2><i class="fa fa-home"></i> <a href="index.php?do=home">Home</a> / Search Unloaded Parcel </h2>
                                     <ul class="nav navbar-right panel_toolbox">
                                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                         </li>
@@ -42,7 +42,7 @@
 												 <select name="bok_descityid" style="width:250px;height:35px;" id="name" onChange="getPackage(this.value)"  required="required" >
                                                                                                     <option value="">Select Destination City</option>
                                                                                                  
-												 <!--<option value="0" <?php if($bok_descityid==0) echo "selected";?>>All City</option>-->
+												 <option value="0" <?php if($bok_descityid==0) echo "selected";?>>All City</option>
 												<?php
 												$res_descity=mysql_query("select * from des_cities");
 												while($f_descity=mysql_fetch_array($res_descity))
@@ -55,7 +55,7 @@
                                                                                         
                                                                                     </div>
                                                                                     <div class="row">&nbsp</div>
-                                                                                    <div class="row">
+<!--                                                                                    <div class="row">
                                                                                           <div class="col-md-3 col-sm-3 col-xs-12">
                                                                                 <label>Sender GST Number</label> 
                                                                                 <input id="name" class="form-control col-md-7 col-xs-12"  name="s_gst_no" value="<?php echo $s_gst_no; ?>"  type="text">
@@ -76,7 +76,7 @@
                                                     </div>
                                             
                                           
-                                                                                    </div>
+                                                                                    </div>-->
                                         </div> 
                                         <div class="ln_solid"></div>
                                         <div class="form-group">
@@ -157,9 +157,9 @@ function printDiv(divName) {
                                     <th>Lr no </th>
                                     <th>No of parcel </th>
                                     <th>Freight</th>
-                                    <th>Total</th>
                                     <th>Sender</th>
                                     <th>Sender GST No</th>
+                                    <th>Private Mark</th>
                                     <th>Reciver</th>
                                     <th>Reciver GST No</th>
                                     <th>City</th>  
@@ -171,16 +171,18 @@ function printDiv(divName) {
 							if($bok_descityid==0)
 							{
 								
-                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='0'";
+                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='0' ORDER BY recvname";
 							}
 							else
                                                         {
                                                                 //$sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' AND bok_status='0' ORDER BY sendname $bok_sorting";	
-                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='0'";	
+                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='0' ORDER BY recvname";	
                                                              
                                                         }	
 							$result=mysql_query($sql) or die(mysql_error());
-//                                                          
+                                                        $total_parcel=0;
+                                                        $total_lr=0;
+                                                        $total_fright=0;
 							while($row=mysql_fetch_array($result))
 							{
 							?>
@@ -190,15 +192,34 @@ function printDiv(divName) {
                                     <td class="a-center "> <?php echo $row["boklrno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_item"]; ?></td>  
                                     <td class="a-center "><?php echo $row["bok_freight"]; ?></td> 
-                                    <td class="a-center "><?php echo $row["bok_total"]; ?></td> 
                                     <td class="a-center "> <?php echo $row["sendname"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["sendgstno"]; ?></td>  
+                                    <td class="a-center "> <?php echo $row["bok_pivatemark"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["recvname"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["recvgstno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["dcplace_name"]; ?></td>  
                                 </tr>
 								</form> 
-							<?php } ?>		
+							<?php 
+                                                        $total_parcel=$total_parcel+$row["bok_item"];
+                                                        $total_lr=$total_lr+1;
+                                                        $total_fright=$total_fright+$row["bok_freight"];
+                                                        
+                                                                } ?>	
+                                                        <tr class="even pointer" >  
+                                    <td class="a-center "style="font-weight: bold;"> Total </td>  
+                                    <td class="a-center " style="font-weight: bold;"> <?php echo $total_lr; ?> </td> 
+                                    <td class="a-center " ><?php echo $total_parcel ?></td>  
+                                    <td class="a-center " ><?php echo $total_fright; ?> </td> 
+                                    <td class="a-center "></td>  
+                                    <td class="a-center "></td>
+                                     <td class="a-center "></td>
+                                     <td class="a-center "></td>
+                                     <td class="a-center "> </td>  
+                                    <td class="a-center " ></td>
+                                     
+      
+                                </tr>		
                             </tbody>
 						</table>
                     </div>
