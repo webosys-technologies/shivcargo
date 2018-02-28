@@ -92,10 +92,10 @@ function printDiv(divName) {
 															<label>Memo Number *</label> 
 															<input id="name" class="form-control col-md-7 col-xs-12"  name="bok_memo" value="<?php echo $bok_memo; ?>" required="required" type="text">
 														</div>  -->
-                                                                                                            <div class="col-md-3 col-sm-3 col-xs-12">
+<!--                                                                                                            <div class="col-md-3 col-sm-3 col-xs-12">
 															<label>Loaded Date *</label> 
 															<input id="name" class="form-control col-md-7 col-xs-12"  name="bok_loaddate" value="<?php echo $bok_loaddate; ?>"  type="date">
-														</div>
+														</div>-->
                                                                                                              <div class="col-md-3 col-sm-3 col-xs-12">
 											<label>Destination City *</label> 
 												 <select name="bok_descityid" style="width:250px;height:35px;" id="name" onChange="getPackage(this.value)" required="required" >
@@ -152,7 +152,7 @@ function printDiv(divName) {
 								{
                                                                     
                                                                     $bok_descityid=$_GET["bok_descityid"]; 
-                                                                    $bok_loaddate=$_GET["bok_loaddate"]; 
+                                                                  //  $bok_loaddate=$_GET["bok_loaddate"]; 
                                                                      $start_load_date=$_GET["start_load_date"];
                                                                     $end_load_date=$_GET["end_load_date"];
 //									$sql_memo="select * from booking where bok_memo=".$_GET["bok_memo"];
@@ -196,13 +196,14 @@ function printDiv(divName) {
 									    
                                                                                 if($bok_descityid==0)
                                                                                 {
-//                                                                                        $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_loaddate='$bok_loaddate' AND bok_status='1'";	 
-                                                                                        $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_loaddate='$bok_loaddate' OR bok_loaddate BETWEEN '$start_load_date' AND '$end_load_date' AND bok_status='1' GROUP BY bok_memo";	 
+//                                                                                        
+                                                                                        $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1' GROUP BY bok_memo";	 
                                                                                         
                                                                                 } 
                                                                                 else
                                                                                 {
-                                                                                        $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_loaddate='$bok_loaddate' OR bok_loaddate BETWEEN '$start_load_date' AND '$end_load_date' AND bok_status='1' GROUP BY bok_memo";	 
+//                                                                                    $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_loaddate='$bok_loaddate' OR bok_loaddate BETWEEN '$start_load_date' AND '$end_load_date' AND bok_status='1' GROUP BY bok_memo";	 
+                                                                                        $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR bok_loaddate BETWEEN '$start_load_date' AND '$end_load_date' AND bok_status='1' GROUP BY bok_memo";	 
                                                                                         
                                                                                 }
 										$result=mysql_query($sql) or die(mysql_error());
@@ -233,11 +234,11 @@ function printDiv(divName) {
                                             <div role="tabpanel" class="tab-pane fade <?php if($tab=="tab_content2"){ echo 'active in'; }?>" id="tab_content2" aria-labelledby="profile-tab">  
 												
                                             			<?php	
-								if(isset($_GET["tab"]) && isset($_GET["bok_loaddate"]) && isset($_GET["bok_memo"]))
+								if(isset($_GET["tab"]) || isset($_GET["bok_loaddate"]) || isset($_GET["bok_memo"]))
 								{
                                                                         
                                                                         $bok_memo=$_GET["bok_memo"];
-                                                                        $bok_loaddate=$_GET["bok_loaddate"];
+                                                                        //$bok_loaddate=$_GET["bok_loaddate"];
 									$sql_memo="select * from booking where bok_memo=".$_GET["bok_memo"];
 									$res_memo=mysql_query($sql_memo);
 									$count_memo=mysql_num_rows($res_memo);
@@ -291,7 +292,8 @@ function printDiv(divName) {
 										<tbody id="">
 										<?php  
 									    
-                                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_loaddate='$bok_loaddate' AND bok_memo='$bok_memo' AND bok_status='1'";	 
+//                                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_loaddate='$bok_loaddate' AND bok_memo='$bok_memo' AND bok_status='1'";	 
+                                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_memo='$bok_memo' AND bok_status='1'";	 
                                                                               
 										$result=mysql_query($sql) or die(mysql_error());
                                                                                
@@ -300,6 +302,7 @@ function printDiv(divName) {
                                                                                 $commi=0;
                                                                                 $cross=0;
                                                                                 $total_gst=0;
+                                                                                $city='';
 										while($row=mysql_fetch_array($result))
 										{
 //                                                                                    join des_city_place cp on (bok.bok_cityplaceid=cp.dcplace_id)
@@ -395,7 +398,7 @@ function printDiv(divName) {
                                                                                             <th>Total</th>
                                                                                         </tr>
                                                                                         <?php 
-                                                                                        while($row=mysql_fetch_array($result))
+                                                                                while($row=mysql_fetch_array($result))
 										{
 //                                                                                    join des_city_place cp on (bok.bok_cityplaceid=cp.dcplace_id)
                                                                                      $gst=$row["bok_total"]*$row["bok_gst"]/100;
