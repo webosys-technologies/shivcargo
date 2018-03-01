@@ -239,7 +239,8 @@ function printDiv(divName) {
                                                                         
                                                                         $bok_memo=$_GET["bok_memo"];
                                                                         //$bok_loaddate=$_GET["bok_loaddate"];
-									$sql_memo="select * from booking where bok_memo=".$_GET["bok_memo"];
+									$sql_memo="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) where bok_memo=".$_GET["bok_memo"];
+                                                                        
 									$res_memo=mysql_query($sql_memo);
 									$count_memo=mysql_num_rows($res_memo);
 									if($count_memo>0)
@@ -256,10 +257,56 @@ function printDiv(divName) {
 												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="text-align:right">MEMO NO. <?php echo $_GET["bok_memo"];?></b>
 									</span> 	
 									<span class="section">
-										<b>Driver Name :</b> <?php echo ucwords($f_memo["bok_drivername"]);?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>MEMO NO :</b><?php echo $_GET["bok_memo"];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>MEMO DATE :</b><?php echo ucwords($f_memo["bok_loaddate"]);?><br/><b>Transport Name :</b> 
-										<?php //echo ucwords($f_memo["bok_drivername"]);?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>VECHILE NO :</b><?php echo $f_memo["bok_vehicleno"];?><br/> <b>DRIVER ADDRESS:</b><?php ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<b>DRIVER CONTACT NUMBER:</b><?php echo ucwords($f_memo["bok_drivermobile"]);?>  
+                                                                            
+										<b>Driver Name :</b> <?php echo ucwords($f_memo["bok_drivername"]);?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>MEMO NO :</b><?php echo $_GET["bok_memo"];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>MEMO DATE :</b><?php echo ucwords($f_memo["bok_loaddate"]);?><br/>
+                                                                                <b>Transport Name :</b><?php echo $f_memo["dcty_transport_name"];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>VECHILE NO :</b><?php echo $f_memo["bok_vehicleno"];?>&nbsp;&nbsp;&nbsp;&nbsp;<b>City :</b><?php echo $f_memo["dcty_name"];?><br/> 
+                                                                                <b>DRIVER CONTACT NUMBER:</b><?php echo ucwords($f_memo["bok_drivermobile"]);?>  
+                                                                                <b>DRIVER ADDRESS:</b><?php ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        
 									</span>	
+<!--                                                                            <div class="row" style="font-size: 17px;">
+                                                                       
+                                                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                            <label for="name"><b>Driver name :</b> </label>
+                                                                       <?php echo ucwords($f_memo["bok_drivername"]);?>
+                                                                        </div>
+                                                                             <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                             <label for="name"><b>Memo No.:</b> </label>
+                                                                       <?php echo $_GET["bok_memo"];?>
+                                                                        </div>
+                                                                             <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                                 <label for="name"><b>memo Date :</b> </label>
+                                                                        <?php echo ucwords($f_memo["bok_loaddate"]);?>
+                                                                        </div>
+                                                                        </div>
+                                                                         <div class="row" style="font-size: 17px;">
+                                                                       
+                                                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                             <label for="name">Transport Name : </label>
+                                                                        <?php echo $f_memo["dcty_transport_name"];?>
+                                                                        </div>
+                                                                             <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                             <label for="name"><b>VECHILE NO:</b> </label>
+                                                                        <?php echo $f_memo["bok_vehicleno"];?>
+                                                                        </div>
+                                                                             <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                             <label for="name">City : </label>
+                                                                        <?php echo $f_memo["dcty_name"];?>
+                                                                        </div>
+                                                                        </div>
+                                                                            
+                                                                            <div class="row" style="font-size: 17px;">
+                                                                       
+                                                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                            <label for="name"><b>Driver Contact number :</b> </label>
+                                                                       <?php echo ucwords($f_memo["bok_drivermobile"]);?>  
+                                                                        </div>
+                                                                             <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                             <label for="name"><b>Driver Address:</b> </label>
+                                                                       <?php echo "";?>
+                                                                        </div>
+                                                                             
+                                                                        </div>-->
                                                                             
                                                           
 									<table id="example" class="table table-striped responsive-utilities jambo_table">
