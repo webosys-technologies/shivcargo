@@ -102,7 +102,7 @@ function printDiv(divName) {
                         <table id="example" class="table table-striped responsive-utilities jambo_table">
                             <thead>
                                 <tr class="headings"> 
-                                    <th>Book Date</th>
+                                    <th>Memo date</th>
                                     <th>Memo No </th> 
                                     <th>City</th>
                                     <th>Vehicle No.</th>
@@ -115,11 +115,11 @@ function printDiv(divName) {
 							<?php 
 							if($bok_descityid==0)
 							{
-								$sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1'";	
+								$sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1' GROUP BY bok_memo";	
 							}
 							else
 							{
-								$sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' && bok_status='1'";	
+								$sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' && bok_status='1' GROUP BY bok_memo";	
 							}	
 							$result=mysql_query($sql) or die(mysql_error());
 							while($row=mysql_fetch_array($result))
@@ -127,7 +127,7 @@ function printDiv(divName) {
 							?>
                                 <form method="post" action="">
 								<tr class="even pointer">  
-                                    <td class="a-center "> <?php echo $row["bokdate"]; ?></td>  
+                                    <td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_memo"]; ?></td>  
                                      <td class="a-center "> <?php echo $row["dcty_name"].'-'.$row["dcplace_name"]; ?></td>     
                                     <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td>  

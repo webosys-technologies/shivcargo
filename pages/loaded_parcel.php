@@ -97,14 +97,14 @@ function printDiv(divName) {
                     </div>
                 </div>
 <?php
-if(isset($_GET["bok_descityid"]) && isset($_GET["lr"]) && isset($_GET["date"]) && isset($_GET["s_gst_no"]) && isset($_GET["r_gst_no"]))
+if(isset($_GET["bok_descityid"]) || isset($_GET["lr"]) || isset($_GET["date"]) || isset($_GET["s_gst_no"]) || isset($_GET["r_gst_no"]))
 { 
 	$bok_descityid=$_GET["bok_descityid"]; 
         
-        $lr=$_GET["lr"];
-        $date=$_GET["date"];
-        $s_gst_no=$_GET["s_gst_no"];
-        $r_gst_no=$_GET["r_gst_no"];
+//        $lr=$_GET["lr"];
+//        $date=$_GET["date"];
+//        $s_gst_no=$_GET["s_gst_no"];
+//        $r_gst_no=$_GET["r_gst_no"];
 	
 ?>				
 <div class="">
