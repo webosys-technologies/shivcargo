@@ -70,6 +70,8 @@ th, td { min-width: 50px;
 	$id=isset($_GET["id"]) ? $_GET["id"]:""; 
         $amountdeclare=isset($_GET["amountdeclare"]) ? $_GET["amountdeclare"]:"";
         $amountdeclare_desc=isset($_GET["amountdeclare_desc"]) ? $_GET["amountdeclare_desc"]:"";
+       
+
 	function check_sender($sendgstno,$sendname,$sendaddress,$sendmobile)
 	{
 		$sql_sender="select * from sender where sendgstno='$sendgstno'";
@@ -189,6 +191,7 @@ if($action=="add_booking")
 	}      
         if(isset($_POST["do_update_booking"]) && $_POST["do_update_booking"]=="true")
 	{ 
+            
            
             $bokid=$_GET["bokid"];
 		$bok_senderid=check_sender($sendgstno,$sendname,$sendaddress,$sendmobile);
@@ -384,7 +387,7 @@ if($action=="add_booking")
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                                  <div id="show_city">
                                                      <input id="name" class="form-control col-md-7 col-xs-12" name="dcty_name" value="<?php if(isset($dcty_name)) echo $dcty_name; ?>" disabled="disabled"  type="text" required="required">
-                                                     <input id="name" class="form-control col-md-7 col-xs-12" name="bok_descityid" value="<?php if(isset($bok_descityid)) echo $bok_descityid; ?>" disabled="disabled"  type="hidden" required="required">
+                                                     <input id="name" class="form-control col-md-7 col-xs-12" name="bok_descityid" value="<?php echo $bok_descityid; ?>"  type="hidden" required="required">
                                                 </div>
                                             </div>
                                         </div> 
@@ -435,7 +438,7 @@ if($action=="add_booking")
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Total
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input id="total" class="form-control col-md-7 col-xs-12" name="bok_total" value="<?php if($bok_others){echo $bok_total;}else{echo "";} ?>" type="text">
+                                                <input id="total" class="form-control col-md-7 col-xs-12" name="bok_total" value="<?php if($bok_total){echo $bok_total;}else{echo "";} ?>" type="text">
                                             </div>
                                         </div>
                                             <div class="form-group">

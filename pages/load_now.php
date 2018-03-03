@@ -241,8 +241,9 @@ if(isset($_GET["bokid"]))
                                                 $bok_total=$_GET[$bok_total];
                                                 
                                                  $bok_memo_total=$bok_memo_total+$bok_total;
-                                                
-                                                 $sql_updt5="update booking set bok_vehicleno='$bok_vehicleno',bok_memo_total='$bok_memo_total',bok_memo='$bok_memo',bok_status='1' where bokid='$newbokid'";  //bok_drivername='$bok_drivername',bok_drivermobile='$bok_drivermobile',
+                                                $bok_loaddate=date("Y-m-d");
+        
+                                                 $sql_updt5="update booking set bok_loaddate='$bok_loaddate',bok_vehicleno='$bok_vehicleno',bok_memo_total='$bok_memo_total',bok_memo='$bok_memo',bok_status='1' where bokid='$newbokid'";  //bok_drivername='$bok_drivername',bok_drivermobile='$bok_drivermobile',
 
                                                             if(mysql_query($sql_updt5))
                                                             {
