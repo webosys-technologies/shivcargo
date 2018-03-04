@@ -264,6 +264,15 @@ function printDiv(divName) {
                                                                                 <b>DRIVER ADDRESS:</b><?php ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                                         
 									</span>	
+                                                                                  <div class="row">
+                                                                <div class="item form-group"> 
+								<div class="col-md-4 col-sm-4 col-xs-12">
+								<label>Search</label> 
+								<input id="search" placeholder="Search..." size="" class="form-control col-md-7 col-xs-12"  name="search" value=""  type="text">
+								</div>  
+														 
+                                                                           </div> 
+                        </div><br>
 <!--                                                                            <div class="row" style="font-size: 17px;">
                                                                        
                                                                         <div class="col-md-4 col-sm-4 col-xs-12">
@@ -336,7 +345,7 @@ function printDiv(divName) {
 												<th>CROSS CHARGE</th>  
 											</tr>
 										</thead>
-										<tbody id="">
+										<tbody id="search_body">
 										<?php  
 									    
 //                                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_loaddate='$bok_loaddate' AND bok_memo='$bok_memo' AND bok_status='1'";	 
@@ -501,6 +510,38 @@ function printDiv(divName) {
      $("#search2").on("keyup", function() {
     var value = $(this).val().toLowerCase();
     $("#search_report tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+</script>
+
+<script>
+function delte_booking(bokid) 
+{ 
+
+    var url=document.URL;
+    
+}
+
+   $("#search").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#search_body tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+</script>
+
+<script>
+function delte_booking(bokid) 
+{ 
+
+    var url=document.URL;
+    
+}
+
+   $("#search").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#search_body tr").filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
