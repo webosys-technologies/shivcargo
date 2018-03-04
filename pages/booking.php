@@ -64,6 +64,7 @@ th, td { min-width: 50px;
 	$bok_hamali=isset($_POST["bok_hamali"]) ? addslashes($_POST["bok_hamali"]):"";
 	$bok_others=isset($_POST["bok_others"]) ? addslashes($_POST["bok_others"]):"";
 	$bok_gst=isset($_POST["bok_gst"]) ? addslashes($_POST["bok_gst"]):""; 
+	$bok_total=isset($_POST["bok_total"]) ? addslashes($_POST["bok_total"]):""; 
 	$bok_remark=isset($_POST["bok_remark"]) ? addslashes($_POST["bok_remark"]):""; 
 	$action=isset($_REQUEST["action"]) ? $_REQUEST["action"]:"add_booking";
 	$msg=isset($_GET["msg"]) ? $_GET["msg"]:"";
@@ -72,49 +73,158 @@ th, td { min-width: 50px;
         $amountdeclare_desc=isset($_GET["amountdeclare_desc"]) ? $_GET["amountdeclare_desc"]:"";
        
 
-	function check_sender($sendgstno,$sendname,$sendaddress,$sendmobile)
+	function check_sender($sendid,$sendgstno,$sendname,$sendaddress,$sendmobile)
 	{
-		$sql_sender="select * from sender where sendgstno='$sendgstno'";
-		$res_sender=mysql_query($sql_sender);
-		$count_sender=mysql_num_rows($res_sender);
-		if($count_sender > 0)
+		$sql="select COUNT(*) as count from sender where sendgstno='$sendgstno'";
+		$result=mysql_query($sql);
+		$row=mysql_fetch_array($result);
+		$count=$row["count"];
+                
+            if($sendid=="new")
+            {
+                if($sendgstno=="NA" || $count==0)
+                {
+                    mysql_query("insert into sender (sendname,sendaddress,sendmobile,sendgstno) values ('$sendname','$sendaddress','$sendmobile','$sendgstno')");
+                    $row_sendid=mysql_fetch_array(mysql_query("select * from sender where sendgstno='$sendgstno'"));
+                    return $row_sendid["sendid"];
+                }
+                else 
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+		if($count >0)
 		{
-			$row_sender=mysql_fetch_array($res_sender);
-                        
-			return $row_sender["sendid"];
+                    $sql_sender="select * from sender where sendid='$sendid'"; 
+                    $res_sender=mysql_query($sql_sender);
+                    $row_sender=mysql_fetch_array($res_sender);
+                    $existing_gstno=$row_sender["sendgstno"];
+                    if($existing_gstno==$sendgstno || $sendgstno=="NA")
+                    {
+                        $sql1="update sender set sendname='$sendname',sendaddress='$sendaddress',sendmobile='$sendmobile',sendgstno='$sendgstno' where sendid='$sendid'";              
+                        $p=mysql_query($sql1);
+                     //   return $row_sender["$sendid"];
+                        return $sendid;
+                    }
+                    else 
+                    {
+                        return 0;
+                    }
 		}
 		else
 		{
-			mysql_query("insert into sender (sendname,sendaddress,sendmobile,sendgstno) values ('$sendname','$sendaddress','$sendmobile','$sendgstno')");
-			$row_sendid=mysql_fetch_array(mysql_query("select * from sender where sendgstno='$sendgstno'"));
-			return $row_sendid["sendid"];
+			$sql1="update sender set sendname='$sendname',sendaddress='$sendaddress',sendmobile='$sendmobile',sendgstno='$sendgstno' where sendid='$sendid'";              
+                        $p=mysql_query($sql1);
+                     //   return $row_sender["$sendid"];
+                        return $sendid;
 		}
+
+                
+            }
 	}
       
-	function check_reciver($recvgstno,$recvname,$recvaddress,$recvmobile)
+	function check_reciver($recvid,$recvgstno,$recvname,$recvaddress,$recvmobile)
 	{
-		$sql_reciver="select * from recivers where recvgstno='$recvgstno'";
-		$res_reciver=mysql_query($sql_reciver);
-		$count_reciver=mysql_num_rows($res_reciver);
-		if($count_reciver > 0)
+           $sql="select COUNT(*) as count from recivers where recvgstno='$recvgstno' ";
+		$result=mysql_query($sql);
+		$row=mysql_fetch_array($result);
+		$count=$row["count"];
+                
+            if($recvid=="new")
+            {
+                if($recvgstno=="NA" || $count==0)
+                {
+                    mysql_query("insert into recivers (recvname,recvaddress,recvmobile,recvgstno) values ('$recvname','$recvaddress','$recvmobile','$recvgstno')");
+                    $row_recid=mysql_fetch_array(mysql_query("select * from recivers where recvgstno='$recvgstno'"));
+                    return $row_recid["recvid"];
+                }
+                else 
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+		if($count >0)
 		{
-			$row_reciver=mysql_fetch_array($res_reciver);  
-                        
-			
-                        $recvid=$row_reciver["recvid"];
+                    $sql_reciver="select * from recivers where recvid='$recvid'"; 
+                    $res_reciver=mysql_query($sql_reciver);
+                    $row_reciver=mysql_fetch_array($res_reciver);
+                    $existing_gstno=$row_reciver["recvgstno"];
+                    if($existing_gstno==$recvgstno || $recvgstno=="NA")
+                    {
                         $sql1="update recivers set recvname='$recvname',recvaddress='$recvaddress',recvmobile='$recvmobile',recvgstno='$recvgstno' where recvid='$recvid'";              
                         $p=mysql_query($sql1);
-                        return $row_reciver["recvid"];
+                     //   return $row_reciver["recvid"];
+                        return $recvid;
+                    }
+                    else 
+                    {
+                        return 0;
+                    }
 		}
 		else
 		{
-                        
-			mysql_query("insert into recivers (recvname,recvaddress,recvmobile,recvgstno) values ('$recvname','$recvaddress','$recvmobile','$recvgstno')");
-			$row_recid=mysql_fetch_array(mysql_query("select * from recivers where recvgstno='$recvgstno'"));
-			return $row_recid["recvid"];
-                        
+			  
+                       
+                        $sql1="update recivers set recvname='$recvname',recvaddress='$recvaddress',recvmobile='$recvmobile',recvgstno='$recvgstno' where recvid='$recvid'";              
+                        $p=mysql_query($sql1);
+                     //   return $row_reciver["recvid"];
+                        return $recvid;
 		}
+              
+                
+            }
+		
+		
 	}		
+//	function check_reciver($recvid,$recvgstno,$recvname,$recvaddress,$recvmobile)
+//	{
+//            //die("yes".$recvgstno);
+//            if($recvid=="new")
+//            {
+//                if($recvgstno=="NA")
+//                {
+//                    $count_reciver=0;
+//                }
+//                else
+//                {
+//                    $sql_reciver="select * from recivers where recvgstno='$recvgstno'"; 
+//                    $res_reciver=mysql_query($sql_reciver);
+//                    $count_reciver=mysql_num_rows($res_reciver);
+//                
+//                }
+//            }
+//            else
+//            {
+//                $sql_reciver="select * from recivers where recvid='$recvid'"; 
+//		$res_reciver=mysql_query($sql_reciver);
+//		$count_reciver=mysql_num_rows($res_reciver);
+//                
+//            }
+//		
+//		if($count_reciver > 0)
+//		{
+//			$row_reciver=mysql_fetch_array($res_reciver);  
+//                        
+//			
+//                       // $recvid=$row_reciver["recvid"];
+//                        $sql1="update recivers set recvname='$recvname',recvaddress='$recvaddress',recvmobile='$recvmobile',recvgstno='$recvgstno' where recvid='$recvid'";              
+//                        $p=mysql_query($sql1);
+//                     //   return $row_reciver["recvid"];
+//                        return $recvid;
+//		}
+//		else
+//		{
+//                        
+//			mysql_query("insert into recivers (recvname,recvaddress,recvmobile,recvgstno) values ('$recvname','$recvaddress','$recvmobile','$recvgstno')");
+//			$row_recid=mysql_fetch_array(mysql_query("select * from recivers where recvgstno='$recvgstno'"));
+//			return $row_recid["recvid"];
+//                        
+//		}
+//	}		
 ?> 
     <script>
     function printDiv(divName) { 
@@ -173,20 +283,36 @@ if($action=="add_booking")
  {
 	if(isset($_POST["do_add_booking"]) && $_POST["do_add_booking"]=="true")
 	{ 
-		$bok_senderid=check_sender($sendgstno,$sendname,$sendaddress,$sendmobile);
-		$bok_reciverid=check_reciver($recvgstno,$recvname,$recvaddress,$recvmobile); 
-		$bok_total=$bok_freight+$bok_hamali+$bok_others;
-		$sql="insert into booking(boklrno,bokdate,boktime,bok_senderid,bok_reciverid,bok_srccitybranchid,bok_descityid,bok_cityplaceid,bok_paymode,bok_parcel,bok_weight,bok_pivatemark,bok_item,bok_freight,bok_hamali,bok_others,bok_gst,bok_total,bok_remark,amountdeclare_desc,bok_addedby) values ('$boklrno','$bokdate','$boktime','$bok_senderid','$bok_reciverid','$bok_srccitybranchid','$bok_descityid','$bok_cityplaceid','$bok_paymode','$bok_parcel','$bok_weight','$bok_pivatemark','$bok_item','$bok_freight','$bok_hamali','$bok_others','$bok_gst','$bok_total','$bok_remark','$amountdeclare_desc','$admid')";
+		$bok_senderid=check_sender($sendid,$sendgstno,$sendname,$sendaddress,$sendmobile);
+		$bok_reciverid=check_reciver($recvid,$recvgstno,$recvname,$recvaddress,$recvmobile); 
                 
-                
-		if(mysql_query($sql))
-		{
-			$msg="<span style='color:green'>Added Successfully....</span><meta http-equiv=refresh content='1'>";
-		}
-		else
-		{
-			$msg="<span style='color:red'>Not Added</span>";
-		}
+                if($bok_senderid==0)
+                {
+                    $msg="<span style='color:red; font-size:14px; font-weight:bold;'>Sender GST Number Already Exists. Enter New GST Number</span>";
+                    $msg_s="<span style='color:red; font-size:14px; font-weight:bold;'>Sender GST Number Already Exists. Enter New GST Number</span>";
+                }
+                elseif($bok_reciverid==0)
+                {
+                    $msg="<span style='color:red; font-size:14px; font-weight:bold;'>receiver GST Number Already Exists. Enter New GST Number</span>";
+                    $msg_r="<span style='color:red; font-size:14px; font-weight:bold;'>receiver GST Number Already Exists. Enter New GST Number</span>";
+                }
+                else 
+                {
+                    $bok_total=$bok_freight+$bok_hamali+$bok_others;
+                    $sql="insert into booking(boklrno,bokdate,boktime,bok_senderid,bok_reciverid,bok_srccitybranchid,bok_descityid,bok_cityplaceid,bok_paymode,bok_parcel,bok_weight,bok_pivatemark,bok_item,bok_freight,bok_hamali,bok_others,bok_gst,bok_total,bok_remark,amountdeclare_desc,bok_addedby) values ('$boklrno','$bokdate','$boktime','$bok_senderid','$bok_reciverid','$bok_srccitybranchid','$bok_descityid','$bok_cityplaceid','$bok_paymode','$bok_parcel','$bok_weight','$bok_pivatemark','$bok_item','$bok_freight','$bok_hamali','$bok_others','$bok_gst','$bok_total','$bok_remark','$amountdeclare_desc','$admid')";
+
+
+                    if(mysql_query($sql))
+                    {
+                            $msg="<span style='color:green'>Added Successfully....</span><meta http-equiv=refresh content='1'>";
+                    }
+                    else
+                    {
+                            $msg="<span style='color:red'>Not Added</span>";
+                    }
+                    
+                }
+		
                  
 	}      
         if(isset($_POST["do_update_booking"]) && $_POST["do_update_booking"]=="true")
@@ -195,18 +321,32 @@ if($action=="add_booking")
            
             $bokid=$_GET["bokid"];
 		$bok_senderid=check_sender($sendgstno,$sendname,$sendaddress,$sendmobile);
-		$bok_reciverid=check_reciver($recvgstno,$recvname,$recvaddress,$recvmobile); 
-		$bok_total=$bok_freight+$bok_hamali+$bok_others;
-		$sql="update booking set boklrno='$boklrno',bokdate='$bokdate',boktime='$boktime',bok_senderid='$bok_senderid',bok_reciverid='$bok_reciverid',bok_srccitybranchid='$bok_srccitybranchid',bok_descityid='$bok_descityid',bok_cityplaceid='$bok_cityplaceid',bok_paymode='$bok_paymode',bok_parcel='$bok_parcel',bok_weight='$bok_weight',bok_pivatemark='$bok_pivatemark',bok_item='$bok_item',bok_freight='$bok_freight',bok_hamali='$bok_hamali',bok_others='$bok_others',bok_gst='$bok_gst',bok_total='$bok_total',bok_remark='$bok_remark',amountdeclare_desc='$amountdeclare_desc',bok_addedby='$admid' where bokid='$bokid'";
-               
-		if(mysql_query($sql))
-		{
-			$msg="<span style='color:green'>Update Successfully....</span><meta http-equiv=refresh content='1'>";
-		}
-		else
-		{
-			$msg="<span style='color:red'>Not Updated</span>";
-		}
+		$bok_reciverid=check_reciver($recvid,$recvgstno,$recvname,$recvaddress,$recvmobile); 
+                
+                if($bok_senderid==0)
+                {
+                    $msg="<span style='color:red; font-size:14px; font-weight:bold;'>Sender GST Number Already Exists. Enter New GST Number</span>";
+                    $msg_s="<span style='color:red; font-size:14px; font-weight:bold;'>Sender GST Number Already Exists. Enter New GST Number</span>";
+                }
+                elseif($bok_reciverid==0)
+                {
+                    $msg="<span style='color:red; font-size:14px; font-weight:bold;'>receiver GST Number Already Exists. Enter New GST Number</span>";
+                    $msg_r="<span style='color:red; font-size:14px; font-weight:bold;'>receiver GST Number Already Exists. Enter New GST Number</span>";
+                }
+                else
+                {
+                   // $bok_total=$bok_freight+$bok_hamali+$bok_others;
+                    $sql="update booking set boklrno='$boklrno',bokdate='$bokdate',boktime='$boktime',bok_senderid='$bok_senderid',bok_reciverid='$bok_reciverid',bok_srccitybranchid='$bok_srccitybranchid',bok_descityid='$bok_descityid',bok_cityplaceid='$bok_cityplaceid',bok_paymode='$bok_paymode',bok_parcel='$bok_parcel',bok_weight='$bok_weight',bok_pivatemark='$bok_pivatemark',bok_item='$bok_item',bok_freight='$bok_freight',bok_hamali='$bok_hamali',bok_others='$bok_others',bok_gst='$bok_gst',bok_total='$bok_total',bok_remark='$bok_remark',amountdeclare_desc='$amountdeclare_desc',bok_addedby='$admid' where bokid='$bokid'";
+
+                    if(mysql_query($sql))
+                    {
+                            $msg="<span style='color:green'>Update Successfully....</span><meta http-equiv=refresh content='1'>";
+                    }
+                    else
+                    {
+                            $msg="<span style='color:red'>Not Updated</span>";
+                    }
+                }
 	}
         if(isset($_GET["bokid"]))
         {
@@ -311,8 +451,8 @@ if($action=="add_booking")
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Sender Name <span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select name="sendname" style="width:234px;height:35px;" id="name" onChange="return show_senderdetails(this.value);" required="required" >
-												 <option value="select">Select Sender Name</option>
+                                                <select name="sendid" style="width:234px;height:35px;" id="name" onChange="return show_senderdetails(this.value);" required="required" >
+												 <option value="">Select Sender Name</option>
                                                                                                  <option value="new">Add New</option>
 												<?php
 												$res_descity=mysql_query("select * from sender");
@@ -331,7 +471,7 @@ if($action=="add_booking")
                                             <div class="col-md-3 col-sm-3 col-xs-12">
                                                 
                                                 <select name="recvid" style="width:234px;height:35px;" id="name" onChange="return show_reciverdetails(this.value);" required="required" >
-												 <option value="select">Select Receiver name</option>
+												 <option value="">Select Receiver name</option>
                                                                                                  <option value="new">Add New</option>
 												<?php
 												$res_descity=mysql_query("select * from recivers");
@@ -438,7 +578,7 @@ if($action=="add_booking")
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Total
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input id="total" class="form-control col-md-7 col-xs-12" name="bok_total" value="<?php if($bok_total){echo $bok_total;}else{echo "";} ?>" type="text">
+                                                <input id="total" class="form-control col-md-7 col-xs-12" name="bok_total" value="<?php echo $bok_total; ?>" type="text">
                                             </div>
                                         </div>
                                             <div class="form-group">
@@ -504,7 +644,16 @@ if($action=="add_booking")
                                         <div  class="col-md-6 col-sm-6 col-xs-12">
                                             
                                              <div id="show_sender">
-					
+                                                 <?php if($sendid != ""){ ?>
+					<div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Sender GST Number<span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="name" class="form-control col-md-7 col-xs-12" name="sendgstno"  value="<?php echo $sendgstno; ?>"  required="required" type="text">
+                                                 <span><?php if(isset($msg_s)) echo $msg_s;?></span>
+                                            </div>
+                                        </div> 
+                                                 <?php } ?>
                                              		 <div class="item form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Sender Name<span class="required">*</span>
                                             </label>
@@ -528,9 +677,19 @@ if($action=="add_booking")
                                         </div> 
                                            </div>  
                                              <div id="show_reciver">
-					  					
-									
-										<div class="item form-group">
+					  	
+                                                   <?php if($recvid != ""){ ?>
+						<div class="item form-group">
+        
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Receiver GST Number
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="name" class="form-control col-md-7 col-xs-12" name="recvgstno" value="<?php echo $recvgstno; ?>" type="text">
+                                                <span><?php if(isset($msg_r)) echo $msg_r;?></span>	
+                                            </div>
+                                        </div>	
+                                                   <?php } ?>
+                                        <div class="item form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Receiver Name<span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">

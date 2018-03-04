@@ -17,6 +17,7 @@ if($count==1)
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                                 <input id="name" class="form-control col-md-7 col-xs-12" name="sendgstno"  value="<?php echo $row["sendgstno"]; ?>"  required="required" type="text">
+                                                <span><?php if(isset($msg_s)) echo $msg_s;?></span>
                                             </div>
                                         </div> 
 										<div class="item form-group">
