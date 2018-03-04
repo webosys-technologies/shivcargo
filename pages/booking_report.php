@@ -204,7 +204,8 @@ function printDiv(divName) {
                                      <th>Delete Booking</th>
                                 </tr>
                             </thead>
-							<tbody id="search_body">
+							<tbody id="">
+                                                           
 							<?php  
                                                          if($bok_descityid==0)
                                                         {
@@ -228,6 +229,7 @@ function printDiv(divName) {
                                                                $gst_cal=$row["bok_total"]* $row["bok_gst"]/100;
 							?>
                                                             <form method="post" action="">
+                                                                 <tbody id="search_body">
                                                              <tr class="even pointer">  
                                                                  <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["bokdate"]; ?></td>  
                                                                 <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["boklrno"]; ?></td>  
@@ -250,13 +252,16 @@ function printDiv(divName) {
                                                                 <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"><a class="button-getReport" href="index.php?do=booking&bokid=<?php echo $row["bokid"] ?>">Edit</a> </td> 
                                                                 <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"><a class="button-getReport" onclick="" href="index.php?do=booking_report&start_date=<?php echo $_GET["start_date"] ?>&end_date=<?php echo $_GET["end_date"] ?>&bokid=<?php echo $row["bokid"] ?>">Delete</a> </td> 
                                                             </tr>
+                                                                 </tbody>
 								</form> 
+                                                               
 							<?php 
                                                         $total_parcel=$total_parcel+$row["bok_item"];
                                                         $total_lr=$total_lr+1;
                                                         $total_of_bok_total=$total_of_bok_total+$row["bok_total"];
                                                         $total_gst=$total_gst+$gst_cal;
-                                                                } ?>	
+                                                                } ?>
+                                                                
                                                         <tr class="even pointer" >  
                                     <td class="a-center "style="font-weight: bold;" style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> Total </td>  
                                     <td class="a-center " style="font-weight: bold;" style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $total_lr; ?> </td> 
