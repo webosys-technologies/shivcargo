@@ -70,7 +70,9 @@ th, td { min-width: 50px;
 	$msg=isset($_GET["msg"]) ? $_GET["msg"]:"";
 	$id=isset($_GET["id"]) ? $_GET["id"]:""; 
         $amountdeclare=isset($_GET["amountdeclare"]) ? $_GET["amountdeclare"]:"";
-        $amountdeclare_desc=isset($_GET["amountdeclare_desc"]) ? $_GET["amountdeclare_desc"]:"";
+        $amountdeclare_desc=isset($_POST["amountdeclare_desc"]) ? $_POST["amountdeclare_desc"]:"";
+        $description=isset($_POST["description"]) ? $_POST["description"]:"";
+        
        
 
 	function check_sender($sendid,$sendgstno,$sendname,$sendaddress,$sendmobile)
@@ -299,7 +301,7 @@ if($action=="add_booking")
                 else 
                 {
                     $bok_total=$bok_freight+$bok_hamali+$bok_others;
-                    $sql="insert into booking(boklrno,bokdate,boktime,bok_senderid,bok_reciverid,bok_srccitybranchid,bok_descityid,bok_cityplaceid,bok_paymode,bok_parcel,bok_weight,bok_pivatemark,bok_item,bok_freight,bok_hamali,bok_others,bok_gst,bok_total,bok_remark,amountdeclare_desc,bok_addedby) values ('$boklrno','$bokdate','$boktime','$bok_senderid','$bok_reciverid','$bok_srccitybranchid','$bok_descityid','$bok_cityplaceid','$bok_paymode','$bok_parcel','$bok_weight','$bok_pivatemark','$bok_item','$bok_freight','$bok_hamali','$bok_others','$bok_gst','$bok_total','$bok_remark','$amountdeclare_desc','$admid')";
+                    $sql="insert into booking(boklrno,bokdate,boktime,bok_senderid,bok_reciverid,bok_srccitybranchid,bok_descityid,bok_cityplaceid,bok_paymode,bok_parcel,bok_weight,bok_pivatemark,bok_item,bok_freight,bok_hamali,bok_others,bok_gst,bok_total,bok_remark,amountdeclare_desc,description,bok_addedby) values ('$boklrno','$bokdate','$boktime','$bok_senderid','$bok_reciverid','$bok_srccitybranchid','$bok_descityid','$bok_cityplaceid','$bok_paymode','$bok_parcel','$bok_weight','$bok_pivatemark','$bok_item','$bok_freight','$bok_hamali','$bok_others','$bok_gst','$bok_total','$bok_remark','$amountdeclare_desc','$description',$admid')";
 
 
                     if(mysql_query($sql))
@@ -320,9 +322,9 @@ if($action=="add_booking")
             
            
             $bokid=$_GET["bokid"];
-		$bok_senderid=check_sender($sendgstno,$sendname,$sendaddress,$sendmobile);
+		$bok_senderid=check_sender($sendid,$sendgstno,$sendname,$sendaddress,$sendmobile);
 		$bok_reciverid=check_reciver($recvid,$recvgstno,$recvname,$recvaddress,$recvmobile); 
-                
+               
                 if($bok_senderid==0)
                 {
                     $msg="<span style='color:red; font-size:14px; font-weight:bold;'>Sender GST Number Already Exists. Enter New GST Number</span>";
@@ -336,7 +338,7 @@ if($action=="add_booking")
                 else
                 {
                    // $bok_total=$bok_freight+$bok_hamali+$bok_others;
-                    $sql="update booking set boklrno='$boklrno',bokdate='$bokdate',boktime='$boktime',bok_senderid='$bok_senderid',bok_reciverid='$bok_reciverid',bok_srccitybranchid='$bok_srccitybranchid',bok_descityid='$bok_descityid',bok_cityplaceid='$bok_cityplaceid',bok_paymode='$bok_paymode',bok_parcel='$bok_parcel',bok_weight='$bok_weight',bok_pivatemark='$bok_pivatemark',bok_item='$bok_item',bok_freight='$bok_freight',bok_hamali='$bok_hamali',bok_others='$bok_others',bok_gst='$bok_gst',bok_total='$bok_total',bok_remark='$bok_remark',amountdeclare_desc='$amountdeclare_desc',bok_addedby='$admid' where bokid='$bokid'";
+                    $sql="update booking set boklrno='$boklrno',bokdate='$bokdate',boktime='$boktime',bok_senderid='$bok_senderid',bok_reciverid='$bok_reciverid',bok_srccitybranchid='$bok_srccitybranchid',bok_descityid='$bok_descityid',bok_cityplaceid='$bok_cityplaceid',bok_paymode='$bok_paymode',bok_parcel='$bok_parcel',bok_weight='$bok_weight',bok_pivatemark='$bok_pivatemark',bok_item='$bok_item',bok_freight='$bok_freight',bok_hamali='$bok_hamali',bok_others='$bok_others',bok_gst='$bok_gst',bok_total='$bok_total',bok_remark='$bok_remark',amountdeclare_desc='$amountdeclare_desc',description='$description',bok_addedby='$admid' where bokid='$bokid'";
 
                     if(mysql_query($sql))
                     {
@@ -389,6 +391,7 @@ if($action=="add_booking")
 	$bok_remark=$row["bok_remark"];
 //	$amountdeclare=$row["amountdeclare"];
         $amountdeclare_desc=$row["amountdeclare_desc"];
+        $description=$row["description"];
 
         }
 ?>
@@ -730,7 +733,7 @@ if($action=="add_booking")
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Description
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input id="name" class="form-control col-md-7 col-xs-12" name="amountdeclare_desc" value="<?php echo $amountdeclare_desc; ?>"  type="text">
+                                                <input id="name" class="form-control col-md-7 col-xs-12" name="description" value="<?php echo $description; ?>"  type="text">
                                             </div>
                                         </div>
 										
@@ -774,24 +777,27 @@ if($action=="add_booking")
                                          <!--<table id="example" class="table table-striped responsive-utilities jambo_table">-->
 <tbody>
 <tr style="padding: 2px; height: 23px;">
-<td style="padding: 2px; width: 354px; height: 25px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="4" rowspan="3">SHIV CARGO AGENCY <br /> A-64 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD <br /> AMRAVATI PH : 0721-2590820 <br /> BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721- 2381577 <br />BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE</td>
-<td style="padding: 2px; width: 179px; height: 23px;     background-color: #e6e4e4; color: black; font-weight: bold; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;AT OWNER&rsquo;S RISK</td>
-<td style="width: 222px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;</td>
+<td style="padding: 2px; width: 354px; height: 25px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="4" rowspan="3">SHIV CARGO AGENCY <br /> A-64 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD AMRAVATI PH : 0721-2590820 <br /> BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721- 2381577, BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE</td>
+<td style="width: 179px; height: 23px; background-color: #e6e4e4; color: black; font-weight: bold; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;<b>AT OWNER&rsquo;S RISK</b></td>
+<td style="width: 222px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Pay Mode: <?php echo $row["bok_paymode"]; ?></td>
 </tr>
 <tr style="padding: 2px; height: 2px;">
-<td style="padding: 2px; width: 179px; height: 2px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">To:&nbsp; <?php echo $row["dcplace_name"]; ?></td>
-<td style="padding: 2px; width: 222px; height: 2px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">LR No.: <?php echo $row["boklrno"]; ?></td>
+<td style="width: 179px; height: 30px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" >&nbsp;FRIGHT UPTO:</td>
+<td style="width: 222px; height: 30px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;LR No.: <?php echo $row["boklrno"]; ?></td>
 </tr>
 <tr style="padding: 2px; height: 2px;">
 
-<td style="padding: 2px; width: 179px; height: 52px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="2">&nbsp;FRIGHT UPTO:</td>
-<td style="padding: 2px; width: 222px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
+<td style="padding: 2px; width: 179px; height: 2px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"></td>
+<td style="padding: 2px; width: 222px; height: 6px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
 <p>&nbsp;DATE : <?php echo $row["bokdate"]; ?></p>
 </td>
 </tr>
 <tr style="padding: 2px; height: 26px;">
 <td style="padding: 2px; width: 334px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>TRUCK NO. : &nbsp;  <?php echo $row["bok_vehicleno"]; ?></strong></td>
 <td style="padding: 2px; width: 334px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>FROM : <?php echo "Amravati"; ?></strong></td>
+<td style="padding: 2px; width: 222px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
+    <strong>To:&nbsp; <?php echo $row["dcplace_name"]; ?></strong>
+</td>
 <td style="padding: 2px; width: 222px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
 <p>&nbsp;TIME: <?php echo $row["boktime"]; ?></p>
 </td>
@@ -820,19 +826,19 @@ if($action=="add_booking")
 <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">FRIEGHT</td>
 </tr>
 <tr style="padding: 2px; height: 23px;">
-<td style="padding: 2px; width: 46px; height: 139px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="7">&nbsp;</td>
-<td style="padding: 2px; width: 157px; height: 139px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="7">&nbsp  <?php echo $row["amountdeclare_desc"]; ?></td>
+<td style="padding: 2px; width: 46px; height: 139px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="7">&nbsp;&nbsp;&nbsp;<?php echo $row["bok_item"]; ?></td>
+<td style="padding: 2px; width: 157px; height: 139px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="7">&nbsp  <?php echo $row["description"]; ?></td>
 <td style="padding: 2px; width: 66px; height: 46px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="2">&nbsp; <?php echo $row["bok_weight"]; ?></td>
 <td style="padding: 2px; width: 66px; height: 46px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="2">&nbsp; <?php //echo $row["bok_weight"]; ?></td>
 <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Frieght &nbsp;  <?php echo $row["bok_freight"]; ?></td>
 </tr>
 <tr style="padding: 2px; height: 23px;">
-    <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Hamali &nbsp;  <?php echo $row["bok_hamali"]; ?></td>
+    <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">GST &nbsp;  <?php $gst=$row["bok_freight"]*$row["bok_gst"]/100; echo $gst ; ?></td>
 </tr>
 <tr style="padding: 2px; height: 20px;">
 <td style="padding: 2px; width: 66px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="2">&nbsp;</td>
 <td style="padding: 2px; width: 75px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="2">&nbsp;</td>
-<td style="padding: 2px; width: 151px; height: 20px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">BC</td>
+<td style="padding: 2px; width: 151px; height: 20px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Hamali &nbsp;  <?php echo $row["bok_hamali"]; ?></td>
 </tr>
 <tr style="padding: 2px; height: 0px;">
 
@@ -840,10 +846,10 @@ if($action=="add_booking")
 <tr style="padding: 2px; height: 23px;">
 <td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 <td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Other &nbsp;  <?php echo $row["bok_other"]; ?></td>
+<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">BC</td>
 </tr>
 <tr style="padding: 2px; height: 23px;">
-<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;</td>
+<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Other &nbsp;  <?php echo $row["bok_others"]; ?></td>
 </tr>
 <tr style="padding: 2px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
 <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Total &nbsp;  <?php echo $row["bok_total"]; ?></td>
@@ -872,24 +878,27 @@ if($action=="add_booking")
                                          <!--<table id="example" class="table table-striped responsive-utilities jambo_table">-->
 <tbody>
 <tr style="padding: 2px; height: 23px;">
-<td style="padding: 2px; width: 354px; height: 25px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="4" rowspan="3">SHIV CARGO AGENCY <br /> A-64 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD <br /> AMRAVATI PH : 0721-2590820 <br /> BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721- 2381577 <br />BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE</td>
-<td style="padding: 2px; width: 179px; height: 23px;     background-color: #e6e4e4; color: black; font-weight: bold; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;AT OWNER&rsquo;S RISK</td>
-<td style="width: 222px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;</td>
+<td style="padding: 2px; width: 354px; height: 25px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="4" rowspan="3">SHIV CARGO AGENCY <br /> A-64 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD AMRAVATI PH : 0721-2590820 <br /> BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721- 2381577, BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE</td>
+<td style="width: 179px; height: 23px; background-color: #e6e4e4; color: black; font-weight: bold; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;<b>AT OWNER&rsquo;S RISK</b></td>
+<td style="width: 222px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Pay Mode: <?php echo $row["bok_paymode"]; ?></td>
 </tr>
 <tr style="padding: 2px; height: 2px;">
-<td style="padding: 2px; width: 179px; height: 2px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">To:&nbsp; <?php echo $row["dcplace_name"]; ?></td>
-<td style="padding: 2px; width: 222px; height: 2px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">LR No.: <?php echo $row["boklrno"]; ?></td>
+<td style="width: 179px; height: 30px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" >&nbsp;FRIGHT UPTO:</td>
+<td style="width: 222px; height: 30px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;LR No.: <?php echo $row["boklrno"]; ?></td>
 </tr>
 <tr style="padding: 2px; height: 2px;">
 
-<td style="padding: 2px; width: 179px; height: 52px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="2">&nbsp;FRIGHT UPTO:</td>
-<td style="padding: 2px; width: 222px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
+<td style="padding: 2px; width: 179px; height: 2px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"></td>
+<td style="padding: 2px; width: 222px; height: 6px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
 <p>&nbsp;DATE : <?php echo $row["bokdate"]; ?></p>
 </td>
 </tr>
 <tr style="padding: 2px; height: 26px;">
 <td style="padding: 2px; width: 334px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>TRUCK NO. : &nbsp;  <?php echo $row["bok_vehicleno"]; ?></strong></td>
 <td style="padding: 2px; width: 334px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>FROM : <?php echo "Amravati"; ?></strong></td>
+<td style="padding: 2px; width: 222px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
+    <strong>To:&nbsp; <?php echo $row["dcplace_name"]; ?></strong>
+</td>
 <td style="padding: 2px; width: 222px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
 <p>&nbsp;TIME: <?php echo $row["boktime"]; ?></p>
 </td>
@@ -918,19 +927,19 @@ if($action=="add_booking")
 <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">FRIEGHT</td>
 </tr>
 <tr style="padding: 2px; height: 23px;">
-<td style="padding: 2px; width: 46px; height: 139px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="7">&nbsp;</td>
-<td style="padding: 2px; width: 157px; height: 139px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="7">&nbsp  <?php echo $row["amountdeclare_desc"]; ?></td>
+<td style="padding: 2px; width: 46px; height: 139px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="7">&nbsp;&nbsp;&nbsp;<?php echo $row["bok_item"]; ?></td>
+<td style="padding: 2px; width: 157px; height: 139px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="7">&nbsp  <?php echo $row["description"]; ?></td>
 <td style="padding: 2px; width: 66px; height: 46px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="2">&nbsp; <?php echo $row["bok_weight"]; ?></td>
 <td style="padding: 2px; width: 66px; height: 46px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="2">&nbsp; <?php //echo $row["bok_weight"]; ?></td>
 <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Frieght &nbsp;  <?php echo $row["bok_freight"]; ?></td>
 </tr>
 <tr style="padding: 2px; height: 23px;">
-    <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Hamali &nbsp;  <?php echo $row["bok_hamali"]; ?></td>
+    <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">GST &nbsp;  <?php $gst=$row["bok_freight"]*$row["bok_gst"]/100; echo $gst ; ?></td>
 </tr>
 <tr style="padding: 2px; height: 20px;">
 <td style="padding: 2px; width: 66px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="2">&nbsp;</td>
 <td style="padding: 2px; width: 75px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="2">&nbsp;</td>
-<td style="padding: 2px; width: 151px; height: 20px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">BC</td>
+<td style="padding: 2px; width: 151px; height: 20px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Hamali &nbsp;  <?php echo $row["bok_hamali"]; ?></td>
 </tr>
 <tr style="padding: 2px; height: 0px;">
 
@@ -938,10 +947,10 @@ if($action=="add_booking")
 <tr style="padding: 2px; height: 23px;">
 <td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 <td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Other &nbsp;  <?php echo $row["bok_freight"]; ?></td>
+<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">BC</td>
 </tr>
 <tr style="padding: 2px; height: 23px;">
-<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;</td>
+<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Other &nbsp;  <?php echo $row["bok_others"]; ?></td>
 </tr>
 <tr style="padding: 2px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
 <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Total &nbsp;  <?php echo $row["bok_total"]; ?></td>
@@ -949,7 +958,7 @@ if($action=="add_booking")
 <tr style="padding: 2px; height: 23px;">
 <td style="padding: 2px; width: 46px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;Remark</td>
 <td style="padding: 2px; width: 157px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2">&nbsp;&nbsp;</td>
-<td style="padding: 2px; width: 75px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>Total Freight Rs.</strong>&nbsp; <?php echo $row["bok_total"]; ?></td>
+<td style="padding: 2px; width: 75px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>Total Freight Rs.</strong>&nbsp; <?php echo $row["bok_total"]; ?> </td>
 </tr>
 <tr style="padding: 2px; height: 24px;">
 <td style="padding: 2px; width: 46px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2">&nbsp;&nbsp;Delivery At</td>
@@ -963,8 +972,8 @@ if($action=="add_booking")
 </td>
 </tr>
 </tbody>
-</table>                                
-<!-- DivTable.com -->
+</table>
+               <!-- DivTable.com -->
                     </div>                               
                         </div>
                     </div>

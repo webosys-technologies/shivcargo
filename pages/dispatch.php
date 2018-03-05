@@ -349,7 +349,7 @@ function printDiv(divName) {
 										<?php  
 									    
 //                                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_loaddate='$bok_loaddate' AND bok_memo='$bok_memo' AND bok_status='1'";	 
-                                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_memo='$bok_memo' AND bok_status='1'";	 
+                                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_memo='$bok_memo' AND bok_status='1' ORDER BY boklrno";	 
                                                                               
 										$result=mysql_query($sql) or die(mysql_error());
                                                                                
@@ -359,10 +359,12 @@ function printDiv(divName) {
                                                                                 $cross=0;
                                                                                 $total_gst=0;
                                                                                 $city='';
+                                                                                $total_parcel=0;
+                                                                                $total_lr=0;
 										while($row=mysql_fetch_array($result))
 										{
 //                                                                                    join des_city_place cp on (bok.bok_cityplaceid=cp.dcplace_id)
-                                                                                     $gst=$row["bok_total"]*$row["bok_gst"]/100;
+                                                                                     $gst=$row["bok_freight"]*$row["bok_gst"]/100;
 										?> 
 											<tr class="even pointer">  
 												<td class="a-center no-border"> <?php echo $row["bokdate"]; ?></td>  
@@ -380,6 +382,8 @@ function printDiv(divName) {
                                                                                         
 										<?php 
                                                                                         $parcel=$parcel+$row["bok_item"];
+                                                                                        $total_parcel=$total_parcel+$row["bok_item"];
+                                                                                        $total_lr=$total_lr+1;
                                                                                         $memo_total=$memo_total+$row["bok_total"];
                                                                                         $calcu_commi=$row["bok_total"]*$row["dcty_cutrate"]/100;
                                                                                         $commi=$commi+$calcu_commi;
@@ -388,9 +392,9 @@ function printDiv(divName) {
                                                                                         $total_gst=$total_gst+$gst;
                                                                                 } ?>
                                                                                        <tr> 
-                                                                                            <td class="a-center 1no-border"> &nbsp;</td>
-                                                                                                <td class="a-center 1no-border"> &nbsp;</td>
-                                                                                                <td class="a-center 1no-border"> &nbsp;</td>
+                                                                                            <td class="a-center 1no-border"> Total</td>
+                                                                                                <td class="a-center 1no-border"><?php echo $total_lr; ?></td>
+                                                                                                <td class="a-center 1no-border"><?php echo $total_parcel; ?></td>
                                                                                                 <td class="a-center 1no-border"> &nbsp;</td>
                                                                                                 <td class="a-center 1no-border"> &nbsp;</td>
                                                                                                 <td class="a-center 1no-border"> &nbsp;</td>
@@ -454,29 +458,35 @@ function printDiv(divName) {
                                                                                             <th>Total</th>
                                                                                         </tr>
                                                                                         <?php 
+//                                                                                        $bok_memo=$_GET["bok_memo"];
+//                                                                        $place_id=$row["bok_cityplaceid"];
+//                                                                        
+//                                                                        $sql2="select COUNT(*) as count from booking where bok_memo='$bok_memo' && bok_cityplaceid='$place_id' GROUP BY dcplace_name";
+//                                                                        $result1=mysql_query($sql2);
+//                                                                        $row1=mysql_fetch_array($result1);
+//                                                                        $count=$row1["count"];
+                                                                                        
+                                                                                $sql="select *, SUM(bok_item) as parcel_count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_memo='$bok_memo' AND bok_status='1' GROUP BY dcplace_name";	 
+                                                                              
+										$result=mysql_query($sql) or die(mysql_error());
                                                                                 while($row=mysql_fetch_array($result))
 										{
+                                                                                   
 //                                                                                    join des_city_place cp on (bok.bok_cityplaceid=cp.dcplace_id)
-                                                                                     $gst=$row["bok_total"]*$row["bok_gst"]/100;
-										?> 
-											
-                                                                                        
-										<?php 
-                                                                                        $parcel=$parcel+$row["bok_item"];
-                                                                                        $memo_total=$memo_total+$row["bok_total"];
-                                                                                        $calcu_commi=$row["bok_total"]*$row["dcty_cutrate"]/100;
-                                                                                        $commi=$commi+$calcu_commi;
-                                                                                        $cross=$cross+$row["dcplace_crossing"];
-                                                                                        $city=$row["dcty_name"];
-                                                                                        $total_gst=$total_gst+$gst;
-                                                                                }
+                                                                                     $gst=$row["bok_freight"]*$row["bok_gst"]/100;
+										
                                                                                         ?>
                                                                                         <tr>
-                                                                                             <td class="a-center 1no-border"> <?php echo $city; ?></td>
-                                                                                             <td class="a-center 1no-border"><?php echo $parcel; ?></td>
-                                                                                              <td class="a-center 1no-border"><?php echo $parcel; ?></td>
+                                                                                             <td class="a-center 1no-border"> <?php echo $row["dcplace_name"]; ?></td>
+                                                                                             <td class="a-center 1no-border"><?php echo $row["parcel_count"]; ?></td>
+                                                                                              <td class="a-center 1no-border"><?php echo $row["parcel_count"];; ?></td>
                                                                                              
-                                                                                        </tr>
+                                                                                        </tr>    
+                                                                                            
+                                                                                            <?php
+                                                                                }
+                                                                                        ?>
+                                                                                        
                                                                                         
                                                                                             
                                                                                     </table>
