@@ -603,6 +603,7 @@ if($action=="add_booking")
 												while($f_srccitybnch=mysql_fetch_array($res_srccitybnch))
 												{
 												?>
+                                                    
                                                     <option 
                                                     <?php if($f_srccitybnch["scbrnch_id"]==$bok_srccitybranchid)
                                                     { 
