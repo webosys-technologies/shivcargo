@@ -594,6 +594,7 @@ if($action=="add_booking")
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Source City Branch<span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12"> 
+                                                
                                                 <select name="bok_srccitybranchid" style="width:234px; height:35px;" id="name" onChange="getlrnoauto(this.value)" required="required" >
 												 
 												<?php 
@@ -602,7 +603,17 @@ if($action=="add_booking")
 												while($f_srccitybnch=mysql_fetch_array($res_srccitybnch))
 												{
 												?>
-                                                    <option <?php if($f_srccitybnch["scbrnch_id"]==$bok_srccitybranchid) echo "selected";?> value="<?php echo $f_srccitybnch["scbrnch_id"]?>"><?php echo $f_srccitybnch["scbrnch_name"]?></option>
+                                                    <option 
+                                                    <?php if($f_srccitybnch["scbrnch_id"]==$bok_srccitybranchid)
+                                                    { 
+                                                        echo "selected";
+                                                    }
+                                                    elseif($f_srccitybnch["scbrnch_id"]==$branch_id)
+                                                    {
+                                                        echo "selected";
+                                                    }
+                                                        
+                                                        ;?> value="<?php echo $f_srccitybnch["scbrnch_id"]?>"><?php echo $f_srccitybnch["scbrnch_name"]?></option>
 												<?php } ?>		
 												</select>
                                             </div>

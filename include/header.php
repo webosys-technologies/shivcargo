@@ -47,8 +47,9 @@ else
     $lstname=$f["lstname"];
     $cemail=$f["email"];
     $userid=$f["id"]; 
-	$img=$f["image"];	
-?>
+	$img=$f["image"];
+        $branch_id=$f["branch_id"];
+                ?>
 <!DOCTYPE html>
 <html lang="en">
 
