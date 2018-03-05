@@ -755,7 +755,7 @@ if($action=="add_booking")
                                 </div>
                             </div>
                                                             
-                             <div class="x_content" id="invoice" style="//display:none;">
+                             <div class="x_content" id="invoice" style="display:none;">
                                         
                                         <?php 
                                         if(isset($_GET["bokid"]))
