@@ -49,7 +49,6 @@ else
     $userid=$f["id"]; 
 	$img=$f["image"];
         $branch_id=$f["branch_id"];
-        
                 ?>
 <!DOCTYPE html>
 <html lang="en">
