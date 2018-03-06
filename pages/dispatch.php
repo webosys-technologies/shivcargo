@@ -364,7 +364,7 @@ function printDiv(divName) {
 										while($row=mysql_fetch_array($result))
 										{
 //                                                                                    join des_city_place cp on (bok.bok_cityplaceid=cp.dcplace_id)
-                                                                                     $gst=$row["bok_freight"]*$row["bok_gst"]/100;
+                                                                                     $gst=$row["bok_total"]*$row["bok_gst"]/100;
 										?> 
 											<tr class="even pointer">  
 												<td class="a-center no-border"> <?php echo $row["bokdate"]; ?></td>  

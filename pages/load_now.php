@@ -7,7 +7,7 @@ $tab=isset($_REQUEST["tab"]) ? $_REQUEST["tab"]:"tab_content1";
 if(isset($_GET["bokid"]))
 { 
 
-	$bok_loaddate=date("Y-m-d");
+	$bok_loaddate=date("d-m-Y");
 	$bok_memo1=rand(100,100000);
 	$SrNo=1;
         $bok_memo_total=0;
@@ -254,7 +254,7 @@ if(isset($_GET["bokid"]))
                                                             }
                                                             
                                                 }      
-                                                $bok_loaddate=date("Y-m-d");
+                                                $bok_loaddate=date("d-m-Y");
                                                  $sql_updt6="update booking set bok_loaddate='$bok_loaddate',bok_vehicleno='$bok_vehicleno',bok_memo_total='$bok_memo_total',bok_status='1' where bok_memo='$bok_memo'";  
                                                  mysql_query($sql_updt6);
                                                 }
