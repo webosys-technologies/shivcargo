@@ -800,7 +800,7 @@ if($action=="add_booking")
 
 <td style="padding: 2px; width: 179px; height: 2px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"></td>
 <td style="padding: 2px; width: 222px; height: 6px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
-<p>&nbsp;DATE : <?php echo $row["bokdate"]->format('dd-mm-yyyy'); ?></p>
+<p>&nbsp;DATE : <?php echo $row["bokdate"]; ?></p>
 </td>
 </tr>
 <tr style="padding: 2px; height: 26px;">
