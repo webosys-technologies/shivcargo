@@ -251,7 +251,7 @@ function printDiv(divName) {
 									<div id="printableArea">	
 									<span class="section"> 
 												<b>SHIV CARGO AGENCY</b><br/>
-												A-64 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
+												A-26 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
 												AMRAVATI PH : 0721-2590820<br/>
 												BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721-2381577<br/>
 												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="text-align:right">MEMO NO. <?php echo $_GET["bok_memo"];?></b>
@@ -431,7 +431,23 @@ function printDiv(divName) {
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
                                                                                         </tr>
-                                                                                        <?php $net_total=$memo_total-$commi-$cross;
+                                                                                        <tr>
+                                                                                             <td class="a-center no-border"> &nbsp;</td>
+                                                                                                <td class="a-center no-border"> &nbsp;</td>
+                                                                                                <td class="a-center no-border"> &nbsp;</td>
+                                                                                                <td class="a-center no-border"> &nbsp;</td>
+                                                                                                <td class="a-center no-border"> &nbsp;</td>
+                                                                                                <td class="a-center no-border"> &nbsp;</td>
+                                                                                                <td class="a-center no-border left-border"> Add GST</td>
+                                                                                                <td class="a-center no-border"> &nbsp;</td>
+												<td class="a-center no-border"><?php echo $total_gst; ?></td>
+                                                                                                <td class="a-center no-border"> &nbsp;</td>
+                                                                                                <td class="a-center no-border"> &nbsp;</td>
+                                                                                        </tr>
+                                                                                        <?php 
+                                                                                        $net_total=$memo_total-$commi-$cross;
+                                                                                        $net_total=$net_total+$total_gst;
+                                                                                        
                                                                                                 //$net_total=$net_total+$total_gst;
                                                                                         ?>
                                                                                         <tr>
@@ -473,7 +489,7 @@ function printDiv(divName) {
 										{
                                                                                    
 //                                                                                    join des_city_place cp on (bok.bok_cityplaceid=cp.dcplace_id)
-                                                                                     $gst=$row["bok_freight"]*$row["bok_gst"]/100;
+                                                                                     $gst=$row["bok_total"]*$row["bok_gst"]/100;
 										
                                                                                         ?>
                                                                                         <tr>

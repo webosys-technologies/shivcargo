@@ -844,7 +844,7 @@ if($action=="add_booking")
 <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Frieght &nbsp;  <?php echo $row["bok_freight"]; ?></td>
 </tr>
 <tr style="padding: 2px; height: 23px;">
-    <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">GST &nbsp;  <?php $gst=$row["bok_freight"]*$row["bok_gst"]/100; echo $gst ; ?></td>
+    <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">GST &nbsp;  <?php $gst=$row["bok_total"]*$row["bok_gst"]/100; echo $gst ; ?></td>
 </tr>
 <tr style="padding: 2px; height: 20px;">
 <td style="padding: 2px; width: 66px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important; font-size: 6px; font-weight:bold;" rowspan="2">WEIGHT CHARGED Kg</td>
