@@ -139,7 +139,7 @@ th, td { min-width: 50px;
                 if($recvgstno=="NA" || $count==0)
                 {
                     mysql_query("insert into recivers (recvname,recvaddress,recvmobile,recvgstno) values ('$recvname','$recvaddress','$recvmobile','$recvgstno')");
-                    $row_recid=mysql_fetch_array(mysql_query("SELECT * FROM recivers ORDER BY id DESC LIMIT 1"));
+                    $row_recid=mysql_fetch_array(mysql_query("SELECT * FROM recivers ORDER BY recvid DESC LIMIT 1"));
                     return $row_recid["recvid"];
                 }
                 else 
@@ -310,7 +310,7 @@ if($action=="add_booking")
                     {
                          
                         $url=$_SERVER['REQUEST_URI'];
-                         $row_recid=mysql_fetch_array(mysql_query("SELECT * FROM booking ORDER BY id DESC LIMIT 1"));
+                         $row_recid=mysql_fetch_array(mysql_query("SELECT * FROM booking ORDER BY bokid DESC LIMIT 1"));
                          $bokid=$row_recid["bokid"];
                        
                             $msg="<span style='color:green'>Added Successfully....</span><meta http-equiv=refresh content='2;$url&bokid=$bokid'>";
@@ -417,6 +417,7 @@ if($action=="add_booking")
                                 </div>
                                 <div class="x_content">
                                      <button class="btn btn-danger"  onclick="printDiv('invoice')"><i class="fa fa-print"></i> Print</button> 
+                                     <a class="btn btn-success" href="index.php?do=booking"><i class="fa fa-book"></i> New Booking</a> 
                                      
 									<form class="form-horizontal form-label-left" enctype="multipart/form-data" method="post" action="" style="border: 2px solid #e8e8e8; padding: 15px;" novalidate>
 									<?php
@@ -442,7 +443,7 @@ if($action=="add_booking")
 											</center>
 										</span>
                                                                                 
-                                                                                <span class="section"><b>Date :-</b><input type="date" value="<?php echo date("d-m-Y");?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Time :-</b><input type="time" value="<?php echo date("h:i:s") ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Source City :-</b>  Amravati</span>
+                                                                                <span class="section"><b>Date :-</b><input type="text" value="<?php echo date("d-m-Y"); ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Time :-</b><input type="time" value="<?php echo date("h:i:s") ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Source City :-</b>  Amravati</span>
 										<span style="color:red">NOTE : * Indicate Compulsary Fileds</span>	
                                         <input name="bokdate" value="<?php echo date("d-m-Y"); ?>"  type="hidden"> 
                                         <input name="boktime" value="<?php echo date("h:i:s"); ?>"  type="hidden">  
