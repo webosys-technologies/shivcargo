@@ -442,8 +442,12 @@ if($action=="add_booking")
 												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE 
 											</center>
 										</span>
-                                                                                
-                                                                                <span class="section"><b>Date :-</b><input type="text" value="<?php echo date("d-m-Y"); ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Time :-</b><input type="time" value="<?php echo date("h:i:s") ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Source City :-</b>  Amravati</span>
+                                                                                <?php
+ $timezone = "Asia/Kolkata";
+ date_default_timezone_set($timezone);
+
+?>
+                                                                                <span class="section"><b>Date :-</b><input type="text" value="<?php echo date("d-m-Y"); ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Time :-</b><input type="time" value="<?php echo date("h:i:s") ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Source City :-</b>  Amravati</span>
 										<span style="color:red">NOTE : * Indicate Compulsary Fileds</span>	
                                         <input name="bokdate" value="<?php echo date("d-m-Y"); ?>"  type="hidden"> 
                                         <input name="boktime" value="<?php echo date("h:i:s"); ?>"  type="hidden">  
