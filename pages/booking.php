@@ -303,13 +303,16 @@ if($action=="add_booking")
                     $bok_total=$bok_freight+$bok_hamali+$bok_others;
                     $sql="insert into booking(boklrno,bokdate,boktime,bok_senderid,bok_reciverid,bok_srccitybranchid,bok_descityid,bok_cityplaceid,bok_paymode,bok_parcel,bok_weight,bok_pivatemark,bok_item,bok_freight,bok_hamali,bok_others,bok_gst,bok_total,bok_remark,amountdeclare_desc,description,bok_addedby) values ('$boklrno','$bokdate','$boktime','$bok_senderid','$bok_reciverid','$bok_srccitybranchid','$bok_descityid','$bok_cityplaceid','$bok_paymode','$bok_parcel','$bok_weight','$bok_pivatemark','$bok_item','$bok_freight','$bok_hamali','$bok_others','$bok_gst','$bok_total','$bok_remark','$amountdeclare_desc','$description','$admid')";
                     
+                    
 
 
                     if(mysql_query($sql))
                     {
                          
                         $url=$_SERVER['REQUEST_URI'];
-                        $bokid=1;
+                         $row_recid=mysql_fetch_array(mysql_query("SELECT * FROM booking ORDER BY id DESC LIMIT 1"));
+                         $bokid=$row_recid["bokid"];
+                       
                             $msg="<span style='color:green'>Added Successfully....</span><meta http-equiv=refresh content='2;$url&bokid=$bokid'>";
                     }
                     else
