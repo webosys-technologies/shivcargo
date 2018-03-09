@@ -139,7 +139,7 @@ th, td { min-width: 50px;
                 if($recvgstno=="NA" || $count==0)
                 {
                     mysql_query("insert into recivers (recvname,recvaddress,recvmobile,recvgstno) values ('$recvname','$recvaddress','$recvmobile','$recvgstno')");
-                    $row_recid=mysql_fetch_array(mysql_query("select * from recivers where recvgstno='$recvgstno'"));
+                    $row_recid=mysql_fetch_array(mysql_query("SELECT * FROM recivers ORDER BY id DESC LIMIT 1"));
                     return $row_recid["recvid"];
                 }
                 else 
@@ -302,11 +302,15 @@ if($action=="add_booking")
                 {
                     $bok_total=$bok_freight+$bok_hamali+$bok_others;
                     $sql="insert into booking(boklrno,bokdate,boktime,bok_senderid,bok_reciverid,bok_srccitybranchid,bok_descityid,bok_cityplaceid,bok_paymode,bok_parcel,bok_weight,bok_pivatemark,bok_item,bok_freight,bok_hamali,bok_others,bok_gst,bok_total,bok_remark,amountdeclare_desc,description,bok_addedby) values ('$boklrno','$bokdate','$boktime','$bok_senderid','$bok_reciverid','$bok_srccitybranchid','$bok_descityid','$bok_cityplaceid','$bok_paymode','$bok_parcel','$bok_weight','$bok_pivatemark','$bok_item','$bok_freight','$bok_hamali','$bok_others','$bok_gst','$bok_total','$bok_remark','$amountdeclare_desc','$description','$admid')";
+                    
 
 
                     if(mysql_query($sql))
                     {
-                            $msg="<span style='color:green'>Added Successfully....</span><meta http-equiv=refresh content='1'>";
+                         
+                        $url=$_SERVER['REQUEST_URI'];
+                        $bokid=1;
+                            $msg="<span style='color:green'>Added Successfully....</span><meta http-equiv=refresh content='2;$url&bokid=$bokid'>";
                     }
                     else
                     {
@@ -435,7 +439,7 @@ if($action=="add_booking")
 											</center>
 										</span>
                                                                                 
-                                                                                <span class="section"><b>Date :-</b><input type="date" value="<?php echo date("Y-m-d");?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Time :-</b><input type="time" value="<?php echo date("h:i:s") ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Source City :-</b>  Amravati</span>
+                                                                                <span class="section"><b>Date :-</b><input type="date" value="<?php echo date("d-m-Y");?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Time :-</b><input type="time" value="<?php echo date("h:i:s") ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Source City :-</b>  Amravati</span>
 										<span style="color:red">NOTE : * Indicate Compulsary Fileds</span>	
                                         <input name="bokdate" value="<?php echo date("d-m-Y"); ?>"  type="hidden"> 
                                         <input name="boktime" value="<?php echo date("h:i:s"); ?>"  type="hidden">  

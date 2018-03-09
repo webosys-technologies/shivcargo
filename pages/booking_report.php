@@ -70,7 +70,7 @@ th, td { min-width: 50px;
                                                                                         <div class="col-md-3 col-sm-3 col-xs-12">
 											<label>Destination City *</label> 
 												 <select name="bok_descityid" style="width:250px;height:35px;" id="name" onChange="getPackage(this.value)" required="required" >
-												 <option value="">Select Destination City</option>
+												 <option value="001">Select Destination City</option>
 												 <option value="0" <?php if($bok_descityid==0) echo "selected";?>>All City</option>
 												<?php
 												$res_descity=mysql_query("select * from des_cities");
@@ -170,7 +170,7 @@ function printDiv(divName) {
                     <div class="x_content" id="printableArea" style="overflow-x:auto;">
 						 <span class="section"> 
 												<b>SHIV CARGO AGENCY</b><br/>
-												A-64 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
+												A-26 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
 												AMRAVATI PH : 0721-2590820<br/>
 												BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721-	2381577<br/>
 												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE 
@@ -207,15 +207,22 @@ function printDiv(divName) {
 							<tbody id="">
                                                            
 							<?php  
+                                                        
                                                          if($bok_descityid==0)
                                                         {
 
                                                             $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) ORDER BY boklrno";	 
                                                         }
-                                                        else
+                                                        elseif($bok_descityid=="001")
                                                         {
                                                             
 							   // $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' OR bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
+                                                            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
+                                                        }
+                                                        else
+                                                        {
+                                                            
+							 
                                                             $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
                                                         }
 							$result=mysql_query($sql) or die(mysql_error());
