@@ -365,6 +365,9 @@ function printDiv(divName) {
 										{
 //                                                                                    join des_city_place cp on (bok.bok_cityplaceid=cp.dcplace_id)
                                                                                      $gst=$row["bok_total"]*$row["bok_gst"]/100;
+                                                                                     $bok_paymode=$row["bok_paymode"];
+                                                                                    
+                                                                                     
 										?> 
 											<tr class="even pointer">  
 												<td class="a-center no-border"> <?php echo $row["bokdate"]; ?></td>  
@@ -375,7 +378,17 @@ function printDiv(divName) {
 												<td class="a-center no-border"> <?php echo $row["recvname"]; ?></td>   
 												 <td class="a-center no-border"> <?php echo $row["recvgstno"]; ?></td> 
                                                                                                  <td class="a-center no-border"> <?php echo $row["dcplace_name"]; ?></td> <?php //$row["dcty_name"].'-'. ?>
-												 <td class="a-center no-border"> <?php echo $row["bok_total"]; ?></td>    
+												 <td class="a-center no-border"> <?php 
+                                                                                                 if($bok_paymode=="Paid")
+                                                                                                 {
+                                                                                                     echo "Paid";
+                                                                                                 }
+                                                                                                 else
+                                                                                                 {
+                                                                                                 echo $row["bok_total"]; 
+                                                                                                 $memo_total=$memo_total+$row["bok_total"];
+                                                                                                 
+                                                                                                 }?></td>    
 												<td class="a-center no-border"> <?php echo $gst; ?></td>  
 												<td class="a-center no-border"> <?php echo $row["dcplace_crossing"]; ?></td>  
 											</tr> 
@@ -384,7 +397,7 @@ function printDiv(divName) {
                                                                                         $parcel=$parcel+$row["bok_item"];
                                                                                         $total_parcel=$total_parcel+$row["bok_item"];
                                                                                         $total_lr=$total_lr+1;
-                                                                                        $memo_total=$memo_total+$row["bok_total"];
+                                                                                        
                                                                                         $calcu_commi=$row["bok_total"]*$row["dcty_cutrate"]/100;
                                                                                         $commi=$commi+$calcu_commi;
                                                                                         $cross=$cross+$row["dcplace_crossing"];
