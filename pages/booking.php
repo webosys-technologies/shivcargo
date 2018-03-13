@@ -470,7 +470,7 @@ if($action=="add_booking")
 												 <option value="">Select Sender Name</option>
                                                                                                  <option value="new">Add New</option>
 												<?php
-												$res_descity=mysql_query("select * from sender");
+												$res_descity=mysql_query("select * from sender ORDER BY sendname");
 												while($sender=mysql_fetch_array($res_descity))
 												{
 												?>
@@ -489,7 +489,7 @@ if($action=="add_booking")
 												 <option value="">Select Receiver name</option>
                                                                                                  <option value="new">Add New</option>
 												<?php
-												$res_descity=mysql_query("select * from recivers");
+												$res_descity=mysql_query("select * from recivers ORDER BY recvname");
 												while($receiver=mysql_fetch_array($res_descity))
 												{
 												?>

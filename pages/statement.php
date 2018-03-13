@@ -12,12 +12,14 @@ th, td { min-width: 50px;
 </style>
 
 <?php 
-	$lr=isset($_GET["lr"]) ? addslashes($_GET["lr"]):"-";
-	$date=isset($_GET["date"]) ? addslashes($_GET["date"]):"";
-	$gst=isset($_GET["gst"]) ? addslashes($_GET["gst"]):"-";
+       $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
+	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
+//	$lr=isset($_GET["lr"]) ? addslashes($_GET["lr"]):"-";
+//	$date=isset($_GET["date"]) ? addslashes($_GET["date"]):"";
+//	$gst=isset($_GET["gst"]) ? addslashes($_GET["gst"]):"-";
 	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"-";
-        $s_name=isset($_GET["s_name"]) ? addslashes($_GET["s_name"]):"-";
-        $r_name=isset($_GET["r_name"]) ? addslashes($_GET["r_name"]):"-";
+//        $s_name=isset($_GET["s_name"]) ? addslashes($_GET["s_name"]):"-";
+//        $r_name=isset($_GET["r_name"]) ? addslashes($_GET["r_name"]):"-";
 ?> 
 				<div class="">
 				<div class="clearfix"></div>

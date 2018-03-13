@@ -1,6 +1,8 @@
 <?php 
 	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"";
-	$bokdate=isset($_GET["bokdate"]) ? addslashes($_GET["bokdate"]):"";
+        $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
+	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
+	//$bokdate=isset($_GET["bokdate"]) ? addslashes($_GET["bokdate"]):"";
 ?> 
 <script> 
 function printDiv(divName) { 
@@ -32,11 +34,21 @@ function printDiv(divName) {
 									<input type="hidden" name="do" value="recipt">
 										<?php if(isset($msg)) echo $msg;?>
                                        <center> <span class="section"><b>SEARCH PARCEL RECIPT</b></span></center>
+                                       <div class="item form-group"> 
+														<div class="col-md-3 col-sm-3 col-xs-12">
+															<label>Start Date</label> 
+															<input id="name" class="form-control col-md-7 col-xs-12"  name="start_date" value="<?php echo $start_date; ?>"  type="date">
+														</div>  
+														<div class="col-md-3 col-sm-3 col-xs-12">
+															<label>End Date</label> 
+															<input id="name" class="form-control col-md-7 col-xs-12"  name="end_date" value="<?php echo $end_date; ?>"  type="date">
+														</div>  
+                                        </div>
 										<div class="item form-group">  
                                             <div class="col-md-3 col-sm-3 col-xs-12">
 											<label>Destination City *</label> 
 												 <select name="bok_descityid" style="width:250px;height:35px;" id="name" onChange="getPackage(this.value)" required="required" >
-												 <option value="">Select Destination City</option>
+												 <option value="no">Select Destination City</option>
 												 <option value="0" <?php if($bok_descityid==0) echo "selected";?>>All City</option>
 												<?php
 												$res_descity=mysql_query("select * from des_cities");
@@ -47,10 +59,10 @@ function printDiv(divName) {
 												<?php } ?>		
 												</select> 
                                             </div> 
-											<div class="col-md-3 col-sm-3 col-xs-12">
+<!--											<div class="col-md-3 col-sm-3 col-xs-12">
 												<label>Date *</label>  
                                                 <input id="name" class="form-control"  name="bokdate" value="<?php echo $bokdate; ?>" required="required" type="date"> 
-											</div> 
+											</div> -->
 										</div>		
                                         <div class="ln_solid"></div>
                                         <div class="form-group">
@@ -67,10 +79,13 @@ function printDiv(divName) {
                     </div>
                 </div>
 <?php
-if($_GET["do"]=="recipt" && isset($_GET["bok_descityid"]) && isset($_GET["bokdate"]))
+if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_descityid"]) || isset($_GET["bokdate"]))
 { 
-	$bok_descityid=$_GET["bok_descityid"];
-	$bokdate=$_GET["bokdate"];
+       
+	$start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
+	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
+	//$bok_descityid=$_GET["bok_descityid"];
+	//$bokdate=$_GET["bokdate"];
 ?>				
 <div class="">
 		<div class="clearfix"></div>
@@ -106,6 +121,7 @@ if($_GET["do"]=="recipt" && isset($_GET["bok_descityid"]) && isset($_GET["bokdat
                                 <tr class="headings">
                                     <th>Dispatch Date</th>
                                     <th>Memo No</th>
+                                    <th>Vehicle No.</th>
                                     <th>Total Amount</th>  
                                     <th>Paid Status</th>  
                                     <th>Paid Amount</th> 
@@ -117,13 +133,22 @@ if($_GET["do"]=="recipt" && isset($_GET["bok_descityid"]) && isset($_GET["bokdat
 							<tbody id="search_reciept">
 							<?php 
 							$SrNo=1;
-							if($bok_descityid==0)
+                                                        
+                                                        if($bok_descityid=="no")
+                                                        {
+                                                                $sql="select *,SUM(bok_total) as total_bok_amt from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) left join des_city_place dcp on(dcp.dcplace_ctyid=dc.dcty_id) where bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1' group by bok_memo";
+                                                        }
+							elseif($bok_descityid==0)
 							{
-								$sql="select *,SUM(bok_total) as total_bok_amt from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) left join des_city_place dcp on(dcp.dcplace_ctyid=dc.dcty_id) where bok_status='1' &&  bok_loaddate='$bokdate' group by bok_memo";
+								$sql="select *,SUM(bok_total) as total_bok_amt from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) left join des_city_place dcp on(dcp.dcplace_ctyid=dc.dcty_id) where bok_status='1' group by bok_memo";
 							}
+                                                        elseif($start_date=="" AND $end_date=="")
+                                                        {
+                                                               $sql="select *,SUM(bok_total) as total_bok_amt from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) left join des_city_place dcp on(dcp.dcplace_ctyid=dc.dcty_id) where bok_status='1' AND bok_descityid='$bok_descityid' group by bok_memo";
+                                                        }
 							else	
 							{
-								$sql="select *,SUM(bok_total) as total_bok_amt from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) left join des_city_place dcp on(dcp.dcplace_ctyid=dc.dcty_id) where bok_status='1' && bok_loaddate='$bokdate' && bok_descityid='$bok_descityid' group by bok_memo";
+								$sql="select *,SUM(bok_total) as total_bok_amt from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) left join des_city_place dcp on(dcp.dcplace_ctyid=dc.dcty_id) where bok_status='1' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_descityid='$bok_descityid' group by bok_memo";
 							}								
 							$result=mysql_query($sql) or die(mysql_error());
 							while($row=mysql_fetch_array($result))
@@ -131,10 +156,16 @@ if($_GET["do"]=="recipt" && isset($_GET["bok_descityid"]) && isset($_GET["bokdat
 								$sql_rec="select *,SUM(recptamt) as amt from recipt where recptmemono=".$row["bok_memo"]." group by recptmemono";
 								$f_rec=mysql_fetch_array(mysql_query($sql_rec));
 								$count=mysql_num_rows(mysql_query($sql_rec));
+                                                                
+                                                                $memo_no=$row["bok_memo"];
+                                                                $sql_rec1="select *,SUM(bok_total) as memo_ttl from booking where bok_memo='$memo_no'";
+								$f_rec1=mysql_fetch_array(mysql_query($sql_rec1));
+								$count1=mysql_num_rows(mysql_query($sql_rec1));
 							?> 
 								<tr class="even pointer">
                                     <td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_memo"]; ?></td>  
+                                    <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["total_bok_amt"]; ?></td>   
                                     <td class="a-center "> <?php if($count==0){ echo "pending";} else { echo "paid"; } ?></td>   
                                     <td class="a-center ">

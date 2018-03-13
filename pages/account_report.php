@@ -124,6 +124,14 @@ function printDiv(divName) {
 							$result=mysql_query($sql) or die(mysql_error());
 							while($row=mysql_fetch_array($result))
 							{
+                                                            
+                                                             $memo_no=$row["bok_memo"];
+                                                                $sql_rec1="select *,SUM(bok_total) as memo_ttl from booking where bok_memo='$memo_no'";
+								$f_rec1=mysql_fetch_array(mysql_query($sql_rec1));
+								$count1=mysql_num_rows(mysql_query($sql_rec1));
+                                                                
+                                                                $calcu_commi=$row["bok_total"]*$row["dcty_cutrate"]/100;
+                                                                $memototal_after_commi=$f_rec1["memo_ttl"]-$calcu_commi;
 							?>
                                 <form method="post" action="">
 								<tr class="even pointer">  
@@ -131,7 +139,7 @@ function printDiv(divName) {
                                     <td class="a-center "> <?php echo $row["bok_memo"]; ?></td>  
                                      <td class="a-center "> <?php echo $row["dcty_name"].'-'.$row["dcplace_name"]; ?></td>     
                                     <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td>  
-                                    <td class="a-center "> <?php echo $row["bok_total"]; ?></td>  
+                                    <td class="a-center "> <?php echo $f_rec1["memo_ttl"]; ?></td>  
 <!--                                    <td class="a-center "> <?php echo $row["bok_total"]*$row["dcty_cutrate"]/100; ?></td>  -->
                                     <td class="a-center "><a class="button-getReport" href="index.php?do=dispatch&tab=tab_content2&bok_loaddate=<?php echo $row["bok_loaddate"] ?>&bok_memo=<?php echo $row["bok_memo"] ?>">Get Report</a></td>  
                                 </tr>
