@@ -163,7 +163,10 @@ function printDiv(divName) {
 //										$f_memo=mysql_fetch_array($res_memo);
 										?>
 									<button class="btn btn-danger"  onclick="printDiv('printableArea')"><i class="fa fa-print"></i> Print</button>
-									<div id="printableArea">	
+									<a class="btn btn-success"  href="<?php echo $sitename;?>export_unloaded_report.php?bok_descityid=<?php echo $bok_descityid;?>">
+                                                                        <i class="fa fa-download"></i> Export In Excel
+                                                                        </a>
+                                                                        <div id="printableArea">	
 									<span class="section"> 
 												<b>SHIV CARGO AGENCY</b><br/>
 												A-64 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
@@ -248,6 +251,9 @@ function printDiv(divName) {
 										$f_memo=mysql_fetch_array($res_memo);
 										?>
 									<button class="btn btn-danger"  onclick="printDiv('printableArea')"><i class="fa fa-print"></i> Print</button>
+                                                                        <a class="btn btn-success"  href="<?php echo $sitename;?>export_dispatch_report.php?bok_memo=<?php echo $_GET["bok_memo"];?>">
+                                                                        <i class="fa fa-download"></i> Export In Excel
+                                                                        </a>
 									<div id="printableArea">	
 									<span class="section"> 
 												<b>SHIV CARGO AGENCY</b><br/>
