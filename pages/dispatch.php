@@ -129,12 +129,12 @@ function printDiv(divName) {
 											 
                                                                                        <div class="col-md-3 col-sm-3 col-xs-12">
 															<label>Start Load Date</label> 
-															<input id="name" class="form-control col-md-7 col-xs-12"  name="start_load_date" value="<?php echo $start_load_date; ?>"  type="date">
+															<input id="start_date" class="form-control col-md-7 col-xs-12"  name="start_load_date" value="<?php echo $start_load_date; ?>"  type="text">
 														
                                                                                        </div>
                                                                                         <div class="col-md-3 col-sm-3 col-xs-12">
 															<label>End Load Date</label> 
-															<input id="name" class="form-control col-md-7 col-xs-12"  name="end_load_date" value="<?php echo $end_load_date; ?>" type="date">
+															<input id="end_date" class="form-control col-md-7 col-xs-12"  name="end_load_date" value="<?php echo $end_load_date; ?>" type="text">
                                                                                         </div>
                                                                                    
                                        </div>
@@ -591,3 +591,15 @@ function delte_booking(bokid)
     });
   });
 </script>
+<script type="text/javascript">
+      $(function () {
+          $("#start_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
+          $('#start_date').datepicker('setDate', 'today');
+      });
+  </script>
+ <script type="text/javascript">
+      $(function () {
+          $("#end_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
+          $('#end_date').datepicker('setDate', 'today');
+      });
+  </script>

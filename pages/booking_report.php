@@ -1,4 +1,6 @@
 
+   
+      
 <style>
     .table-striped{ 
         overflow-x:scroll !important; 
@@ -10,6 +12,7 @@ th, td { min-width: 50px;
     text-align: left;
    }
     
+   
 </style>
 
 <style>
@@ -25,6 +28,11 @@ th, td { min-width: 50px;
         $date=isset($_GET["date"]) ? addslashes($_GET["date"]):"";
         $s_gst_no=isset($_GET["s_gst_no"]) ? addslashes($_GET["s_gst_no"]):"";
         $r_gst_no=isset($_GET["r_gst_no"]) ? addslashes($_GET["r_gst_no"]):"";
+        
+        
+        
+        $start_date = date("d-m-Y", strtotime($start_date));
+        $end_date = date("d-m-Y", strtotime($end_date));
 ?> 
 				<div class="">
 				<div class="clearfix"></div>
@@ -48,11 +56,11 @@ th, td { min-width: 50px;
 										<div class="item form-group"> 
 														<div class="col-md-3 col-sm-3 col-xs-12">
 															<label>Start Date</label> 
-															<input id="name" class="form-control col-md-7 col-xs-12"  name="start_date" value="<?php echo $start_date; ?>"  type="date">
+															<input id="start_date" class="form-control col-md-7 col-xs-12"  name="start_date" value="<?php echo $start_date; ?>"  type="text">
 														</div>  
 														<div class="col-md-3 col-sm-3 col-xs-12">
 															<label>End Date</label> 
-															<input id="name" class="form-control col-md-7 col-xs-12"  name="end_date" value="<?php echo $end_date; ?>"  type="date">
+															<input id="end_date" class="form-control col-md-7 col-xs-12"  name="end_date" value="<?php echo $end_date; ?>"  type="text">
 														</div>  
                                         </div> 
 <!--                                       <div class="row">
@@ -144,6 +152,8 @@ setTimeout(function() {
 }, 1000);
 <?php } ?>
 </script>
+
+
 <script> 
 function printDiv(divName) { 
      var printContents = document.getElementById(divName).innerHTML;
@@ -407,8 +417,19 @@ function printDiv(divName) {
 <?php
 }
 ?>	
-
-<script>
+ <script type="text/javascript">
+      $(function () {
+          $("#start_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
+          $('#start_date').datepicker('setDate', 'today');
+      });
+  </script>
+ <script type="text/javascript">
+      $(function () {
+          $("#end_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
+          $('#end_date').datepicker('setDate', 'today');
+      });
+  </script>
+<script>,
 function delte_booking(bokid) 
 { 
 

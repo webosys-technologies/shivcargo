@@ -1,4 +1,6 @@
 <?php 
+$start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
+	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
 	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):""; 
         $bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"";
         $lr=isset($_GET["lr"]) ? addslashes($_GET["lr"]):"";
@@ -48,12 +50,24 @@ function printDiv(divName) {
                                                                                 <input id="name" class="form-control col-md-7 col-xs-12"  name="date" value="<?php echo $date; ?>"  type="date">
                                                                         </div>    
                                                                                 </div>  -->
-                                                                                    <div class="row">&nbsp</div>
+<div class="row">
+    
+    <div class="item form-group"> 
+														<div class="col-md-3 col-sm-3 col-xs-12">
+															<label>Start Date</label> 
+															<input id="start_date" class="form-control col-md-7 col-xs-12"  name="start_date" value="<?php echo $start_date; ?>"  type="text">
+														</div>  
+														<div class="col-md-3 col-sm-3 col-xs-12">
+															<label>End Date</label> 
+															<input id="end_date" class="form-control col-md-7 col-xs-12"  name="end_date" value="<?php echo $end_date; ?>"  type="text">
+														</div>  
+                                        </div> 
+</div>
                                                                                     <div class="row">
                                                                                         <div class="col-md-3 col-sm-3 col-xs-12">
 											<label>Destination City *</label> 
-												 <select name="bok_descityid" style="width:250px;height:35px;" id="name" onChange="getPackage(this.value)" required="required" >
-												 <option value="">Select Destination City</option>
+												 <select name="bok_descityid" style="width:250px;height:35px;" id="name" onChange="getPackage(this.value)" >
+												 <option value="no">Select Destination City</option>
 												 <option value="0" <?php if($bok_descityid==0) echo "selected";?>>All City</option>
 												<?php
 												$res_descity=mysql_query("select * from des_cities");
@@ -97,8 +111,11 @@ function printDiv(divName) {
                     </div>
                 </div>
 <?php
-if(isset($_GET["bok_descityid"]) || isset($_GET["lr"]) || isset($_GET["date"]) || isset($_GET["s_gst_no"]) || isset($_GET["r_gst_no"]))
+if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_descityid"]) || isset($_GET["lr"]) || isset($_GET["date"]) || isset($_GET["s_gst_no"]) || isset($_GET["r_gst_no"]))
 { 
+       
+	$start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
+	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
 	$bok_descityid=$_GET["bok_descityid"]; 
         
 //        $lr=$_GET["lr"];
@@ -170,16 +187,33 @@ if(isset($_GET["bok_descityid"]) || isset($_GET["lr"]) || isset($_GET["date"]) |
 										<?php  
 									    
                                                                                 
-                                                                            if($bok_descityid==0)
-                                                                            {
+                                                                                                                                                 
+                                                                            
+                                                        if($bok_descityid=="no")
+                                                        {
+                                                            
+							   // $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' OR bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
+                                                           $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where  bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
+                                                        }
+                                                        elseif($bok_descityid==0)
+                                                        {
 
-                                                                                    $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1'";	
-                                                                            }
-                                                                            else
-                                                                            {
-//                                                                                    $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' AND bok_status='1'";	
-                                                                                    $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='1'";	
-                                                                            }
+                                                            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1'";	
+                                                        }
+                                                        
+                                                        elseif($start_date=="" AND $end_date=="")
+                                                        {
+                                                          
+							   // $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' OR bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
+                                                            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='1'";	
+                                                        }
+                                                        else
+                                                        {
+                                                            
+							 
+                                                            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
+                                                        }
+                                                                            
 										$result=mysql_query($sql) or die(mysql_error());
                                                                                 $parcel=0;
                                                                                 $total=0;
@@ -226,3 +260,15 @@ if(isset($_GET["bok_descityid"]) || isset($_GET["lr"]) || isset($_GET["date"]) |
     });
   });
 </script>
+<script type="text/javascript">
+      $(function () {
+          $("#start_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
+          $('#start_date').datepicker('setDate', 'today');
+      });
+  </script>
+ <script type="text/javascript">
+      $(function () {
+          $("#end_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
+          $('#end_date').datepicker('setDate', 'today');
+      });
+  </script>

@@ -55,11 +55,11 @@ $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
                                                  <div class="item form-group"> 
 														<div class="col-md-3 col-sm-3 col-xs-12">
 															<label>Start Date</label> 
-															<input id="name" class="form-control col-md-7 col-xs-12"  name="start_date" value="<?php echo $start_date; ?>"  type="date">
+															<input id="start_date" class="form-control col-md-7 col-xs-12"  name="start_date" value="<?php echo $start_date; ?>"  type="text">
 														</div>  
 														<div class="col-md-3 col-sm-3 col-xs-12">
 															<label>End Date</label> 
-															<input id="name" class="form-control col-md-7 col-xs-12"  name="end_date" value="<?php echo $end_date; ?>"  type="date">
+															<input id="end_date" class="form-control col-md-7 col-xs-12"  name="end_date" value="<?php echo $end_date; ?>"  type="text">
 														</div>  
                                         </div>                                   
                                             <div class="col-md-3 col-sm-3 col-xs-12">
@@ -263,3 +263,15 @@ function printDiv(divName) {
   
    
 </script>
+<script type="text/javascript">
+      $(function () {
+          $("#start_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
+          $('#start_date').datepicker('setDate', 'today');
+      });
+  </script>
+ <script type="text/javascript">
+      $(function () {
+          $("#end_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
+          $('#end_date').datepicker('setDate', 'today');
+      });
+  </script>
