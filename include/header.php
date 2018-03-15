@@ -10,6 +10,11 @@ if($_SERVER["HTTP_HOST"]=="localhost")
 {
     $sitename="http://localhost/Shivcargo/";
 }
+elseif($_SERVER["HTTP_HOST"]=="webosys.com")
+{
+	
+	$sitename="http://webosys.com/shivcargo/";
+}
 else
 {
     $sitename="http://www.shivcargoagency.com/";
@@ -19,7 +24,7 @@ else
 ?>
 <?php
     session_start();
-	date_default_timezone_set('Asia/Kathmandu');
+	date_default_timezone_set('Asia/Kolkata');
 ?>
 <?php include('./db/config.php'); ?>
 <?php
@@ -60,7 +65,7 @@ else
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>SHIV CARGO</title>
+    <title>SHIV CARGO AGENCY</title>
 
     <!-- Bootstrap core CSS -->
 
@@ -77,6 +82,12 @@ else
 
     <script src="js/jquery.min.js"></script>
     <script src="js/nprogress.js"></script>
+    
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+  <script type="text/javascript"src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+   <link href="css/datepicker.css" rel="stylesheet" />
+   
     <script>
         NProgress.start();
     </script>
