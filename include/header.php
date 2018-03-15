@@ -10,6 +10,11 @@ if($_SERVER["HTTP_HOST"]=="localhost")
 {
     $sitename="http://localhost/Shivcargo/";
 }
+elseif($_SERVER["HTTP_HOST"]=="webosys.com")
+{
+	
+	$sitename="http://webosys.com/shivcargo/";
+}
 else
 {
     $sitename="http://www.shivcargoagency.com/";
