@@ -29,10 +29,7 @@ th, td { min-width: 50px;
         $s_gst_no=isset($_GET["s_gst_no"]) ? addslashes($_GET["s_gst_no"]):"";
         $r_gst_no=isset($_GET["r_gst_no"]) ? addslashes($_GET["r_gst_no"]):"";
         
-        
-        
-        $start_date = date("d-m-Y", strtotime($start_date));
-        $end_date = date("d-m-Y", strtotime($end_date));
+     
 ?> 
 				<div class="">
 				<div class="clearfix"></div>
@@ -178,7 +175,7 @@ function printDiv(divName) {
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content" id="printableArea" style="overflow-x:auto;">
-						 <span class="section"> 
+						 <span class="section"> search
 												<b>SHIV CARGO AGENCY</b><br/>
 												A-26 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
 												AMRAVATI PH : 0721-2590820<br/>
@@ -429,7 +426,7 @@ function printDiv(divName) {
           $('#end_date').datepicker('setDate', 'today');
       });
   </script>
-<script>,
+<script>
 function delte_booking(bokid) 
 { 
 
