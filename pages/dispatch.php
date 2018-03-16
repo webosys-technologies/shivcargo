@@ -56,6 +56,10 @@
 ?>	
 <script> 
 function printDiv(divName) { 
+    $("#selectall").hide();
+    $(".chkbox").hide();
+    $("#search_div").hide();
+    
      var printContents = document.getElementById(divName).innerHTML;
      var originalContents = document.body.innerHTML;
 
@@ -64,6 +68,10 @@ function printDiv(divName) {
      window.print();
 
      document.body.innerHTML = originalContents;
+      $("#selectall").show();
+    $(".chkbox").show();
+    $("#search_div").show();
+    
 }
 </script>  			
 				<div class="">
@@ -185,6 +193,7 @@ function printDiv(divName) {
 									<table id="example" class="table table-striped responsive-utilities jambo_table">
 										<thead>
 											<tr class="headings"> 
+                                                                                            
 												<th>Loaded Date</th>
                                                                                                 <th>Memo No.</th>
 												<th>TO CITY</th>
@@ -219,6 +228,7 @@ function printDiv(divName) {
                                                                                     $memo=$row["bok_memo"];
 										?> 
 											<tr class="even pointer">  
+                                                                                             
 												<td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td>  
 												<td class="a-center "> <?php echo $row["bok_memo"]; ?></td>   
 												<td class="a-center "> <?php echo $row["dcty_name"]; ?></td>   
@@ -234,121 +244,165 @@ function printDiv(divName) {
                                                                 <?php } ?>
                                                 
                                            </div>
+                                            <script>
+function selectAll(source)
+{
+	checkboxes = document.getElementsByName('bokid[]');
+	for(var i in checkboxes)
+	checkboxes[i].checked = source.checked;
+}
+function validate_Unload()
+{
+	var chks = document.getElementsByName('bokid[]');
+	var hasChecked = false;
+	for (var i = 0; i < chks.length; i++)
+	{
+		if (chks[i].checked)
+		{
+			hasChecked = true;
+			break;
+		}
+	}
+	if (hasChecked == false)
+	{
+		document.getElementById("bokid").innerHTML="<i class='fa fa-warning'></i> Please Check Atleast One Data";
+		return false;
+	}
+	return true;
+}
+                                                </script>
                                             <div role="tabpanel" class="tab-pane fade <?php if($tab=="tab_content2"){ echo 'active in'; }?>" id="tab_content2" aria-labelledby="profile-tab">  
 												
                                             			<?php	
-								if(isset($_GET["tab"]) || isset($_GET["bok_loaddate"]) || isset($_GET["bok_memo"]))
-								{
-                                                                        
-                                                                        $bok_memo=$_GET["bok_memo"];
-                                                                        //$bok_loaddate=$_GET["bok_loaddate"];
-									$sql_memo="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) where bok_memo=".$_GET["bok_memo"];
-                                                                        
-									$res_memo=mysql_query($sql_memo);
-									$count_memo=mysql_num_rows($res_memo);
-									if($count_memo>0)
-									{
-										$f_memo=mysql_fetch_array($res_memo);
-										?>
+                            if(isset($_GET["tab"]) || isset($_GET["bok_loaddate"]) || isset($_GET["bok_memo"]))
+                            {
+
+                                        if(isset($_POST["do_unload_memo"]) && $_POST["do_unload_memo"]=="true")
+                                        {
+                                            foreach($_POST["bokid"] as $newbokid)
+                                            { 
+                                                
+                                                $sql="update booking set bok_loaddate='',bok_drivername='',bok_drivermobile='',bok_vehicleno='',bok_memo_total='',bok_memo='',bok_status='0' where bokid='$newbokid'";
+
+                                               if(mysql_query($sql))
+                                               {
+                                                       $msg="<span style='color:green'>Parcel Unloded Successfully....</span><meta http-equiv=refresh content='1'>";
+                                               }
+                                               else
+                                               {
+                                                       $msg="<span style='color:red'>Not uloaded</span>";
+                                               }
+                                            }   
+                                       }
+
+                                            $bok_memo=$_GET["bok_memo"];
+                                            //$bok_loaddate=$_GET["bok_loaddate"];
+                                            $sql_memo="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) where bok_memo=".$_GET["bok_memo"];
+
+                                            $res_memo=mysql_query($sql_memo);
+                                            $count_memo=mysql_num_rows($res_memo);
+                                            if($count_memo>0)
+                                            {
+                                                    $f_memo=mysql_fetch_array($res_memo);
+                                                    ?>
 									<button class="btn btn-danger"  onclick="printDiv('printableArea')"><i class="fa fa-print"></i> Print</button>
                                                                         <a class="btn btn-success"  href="<?php echo $sitename;?>export_dispatch_report.php?bok_memo=<?php echo $_GET["bok_memo"];?>">
                                                                         <i class="fa fa-download"></i> Export In Excel
                                                                         </a>
+                                                                        <p><b style="color:brown">Note: Please Check Load Data Which You Want To Unload And Click on unload Button. </b></p>
+										<h2><b style="color:red"><span id="bokid"></span></b></h2> 
+						
+                                                    <form class="" enctype="multipart/form-data" method="POST" action="">
+							<input type="hidden" name="do_unload_memo" value="true">
+                                                        
+							<input type="submit" name="do_unload" value="Unload" class="btn btn-info" onclick="return validate_Unload();">
+							<input type="reset"  value="Reset" class="btn btn-white"><hr/> 
 									<div id="printableArea">	
 									<span class="section"> 
 												<b>SHIV CARGO AGENCY</b><br/>
 												A-26 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
 												AMRAVATI PH : 0721-2590820<br/>
 												BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721-2381577<br/>
-												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="text-align:right">MEMO NO. <?php echo $_GET["bok_memo"];?></b>
+												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="text-align:right">MEMO NO. <?php echo $_GET["bok_memo"];?></b>
 									</span> 	
-									<span class="section">
+<!--									<span class="section">
                                                                             
-										<b>Driver Name :</b> <?php echo ucwords($f_memo["bok_drivername"]);?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>MEMO NO :</b><?php echo $_GET["bok_memo"];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>MEMO DATE :</b><?php echo ucwords($f_memo["bok_loaddate"]);?><br/>
-                                                                                <b>Transport Name :</b><?php echo $f_memo["dcty_transport_name"];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>VECHILE NO :</b><?php echo $f_memo["bok_vehicleno"];?>&nbsp;&nbsp;&nbsp;&nbsp;<b>City :</b><?php echo $f_memo["dcty_name"];?><br/> 
+										<b>City : </b><?php echo $f_memo["dcty_name"];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>MEMO NO :</b><?php echo $_GET["bok_memo"];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>MEMO DATE :</b><?php echo ucwords($f_memo["bok_loaddate"]);?><br/>
+                                                                                <b>Transport Name :</b><?php echo $f_memo["dcty_transport_name"];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>VECHILE NO :</b><?php echo $f_memo["bok_vehicleno"];?>&nbsp;&nbsp;&nbsp;&nbsp;<b>Driver Name :</b> <?php echo ucwords($f_memo["bok_drivername"]);?><br/> 
                                                                                 <b>DRIVER CONTACT NUMBER:</b><?php echo ucwords($f_memo["bok_drivermobile"]);?>  
                                                                                 <b>DRIVER ADDRESS:</b><?php ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                                         
-									</span>	
+									</span>	-->
                                                                                   <div class="row">
-                                                                <div class="item form-group"> 
-								<div class="col-md-4 col-sm-4 col-xs-12">
-								<label>Search</label> 
-								<input id="search" placeholder="Search..." size="" class="form-control col-md-7 col-xs-12"  name="search" value=""  type="text">
-								</div>  
-														 
-                                                                           </div> 
+                                                               
                         </div><br>
-<!--                                                                            <div class="row" style="font-size: 17px;">
+                                                                            <div class="row" style="font-size: 17px;">
                                                                        
-                                                                        <div class="col-md-4 col-sm-4 col-xs-12">
-                                                                            <label for="name"><b>Driver name :</b> </label>
-                                                                       <?php echo ucwords($f_memo["bok_drivername"]);?>
+                                                                        <div class="col-md-4 col-sm-4 col-xs-4">
+                                                                             <label for="name">City : </label>
+                                                                        <?php echo $f_memo["dcty_name"];?>
                                                                         </div>
-                                                                             <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                             <div class="col-md-4 col-sm-4 col-xs-4">
                                                                              <label for="name"><b>Memo No.:</b> </label>
                                                                        <?php echo $_GET["bok_memo"];?>
                                                                         </div>
-                                                                             <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                             <div class="col-md-4 col-sm-4 col-xs-4">
                                                                                  <label for="name"><b>memo Date :</b> </label>
                                                                         <?php echo ucwords($f_memo["bok_loaddate"]);?>
                                                                         </div>
                                                                         </div>
                                                                          <div class="row" style="font-size: 17px;">
                                                                        
-                                                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                        <div class="col-md-4 col-sm-4 col-xs-4">
                                                                              <label for="name">Transport Name : </label>
                                                                         <?php echo $f_memo["dcty_transport_name"];?>
                                                                         </div>
-                                                                             <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                             <div class="col-md-4 col-sm-4 col-xs-4">
                                                                              <label for="name"><b>VECHILE NO:</b> </label>
                                                                         <?php echo $f_memo["bok_vehicleno"];?>
                                                                         </div>
-                                                                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                                                             <label for="name">City : </label>
-                                                                        <?php echo $f_memo["dcty_name"];?>
+                                                                            <div class="col-md-4 col-sm-4 col-xs-4">
+                                                                            <label for="name"><b>Driver name :</b> </label>
+                                                                       <?php echo ucwords($f_memo["bok_drivername"]);?>
                                                                         </div>
                                                                         </div>
                                                                             
-                                                                            <div class="row" style="font-size: 17px;">
+                                                                            <div class="row" style="font-size: 17px; border-bottom: 1px solid #dfdfdf;">
                                                                        
-                                                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                        <div class="col-md-4 col-sm-4 col-xs-4">
                                                                             <label for="name"><b>Driver Contact number :</b> </label>
                                                                        <?php echo ucwords($f_memo["bok_drivermobile"]);?>  
                                                                         </div>
-                                                                             <div class="col-md-4 col-sm-4 col-xs-12">
+                                                                             <div class="col-md-4 col-sm-4 col-xs-4">
                                                                              <label for="name"><b>Driver Address:</b> </label>
                                                                        <?php echo "";?>
                                                                         </div>
                                                                              
-                                                                        </div>-->
+                                                                        </div>
+                         <div class="item form-group" id="search_div"> 
+								<div class="col-md-4 col-sm-4 col-xs-4">
+								<label>Search</label> 
+								<input id="search" placeholder="Search..." size="" class="form-control col-md-7 col-xs-12"  name="search" value=""  type="text">
+								</div>  
+														 
+                                                                           </div> 
                                                                             
                                                           
 									<table id="example" class="table table-striped responsive-utilities jambo_table">
 										<thead>
-<!--											<tr class="headings"> 
-												<th>Date</th>
-												<th>Lr No </th>
-												<th>CONSINOR</th> 
-												<th>CONSINEE</th> 
-												<th>TO CITY</th>
-												<th>PARCEL</th>
-												<th>TOTAL</th>
-												<th>COMMISSION</th>
-												<th>CROSS CHARGE</th>  
-											</tr>-->
                                                                                     <tr class="headings"> 
-												<th>Date</th>
-												<th>Lr No </th>
-                                                                                                <th>No of PARCEL</th>
-												<th>Sender</th> 
-												<th>GST No</th> 
-                                                                                                <th>Receiver</th>                                                                               </th> 
-												<th>GST No.</th> 
-                                                                                                <th>CITY</th>
-												<th>Amount</th>
-                                                                                                <th>GST</th>
-												<th>CROSS CHARGE</th>  
+                                                                                        <th><input type="checkbox" id="selectall" onclick="return selectAll(this);"></th>
+                                                                                        <th style="border-left: 1px solid #dddddd !important">Date</th>
+                                                                                        <th style="border-left: 1px solid #dddddd !important">Lr No </th>
+                                                                                        <th style="border-left: 1px solid #dddddd !important">No of PARCEL</th>
+                                                                                        <th style="border-left: 1px solid #dddddd !important">Sender</th> 
+                                                                                        <th style="border-left: 1px solid #dddddd !important">GST No</th> 
+                                                                                        <th style="border-left: 1px solid #dddddd !important">Receiver</th>                                                                               </th> 
+                                                                                        <th style="border-left: 1px solid #dddddd !important">GST No.</th> 
+                                                                                        <th style="border-left: 1px solid #dddddd !important">CITY</th>
+                                                                                        <th style="border-left: 1px solid #dddddd !important">Amount</th>
+                                                                                        <th style="border-left: 1px solid #dddddd !important">GST</th>
+                                                                                        <th style="border-left: 1px solid #dddddd !important">CROSS CHARGE</th>  
 											</tr>
 										</thead>
 										<tbody id="search_body">
@@ -376,15 +430,16 @@ function printDiv(divName) {
                                                                                      
 										?> 
 											<tr class="even pointer">  
-												<td class="a-center no-border"> <?php echo $row["bokdate"]; ?></td>  
-												<td class="a-center no-border"> <?php echo $row["boklrno"]; ?></td>  
-                                                                                                <td class="a-center no-border"> <?php echo $row["bok_item"]; ?></td>    
-                                                                                                <td class="a-center no-border"> <?php echo $row["sendname"]; ?></td>
-                                                                                                 <td class="a-center no-border"> <?php echo $row["sendgstno"]; ?></td>
-												<td class="a-center no-border"> <?php echo $row["recvname"]; ?></td>   
-												 <td class="a-center no-border"> <?php echo $row["recvgstno"]; ?></td> 
-                                                                                                 <td class="a-center no-border"> <?php echo $row["dcplace_name"]; ?></td> <?php //$row["dcty_name"].'-'. ?>
-												 <td class="a-center no-border"> <?php 
+                                                                                             <td class="a-center "><input class="chkbox" type="checkbox" name="bokid[]" value="<?php echo $row["bokid"]; ?>"> </td>  
+												<td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $row["bokdate"]; ?></td>  
+												<td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $row["boklrno"]; ?></td>  
+                                                                                                <td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $row["bok_item"]; ?></td>    
+                                                                                                <td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $row["sendname"]; ?></td>
+                                                                                                 <td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $row["sendgstno"]; ?></td>
+												<td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $row["recvname"]; ?></td>   
+												 <td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $row["recvgstno"]; ?></td> 
+                                                                                                 <td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $row["dcplace_name"]; ?></td> <?php //$row["dcty_name"].'-'. ?>
+												 <td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php 
                                                                                                  if($bok_paymode=="Paid")
                                                                                                  {
                                                                                                      echo "Paid";
@@ -395,8 +450,8 @@ function printDiv(divName) {
                                                                                                  $memo_total=$memo_total+$row["bok_total"];
                                                                                                  
                                                                                                  }?></td>    
-												<td class="a-center no-border"> <?php echo $gst; ?></td>  
-												<td class="a-center no-border"> <?php echo $row["dcplace_crossing"]; ?></td>  
+												<td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $gst; ?></td>  
+												<td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $row["dcplace_crossing"]; ?></td>  
 											</tr> 
                                                                                         
 										<?php 
@@ -411,57 +466,61 @@ function printDiv(divName) {
                                                                                         $total_gst=$total_gst+$gst;
                                                                                 } ?>
                                                                                        <tr> 
-                                                                                            <td class="a-center 1no-border"> Total</td>
-                                                                                                <td class="a-center 1no-border"><?php echo $total_lr; ?></td>
-                                                                                                <td class="a-center 1no-border"><?php echo $total_parcel; ?></td>
-                                                                                                <td class="a-center 1no-border"> &nbsp;</td>
-                                                                                                <td class="a-center 1no-border"> &nbsp;</td>
-                                                                                                <td class="a-center 1no-border"> &nbsp;</td>
-                                                                                                <td class="a-center 1no-border left-border"> MEMO TOTAL</td>
-                                                                                                <td class="a-center 1no-border"><?php //echo $parcel; ?></td>
-												<td class="a-center 1no-border"><?php echo $memo_total; ?></td>
-                                                                                                <td class="a-center 1no-border"><?php echo $total_gst; ?></td>
-                                                                                                <td class="a-center 1no-border"><?php echo $cross; ?></td>
+                                                                                            <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"></td>
+                                                                                            <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"> Total</td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"><?php echo $total_lr; ?></td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"><?php echo $total_parcel; ?></td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"> &nbsp;</td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"> &nbsp;</td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"> &nbsp;</td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"> MEMO TOTAL</td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"><?php //echo $parcel; ?></td>
+												<td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"><?php echo $memo_total; ?></td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"><?php echo $total_gst; ?></td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"><?php echo $cross; ?></td>
                                                                                                 
                                                                                         </tr> 
                                                                                         <tr>
-                                                                                             <td class="a-center no-border"> &nbsp;</td>
-                                                                                                <td class="a-center no-border"> &nbsp;</td>
-                                                                                                <td class="a-center no-border"> &nbsp;</td>
-                                                                                                <td class="a-center no-border"> &nbsp;</td>
-                                                                                                <td class="a-center no-border"> &nbsp;</td>
-                                                                                                <td class="a-center no-border"> &nbsp;</td>
-                                                                                                <td class="a-center no-border left-border"> LESS DELIVERY</td>
-                                                                                                <td class="a-center no-border"> &nbsp;</td>
-												<td class="a-center no-border"><?php echo $commi; ?></td>
-                                                                                                <td class="a-center no-border"> &nbsp;</td>
-                                                                                                <td class="a-center no-border"> &nbsp;</td>
+                                                                                            <td class="a-center 1no-border"></td>
+                                                                                             <td class="a-center 1no-border"> &nbsp;</td>
+                                                                                                <td class="a-center 1no-border"> &nbsp;</td>
+                                                                                                <td class="a-center 1no-border"> &nbsp;</td>
+                                                                                                <td class="a-center 1no-border"> &nbsp;</td>
+                                                                                                <td class="a-center 1no-border"> &nbsp;</td>
+                                                                                                <td class="a-center 1no-border"> &nbsp;</td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"> LESS DELIVERY</td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"> &nbsp;</td>
+												<td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"><?php echo $commi; ?></td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"> &nbsp;</td>
+                                                                                                <td class="a-center 1no-border"> &nbsp;</td>
                                                                                         </tr>
                                                                                         <tr>
+                                                                                            <td class="a-center no-border"></td>
                                                                                              <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
-                                                                                                <td class="a-center no-border left-border"> LESS CROSSING</td>
-                                                                                                <td class="a-center no-border"> &nbsp;</td>
-												<td class="a-center no-border"><?php echo $cross; ?></td>
-                                                                                                <td class="a-center no-border"> &nbsp;</td>
-                                                                                                <td class="a-center no-border"> &nbsp;</td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"> LESS CROSSING</td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"> &nbsp;</td>
+												<td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"><?php echo $cross; ?></td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"> &nbsp;</td>
+                                                                                                <td class="a-center 1no-border" > &nbsp;</td>
                                                                                         </tr>
                                                                                         <tr>
+                                                                                            <td class="a-center no-border"></td>
                                                                                              <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
-                                                                                                <td class="a-center no-border left-border"> Add GST</td>
-                                                                                                <td class="a-center no-border"> &nbsp;</td>
-												<td class="a-center no-border"><?php echo $total_gst; ?></td>
-                                                                                                <td class="a-center no-border"> &nbsp;</td>
-                                                                                                <td class="a-center no-border"> &nbsp;</td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"> Add GST</td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"> &nbsp;</td>
+												<td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"><?php echo $total_gst; ?></td>
+                                                                                                <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"> &nbsp;</td>
+                                                                                                <td class="a-center 1no-border"> &nbsp;</td>
                                                                                         </tr>
                                                                                         <?php 
                                                                                         $net_total=$memo_total-$commi-$cross;
@@ -470,27 +529,29 @@ function printDiv(divName) {
                                                                                                 //$net_total=$net_total+$total_gst;
                                                                                         ?>
                                                                                         <tr>
+                                                                                            <td class="a-center no-border"></td>
                                                                                              <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
                                                                                                 <td class="a-center no-border"> &nbsp;</td>
-                                                                                                <td class="a-center left-border"> NET AMOUNT</td>
-                                                                                                <td class="a-center "> &nbsp;</td>
-                                                                                                <td class="a-center "><?php echo $net_total; ?></td>
-                                                                                                <td class="a-center "> </td>
+                                                                                                <td class="a-center" style="border-left: 1px solid #dddddd !important"> NET AMOUNT</td>
+                                                                                                <td class="a-center " style="border-left: 1px solid #dddddd !important"> &nbsp;</td>
+                                                                                                <td class="a-center " style="border-left: 1px solid #dddddd !important"><?php echo $net_total; ?></td>
+                                                                                                <td class="a-center " style="border-left: 1px solid #dddddd !important"> </td>
                                                                                                 <td class="a-center "> </td>
                                                                                         </tr>
 										</tbody>
 									</table> 
+                                                                        </form>
                                                                             <div class="item form-group section-div">
                                                                                 <div class="col-md-3 col-sm-3 col-xs-12 section_div1">
-                                                                                    <table class="table table-striped responsive-utilities jambo_table">
+                                                                                    <table class="table table-striped responsive-utilities jambo_table" style="width: 50% !important;">
                                                                                         <tr>
                                                                                             <th>City</th>
-                                                                                            <th>No. of parcel</th>
-                                                                                            <th>Total</th>
+                                                                                            <th style="border-left: 1px solid #dddddd !important">No. of parcel</th>
+                                                                                            <th style="border-left: 1px solid #dddddd !important">Total</th>
                                                                                         </tr>
                                                                                         <?php 
 //                                                                                        $bok_memo=$_GET["bok_memo"];
@@ -513,8 +574,8 @@ function printDiv(divName) {
                                                                                         ?>
                                                                                         <tr>
                                                                                              <td class="a-center 1no-border"> <?php echo $row["dcplace_name"]; ?></td>
-                                                                                             <td class="a-center 1no-border"><?php echo $row["parcel_count"]; ?></td>
-                                                                                              <td class="a-center 1no-border"><?php echo $row["parcel_count"];; ?></td>
+                                                                                             <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"><?php echo $row["parcel_count"]; ?></td>
+                                                                                              <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"><?php echo $row["parcel_count"];; ?></td>
                                                                                              
                                                                                         </tr>    
                                                                                             

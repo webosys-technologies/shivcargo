@@ -97,7 +97,7 @@ function validate_Unload()
 				<div class="x_panel"> 
 					<div class="x_title">  
                         <div class="clearfix"></div>
-                    </div>
+                    </div> 
                     <div class="x_content" id="printableArea">
 						 <span class="section"> 
 												<b>SHIV CARGO AGENCY</b><br/>
@@ -111,7 +111,7 @@ function validate_Unload()
 						<form name="Load" method="get" action="index.php"> 
 							<input type="hidden" name="do" value="load_now">
 							<input type="submit" name="do_load" value="Load" class="btn btn-info" onclick="return validate_Unload();">
-							<input type="reset"  value="Reset" class="btn btn-white"><hr/> 						
+							<input type="reset"  value="Reset" class="btn btn-white"><hr/>   						
                         <table id="example" class="table table-striped responsive-utilities jambo_table">
                             <thead>
                                 <tr class="headings">
