@@ -111,7 +111,15 @@ function validate_Unload()
 						<form name="Load" method="get" action="index.php"> 
 							<input type="hidden" name="do" value="load_now">
 							<input type="submit" name="do_load" value="Load" class="btn btn-info" onclick="return validate_Unload();">
-							<input type="reset"  value="Reset" class="btn btn-white"><hr/>   						
+							<input type="reset"  value="Reset" class="btn btn-white">
+                                                        <div class="row">
+                                      <div class="item form-group"> 
+                                      <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <label>Search</label> 
+                                                <input id="search" placeholder="Search..." size=""  class="form-control col-md-7 col-xs-12"  name="search" value=""  type="text">
+                                                </div>
+                                          </div>
+                                          </div><br>
                         <table id="example" class="table table-striped responsive-utilities jambo_table">
                             <thead>
                                 <tr class="headings">
@@ -128,7 +136,7 @@ function validate_Unload()
                                      <th>Cross Charge</th>
                                 </tr>
                             </thead>
-							<tbody> 
+							<tbody id="search_report">
 							<?php 
 							$SrNo=1;
 							if($bok_descityid==0)
@@ -149,7 +157,7 @@ function validate_Unload()
                                     <td class="a-center "> <?php echo $row["bokdate"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["boklrno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_item"]; ?></td>  
-                                  ` <td class="a-center "> <input id="name" class="form-control col-md-7 col-xs-12" placeholder="Enter Ammount" name="bok_total<?php echo $row["bokid"]; ?>" value="<?php echo $row["bok_total"]; ?>" type="text"> </td> 
+                                    <td class="a-center "> <input id="name" class="form-control col-md-7 col-xs-12" placeholder="Enter Ammount" name="bok_total<?php echo $row["bokid"]; ?>" value="<?php echo $row["bok_total"]; ?>" type="text"> </td> 
                                     <td class="a-center "> <?php echo $row["sendname"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["sendgstno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["recvname"]; ?></td>  
@@ -169,3 +177,15 @@ function validate_Unload()
 <?php
 }
 ?>	
+<script>
+
+
+   $("#search").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#search_report tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+  
+  
+</script>
