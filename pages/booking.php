@@ -49,6 +49,7 @@ th, td { min-width: 50px;
 	$recvmobile=isset($_POST["recvmobile"]) ? addslashes($_POST["recvmobile"]):"";
 	$recvgstno=isset($_POST["recvgstno"]) ? addslashes($_POST["recvgstno"]):"";
 	$boklrno=isset($_POST["boklrno"]) ? addslashes($_POST["boklrno"]):""; 
+	$lr_cap=isset($_POST["lr_cap"]) ? addslashes($_POST["lr_cap"]):""; 
 	$bok_srccitybranchid=isset($_POST["bok_srccitybranchid"]) ? addslashes($_POST["bok_srccitybranchid"]):""; 
 	$bokdate=isset($_POST["bokdate"]) ? addslashes($_POST["bokdate"]):"";
 	$boktime=isset($_POST["boktime"]) ? addslashes($_POST["boktime"]):"";
@@ -274,7 +275,7 @@ function getCity(dcty_id)
 
 function getlrnoauto(bok_srccitybranchid)
 {
-	$.post("<?php echo $sitename;?>show_lrno_auto.php",{bok_srccitybranchid:bok_srccitybranchid},function(data)
+	$.post("<?php echo $sitename;?>show_lrno.php",{bok_srccitybranchid:bok_srccitybranchid},function(data)
 		{
 			$("#show_lrno").html(data);
 		});
@@ -301,23 +302,61 @@ if($action=="add_booking")
                 else 
                 {
                     $bok_total=$bok_freight+$bok_hamali+$bok_others;
-                    $sql="insert into booking(boklrno,bokdate,boktime,bok_senderid,bok_reciverid,bok_srccitybranchid,bok_descityid,bok_cityplaceid,bok_paymode,bok_parcel,bok_weight,bok_pivatemark,bok_item,bok_freight,bok_hamali,bok_others,bok_gst,bok_total,bok_remark,amountdeclare_desc,description,bok_addedby) values ('$boklrno','$bokdate','$boktime','$bok_senderid','$bok_reciverid','$bok_srccitybranchid','$bok_descityid','$bok_cityplaceid','$bok_paymode','$bok_parcel','$bok_weight','$bok_pivatemark','$bok_item','$bok_freight','$bok_hamali','$bok_others','$bok_gst','$bok_total','$bok_remark','$amountdeclare_desc','$description','$admid')";
                     
-                    
-
-
-                    if(mysql_query($sql))
+                    //lr gen start
+                    $row_bok=mysql_fetch_array(mysql_query("SELECT * FROM booking ORDER BY bokid DESC LIMIT 1"));
+                    $auto_no=$row_bok["auto_no"];
+                    if($auto_no=='' || $auto_no==0)
                     {
-                         
-                        $url=$_SERVER['REQUEST_URI'];
-                         $row_recid=mysql_fetch_array(mysql_query("SELECT * FROM booking ORDER BY bokid DESC LIMIT 1"));
-                         $bokid=$row_recid["bokid"];
-                       
-                            $msg="<span style='color:green'>Added Successfully....</span><meta http-equiv=refresh content='2;$url&bokid=$bokid'>";
+                        $auto_no=0;
                     }
-                    else
+                    $lr_exist='';
+                    
+                    if($bok_srccitybranchid==1)
                     {
-                            $msg="<span style='color:red'>Not Added</span>";
+                        $auto_no=$auto_no+1;
+                        $boklrno='B'.$auto_no;
+                    }
+                    elseif($bok_srccitybranchid==2)
+                    {
+                        $boklrno='C'.$boklrno;
+                        
+                        $sql_bok="select COUNT(*) as count from booking where boklrno='$boklrno'"; 
+                        $result=mysql_query($sql_bok);
+		        $b=mysql_fetch_array($result);
+		        $count=$b["count"];
+                        if($count>0)
+                        {
+                         $lr_exist="yes";
+                         
+                        }
+                        
+                    }
+                    //lr gen end
+
+                    if($lr_exist=="yes")
+                    {
+                        $msg="<span style='color:red; font-size:14px; font-weight:bold;'>LR Number Already Exists. Enter New LR Number</span>";
+                         $msg_lr="<span style='color:red; font-size:14px; font-weight:bold;'>LR Number Already Exists. Enter New LR Number</span>";   
+                    }
+                    else 
+                    {
+                        $sql="insert into booking(boklrno,auto_no,bokdate,boktime,bok_senderid,bok_reciverid,bok_srccitybranchid,bok_descityid,bok_cityplaceid,bok_paymode,bok_parcel,bok_weight,bok_pivatemark,bok_item,bok_freight,bok_hamali,bok_others,bok_gst,bok_total,bok_remark,amountdeclare_desc,description,bok_addedby) values ('$boklrno','$auto_no','$bokdate','$boktime','$bok_senderid','$bok_reciverid','$bok_srccitybranchid','$bok_descityid','$bok_cityplaceid','$bok_paymode','$bok_parcel','$bok_weight','$bok_pivatemark','$bok_item','$bok_freight','$bok_hamali','$bok_others','$bok_gst','$bok_total','$bok_remark','$amountdeclare_desc','$description','$admid')";
+
+
+                        if(mysql_query($sql))
+                        {
+
+                            $url=$_SERVER['REQUEST_URI'];
+                             $row_recid=mysql_fetch_array(mysql_query("SELECT * FROM booking ORDER BY bokid DESC LIMIT 1"));
+                             $bokid=$row_recid["bokid"];
+
+                                $msg="<span style='color:green'>Added Successfully....</span><meta http-equiv=refresh content='2;$url&bokid=$bokid'>";
+                        }
+                        else
+                        {
+                                $msg="<span style='color:red'>Not Added</span>";
+                        }
                     }
                     
                 }
@@ -345,7 +384,7 @@ if($action=="add_booking")
                 else
                 {
                    // $bok_total=$bok_freight+$bok_hamali+$bok_others;
-                    $sql="update booking set boklrno='$boklrno',bokdate='$bokdate',boktime='$boktime',bok_senderid='$bok_senderid',bok_reciverid='$bok_reciverid',bok_srccitybranchid='$bok_srccitybranchid',bok_descityid='$bok_descityid',bok_cityplaceid='$bok_cityplaceid',bok_paymode='$bok_paymode',bok_parcel='$bok_parcel',bok_weight='$bok_weight',bok_pivatemark='$bok_pivatemark',bok_item='$bok_item',bok_freight='$bok_freight',bok_hamali='$bok_hamali',bok_others='$bok_others',bok_gst='$bok_gst',bok_total='$bok_total',bok_remark='$bok_remark',amountdeclare_desc='$amountdeclare_desc',description='$description',bok_addedby='$admid' where bokid='$bokid'";
+                    $sql="update booking set bokdate='$bokdate',boktime='$boktime',bok_senderid='$bok_senderid',bok_reciverid='$bok_reciverid',bok_srccitybranchid='$bok_srccitybranchid',bok_descityid='$bok_descityid',bok_cityplaceid='$bok_cityplaceid',bok_paymode='$bok_paymode',bok_parcel='$bok_parcel',bok_weight='$bok_weight',bok_pivatemark='$bok_pivatemark',bok_item='$bok_item',bok_freight='$bok_freight',bok_hamali='$bok_hamali',bok_others='$bok_others',bok_gst='$bok_gst',bok_total='$bok_total',bok_remark='$bok_remark',amountdeclare_desc='$amountdeclare_desc',description='$description',bok_addedby='$admid' where bokid='$bokid'"; //boklrno='$boklrno',
 
                     if(mysql_query($sql))
                     {
@@ -458,7 +497,10 @@ if($action=="add_booking")
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Receipt no./ LR No<span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input id="name" class="form-control col-md-7 col-xs-12"  name="boklrno" value="<?php if($boklrno){ echo $boklrno; }else{ echo 'B1'.rand(1,10000); } ?>" required="required" type="text">
+                                                <input style="width:15%; <?php if($boklrno){ ?> display:none; <?php } ?>" id="name" class="form-control col-md-2 col-xs-4"  name="lr_cap" value="<?php if($branch_id==1){ echo 'B'; }elseif($branch_id==2){ echo 'C'; } ?>" required="required" type="text" disabled="<?php if($branch_id==1){ echo 'disabled';  } ?>" >
+                                                <input style="width:80%;" id="name" class="form-control col-md-7 col-xs-12"  name="boklrno" value="<?php if($boklrno){ echo $boklrno; }elseif($branch_id==1){ echo '-'; } ?>" required="required" type="text" <?php if($branch_id==1 || $boklrno){ echo 'disabled';  } ?> >
+                                                <span><?php if(isset($msg_lr)) echo $msg_lr;?></span>
+                                                
                                             </div>
                                         </div> 
 									</div>
@@ -606,8 +648,8 @@ if($action=="add_booking")
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Source City Branch<span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12"> 
-                                                
-                                                <select name="bok_srccitybranchid" style="width:234px; height:35px;" id="name" onChange="getlrnoauto(this.value)" required="required" >
+                                               
+                                                <select name="bok_srccitybranchid" style="width:234px; height:35px;" id="name" onChange="getlrnoauto(this.value)" required="required" <?php if($bok_srccitybranchid){ echo 'disabled'; } ?> >
 												 
 												<?php 
                                                                                                 
@@ -616,14 +658,24 @@ if($action=="add_booking")
 												{
 												?>
                                                     <option 
-                                                    <?php if($f_srccitybnch["scbrnch_id"]==$bok_srccitybranchid)
-                                                    { 
-                                                        echo "selected";
-                                                    }
-                                                    elseif($f_srccitybnch["scbrnch_id"]==$branch_id)
+                                                    <?php 
+                                                    if($bok_srccitybranchid)
                                                     {
-                                                        echo "selected";
+                                                        if($f_srccitybnch["scbrnch_id"]==$bok_srccitybranchid)
+                                                        { 
+                                                            echo "selected";
+                                                        }
+                                                        
                                                     }
+                                                    else
+                                                    {
+                                                        if($f_srccitybnch["scbrnch_id"]==$branch_id)
+                                                        {
+                                                            echo "selected";
+                                                        }
+                                                    }
+                                                    
+                                                    
                                                         
                                                         ;?> value="<?php echo $f_srccitybnch["scbrnch_id"]?>"><?php echo $f_srccitybnch["scbrnch_name"]?></option>
 												<?php } ?>		
