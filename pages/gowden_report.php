@@ -99,48 +99,50 @@ if($_GET["do"]=="gowden_report" && isset($_GET["bok_descityid"]))
                             <thead>
                                 <tr class="headings">
                                     <th>City</th>
-                                    <th>Small Parcel</th>
-                                    <th>Big Parcel</th>
-                                    <th>Total </th>   
+                                    <th>Parcel</th>
+                                    <th>City</th>
+                                    <th>Parcel</th>
+                                    
                                 </tr>
                             </thead>
 							<tbody id="search_report">
 							<?php 
 							$smltotal=0;
-							$bigtotal=0;
+							$bigtotal=0; 
 							$total=0;
 //				                       
                                                         if($bok_descityid==0)
 							{
-								$sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='0'";
+								$sql="select *, SUM(bok_item) as parcel_count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='0' GROUP BY dcty_name";	 
                                                                 
 							}
 							else
 							{
-								$sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='0' && bok_descityid='$bok_descityid'";
+								$sql="select *, SUM(bok_item) as parcel_count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='0' GROUP BY dcty_name";	 
 							}
 							$result=mysql_query($sql) or die(mysql_error());
+                                                        $total_parcel=0;
 							while($row=mysql_fetch_array($result))
 							{ 
-								if($row["bok_parcel"]=="Small") { }
-								if($row["bok_parcel"]=="Big") {  } 
+								$total_parcel=$total_parcel+$row["parcel_count"];
 								$total=$total+$row["bok_total"];
 							?>
-                                                                 <form method="post" action="">
+                                                                 
 								<tr class="even pointer">
                                                                         <td class="a-center "> <?php echo $row["dcty_name"]; ?></td>
-                                                                        <td class="a-center "> <?php if($row["bok_parcel"]=="Small "){ echo "1";  $smltotal=$smltotal+1; } else { echo "0";}?></td>
-									 <td class="a-center "> <?php if($row["bok_parcel"]=="Big "){ echo "1"; $bigtotal=$bigtotal+1; } else { echo "0";}?></td>
-									 <td class="a-center "> <?php echo $row["bok_total"]; ?></td>     
+                                                                         <td class="a-center "> <?php echo $row["parcel_count"]; ?></td>
+								         <td class="a-center "> <?php echo $row["dcty_name"]; ?></td>
+                                                                         <td class="a-center "> <?php echo $row["parcel_count"]; ?></td>
+									
                                                                  </tr>
-								</form> 
+								
 							<?php } ?>
 								<tr> 
-                                                                    <td class="a-center "></td>
-									 <td class="a-center "> Total = <?php echo $smltotal; ?> </td>
-									 <td class="a-center "> Total = <?php echo $bigtotal; ?></td>
-									 <td class="a-center "> Total = <?php echo $total; ?></td>
-								</tr>	 
+                                                                   	 <td class="a-center "> Total </td>
+									 <td class="a-center "> <?php echo $total_parcel; ?></td>
+                                                                   	 <td class="a-center "> Total </td>
+									 <td class="a-center "> <?php echo $total_parcel; ?></td>
+                                                                </tr>	 
                             </tbody>
 						</table>
                     </div>
