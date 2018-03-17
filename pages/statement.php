@@ -17,7 +17,7 @@ th, td { min-width: 50px;
 //	$lr=isset($_GET["lr"]) ? addslashes($_GET["lr"]):"-";
 //	$date=isset($_GET["date"]) ? addslashes($_GET["date"]):"";
 //	$gst=isset($_GET["gst"]) ? addslashes($_GET["gst"]):"-";
-	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"-";
+	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"no";
 //        $s_name=isset($_GET["s_name"]) ? addslashes($_GET["s_name"]):"-";
 //        $r_name=isset($_GET["r_name"]) ? addslashes($_GET["r_name"]):"-";
 ?> 
@@ -71,8 +71,8 @@ th, td { min-width: 50px;
                                             <div class="col-md-3 col-sm-3 col-xs-12">
 											<label>Destination City</label> 
 												 <select name="bok_descityid" style="width:250px;height:35px;" id="name" >
-												 <option value="no">Select Destination City</option>
 												 <option value="0" <?php if($bok_descityid==0) echo "selected";?>>All City</option>
+                                                                                                 <option <?php if($bok_descityid=='no') echo "selected"; ?> value="no">Select Destination City</option>
 												<?php
 												$res_descity=mysql_query("select * from des_cities");
 												while($f_descity=mysql_fetch_array($res_descity))

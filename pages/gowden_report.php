@@ -1,5 +1,5 @@
 <?php 
-	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):""; 
+	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"no"; 
 ?> 
 <script> 
 function printDiv(divName) { 
@@ -36,8 +36,8 @@ function printDiv(divName) {
 											<label>Destination City *</label> 
 												
                                                                                         <select name="bok_descityid" style="width:250px;height:35px;" id="name" onChange="getPackage(this.value)" required="required" >
-												 <option value="">Select Destination City</option>
 												 <option value="0" <?php if($bok_descityid==0) echo "selected";?>>All City</option>
+                                                                                                 <option <?php if($bok_descityid=='no') echo "selected"; ?> value="no">Select Destination City</option>
 												<?php
 												$res_descity=mysql_query("select * from des_cities");
 												while($f_descity=mysql_fetch_array($res_descity))

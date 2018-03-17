@@ -1,8 +1,8 @@
 <?php 
-$start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
+        $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
 	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
-	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):""; 
-        $bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"";
+	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"no"; 
+        
         $lr=isset($_GET["lr"]) ? addslashes($_GET["lr"]):"";
         $date=isset($_GET["date"]) ? addslashes($_GET["date"]):"";
         $s_gst_no=isset($_GET["s_gst_no"]) ? addslashes($_GET["s_gst_no"]):"";
@@ -67,8 +67,10 @@ function printDiv(divName) {
                                                                                         <div class="col-md-3 col-sm-3 col-xs-12">
 											<label>Destination City *</label> 
 												 <select name="bok_descityid" style="width:250px;height:35px;" id="name" onChange="getPackage(this.value)" >
-												 <option value="no">Select Destination City</option>
-												 <option value="0" <?php if($bok_descityid==0) echo "selected";?>>All City</option>
+												
+												<option  <?php if($bok_descityid==0) echo "selected"; ?> value="0">All City</option>
+                                                                                                 <option <?php if($bok_descityid=='no') echo "selected"; ?> value="no">Select Destination City</option>
+                                                                                                 
 												<?php
 												$res_descity=mysql_query("select * from des_cities");
 												while($f_descity=mysql_fetch_array($res_descity))
@@ -170,26 +172,24 @@ if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_de
 						<span class="section"><b>City Name</b> :  <?php echo ucwords($row_ctyname["dcty_name"]); }?></span>	
                         
                                                 <table id="example" class="table table-striped responsive-utilities jambo_table">
-										<thead>
-											<tr class="headings"> 
-												<th>Date</th>
-												<th>Lr No </th>
-												<th>CONSINOR</th> 
-												<th>CONSINEE</th> 
-												<th>TO CITY</th>
-												<th>PARCEL</th>
-												<th>TOTAL</th>
-												<th>COMMISSION</th>
-												<th>CROSS CHARGE</th>  
-											</tr>
-										</thead>
-										<tbody id="search_parcel">
-										<?php  
-									    
-                                                                                
-                                                                                                                                                 
-                                                                            
-                                                        if($bok_descityid=="no")
+                            <thead>
+                                <tr class="headings"> 
+                                    <th>Date</th>
+                                    <th>Lr no </th>
+                                    <th>No of parcel </th>
+                                    <th>Freight</th>
+                                    <th>Sender</th>
+                                    <th>Sender GST No</th>
+                                    <th>Private Mark</th>
+                                    <th>Reciver</th>
+                                    <th>Reciver GST No</th>
+                                    <th>City</th>  
+                                </tr>
+                            </thead>
+							<tbody id="search_parcel">
+							<?php 
+                                                        
+							if($bok_descityid=="no")
                                                         {
                                                             
 							   // $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' OR bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
@@ -212,35 +212,51 @@ if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_de
                                                             
 							 
                                                             $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
-                                                        }
-                                                                            
-										$result=mysql_query($sql) or die(mysql_error());
-                                                                                $parcel=0;
-                                                                                $total=0;
-                                                                                $commi=0;
-                                                                                $cross=0;
-										while($row=mysql_fetch_array($result))
-										{
-										?> 
-											<tr class="even pointer">  
-												<td class="a-center no-border"> <?php echo $row["bokdate"]; ?></td>  
-												<td class="a-center no-border"> <?php echo $row["boklrno"]; ?></td>  
-												<td class="a-center no-border"> <?php echo $row["recvname"]; ?></td>   
-												<td class="a-center no-border"> <?php echo $row["sendname"]; ?></td> 
-												<td class="a-center no-border"> <?php echo $row["dcplace_name"]; ?></td>   
-												<td class="a-center no-border"> <?php echo $row["bok_item"]; ?></td>  
-												<td class="a-center no-border"> <?php echo $row["bok_total"]; ?></td>  
-												<td class="a-center no-border"> <?php echo $row["bok_total"]*$row["dcty_cutrate"]/100; ?></td>  
-												<td class="a-center no-border">0 <?php //echo $row["dcty_cutrate"]; ?></td>  
-											</tr> 
-                                                                                        
-										<?php 
-                                                                                     
-                                                                                } ?>
-                                                                                      
-                                                                                       
-										</tbody>
-									</table>
+                                                        }	
+							$result=mysql_query($sql) or die(mysql_error());
+                                                        $total_parcel=0;
+                                                        $total_lr=0;
+                                                        $total_fright=0;
+							while($row=mysql_fetch_array($result))
+							{
+							?>
+                                <form method="post" action="">
+								<tr class="even pointer">  
+                                    <td class="a-center "> <?php echo $row["bokdate"]; ?></td>  
+                                    <td class="a-center "> <?php echo $row["boklrno"]; ?></td>  
+                                    <td class="a-center "> <?php echo $row["bok_item"]; ?></td>  
+                                    <td class="a-center "><?php echo $row["bok_freight"]; ?></td> 
+                                    <td class="a-center "> <?php echo $row["sendname"]; ?></td>  
+                                    <td class="a-center "> <?php echo $row["sendgstno"]; ?></td>  
+                                    <td class="a-center "> <?php echo $row["bok_pivatemark"]; ?></td>  
+                                    <td class="a-center "> <?php echo $row["recvname"]; ?></td>  
+                                    <td class="a-center "> <?php echo $row["recvgstno"]; ?></td>  
+                                    <td class="a-center "> <?php echo $row["dcplace_name"]; ?></td>  
+                                </tr>
+								</form> 
+							<?php 
+                                                        $total_parcel=$total_parcel+$row["bok_item"];
+                                                        $total_lr=$total_lr+1;
+                                                        $total_fright=$total_fright+$row["bok_freight"];
+                                                        
+                                                                } ?>	
+                                                        <tr class="even pointer" >  
+                                    <td class="a-center "style="font-weight: bold;"> Total </td>  
+                                    <td class="a-center " style="font-weight: bold;"> <?php echo $total_lr; ?> </td> 
+                                    <td class="a-center " ><?php echo $total_parcel ?></td>  
+                                    <td class="a-center " ><?php echo $total_fright; ?> </td> 
+                                    <td class="a-center "></td>  
+                                    <td class="a-center "></td>
+                                     <td class="a-center "></td>
+                                     <td class="a-center "></td>
+                                     <td class="a-center "> </td>  
+                                    <td class="a-center " ></td>
+                                     
+      
+                                </tr>		
+                            </tbody>
+						</table>
+                                                
                     </div>
                 </div>
             </div> <br /> <br /> <br />
