@@ -129,18 +129,20 @@ if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_de
         //$s_gst_no=isset($_GET["s_gst_no"]) ? addslashes($_GET["s_gst_no"]):""; 
       //  $r_gst_no=isset($_GET["r_gst_no"]) ? addslashes($_GET["r_gst_no"]):""; 
         
-        if(isset($_GET["bokid"]) && $_GET["bokid"]!="")
+        if(isset($_GET["bokid"]) && $_GET["bokid"]!="" && $_GET["action"]=="del")
         {
             $bokid=$_GET["bokid"];
             $sql = "DELETE FROM booking WHERE bokid='$bokid'";
-            mysql_query($sql);
+           // mysql_query($sql);
             
-            if (mysql_query($sql)=== TRUE) {
+            if (mysql_query($sql)) {
                 $msg="<span id='success' style='color:green'>Booking Record deleted successfully....</span>";
                 } else {
                     $msg="<span id='error' style='color:red'>Error Booking deleting record: </span>";
                 }
         }
+        
+        
 ?>
 <?php if(isset($msg)) echo $msg;?>
 <script>
@@ -208,8 +210,7 @@ function printDiv(divName) {
                                     <th>Private Mark</th>
                                     <th>Status</th>
                                      <th style="display:none;">City Branch</th>
-                                    <th>Edit Booking</th>
-                                     <th>Delete Booking</th>
+                                     <th colspan="3" style="text-align:center;">Action</th>
                                 </tr>
                             </thead>
 							<tbody id="">
@@ -270,9 +271,10 @@ function printDiv(divName) {
                                                                  $branch_id=$row["bok_srccitybranchid"];
                                                                  $res_srccitybnch=mysql_query("select * from src_cities_branch where scbrnch_id='$branch_id'");
                                                                  $branch=mysql_fetch_array($res_srccitybnch);
-                                                                 echo $branch["scbrnch_name"]; ?></td>  
-                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"><a class="button-getReport" href="index.php?do=booking&bokid=<?php echo $row["bokid"] ?>">Edit</a> </td> 
-                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"><a class="button-getReport" onclick="" href="index.php?do=booking_report&start_date=<?php echo $_GET["start_date"] ?>&end_date=<?php echo $_GET["end_date"] ?>&bokid=<?php echo $row["bokid"] ?>">Delete</a> </td> 
+                                                                 echo $branch["scbrnch_name"]; ?></td> 
+                                                                 <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"><a class="button-getReport" onclick="printDiv('invoice')" href="index.php?do=booking_report&start_date=<?php echo $_GET["start_date"] ?>&end_date=<?php echo $_GET["end_date"] ?>&action=prnt&bokid=<?php echo $row["bokid"] ?>"><i class="fa fa-print"></i></a> </td> 
+                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"><a class="button-getReport" href="index.php?do=booking&bokid=<?php echo $row["bokid"] ?>"><i class="fa fa-edit"></i></a> </td> 
+                                                                <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"><a class="button-getReport" onclick="" href="index.php?do=booking_report&start_date=<?php echo $_GET["start_date"] ?>&end_date=<?php echo $_GET["end_date"] ?>&action=del&bokid=<?php echo $row["bokid"] ?>"><i class="fa fa-trash"></i></a> </td> 
                                                             </tr>
                                                                  </tbody>
 								</form> 
@@ -307,95 +309,110 @@ function printDiv(divName) {
                                     <div class="x_content" id="invoice" style="display:none;">
                                         
                                         <?php 
-                                        $bokid=32;
+                                        if(isset($_GET["bokid"]) && $_GET["bokid"]!="" && $_GET["action"]=="prnt")
+                                        {
+                                        $bokid=$_GET["bokid"];
                                          $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokid='$bokid'";	
                                         $result=mysql_query($sql) or die(mysql_error());
+                                        }
+                                        else
+                                        {                                            
+                                            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) ORDER BY bokid DESC LIMIT 1"; 	
+                                           $result=mysql_query($sql) or die(mysql_error());
+                                        }
                                         
                                       $row=mysql_fetch_array($result);
                                         
                                         ?>
- <table style="height: 336px; width: 100%; border: 1px solid #c1c1c1;" id="example" class="table">
+ <table style="margin-bottom: 0px; font-size: 11px; padding: 2px; height: 336px; width: 100%; border-left: 1px solid #c1c1c1;border-right: 1px solid #c1c1c1;border-bottom: 1px solid #c1c1c1;" id="example" class="table">
                                          <!--<table id="example" class="table table-striped responsive-utilities jambo_table">-->
 <tbody>
-<tr style="height: 23px;">
-<td style="width: 354px; height: 25px;" colspan="4" rowspan="2">SHIV CARGO AGENCY <br /> A-64 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD&lt<br /> AMRAVATI PH : 0721-2590820&lt<br /> BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721- 2381577</td>
-<td style="width: 179px; height: 23px;     background-color: #e6e4e4; color: black; font-weight: bold;">&nbsp;AT OWNER&rsquo;S RISK</td>
-<td style="width: 222px; height: 23px;">&nbsp;</td>
+<tr style="padding: 2px; height: 23px;">
+    <td style="padding: 2px; width: 354px; height: 25px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="4" rowspan="3"><img src="images/logo.png" style="padding: 4px; width:575px;"></td>
+<td style="width: 179px; height: 23px; background-color: #e6e4e4; color: black; font-weight: bold; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;<b>AT OWNER&rsquo;S RISK</b></td>
+<td style="width: 222px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Pay Mode: <?php echo $row["bok_paymode"]; ?></td>
 </tr>
-<tr style="height: 2px;">
-<td style="width: 179px; height: 2px;">To:&nbsp; <?php echo $row["dcplace_name"]; ?></td>
-<td style="width: 222px; height: 2px;">LR No.: <?php echo $row["bokdate"]; ?></td>
+<tr style="padding: 2px; height: 2px;">
+<td style="width: 179px; height: 30px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" >&nbsp;FRIGHT UPTO:</td>
+<td style="width: 222px; height: 30px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"><b>&nbsp;LR No.: <?php echo $row["boklrno"]; ?></b></td>
 </tr>
-<tr style="height: 26px;">
-<td style="width: 354px; height: 26px;" colspan="4">BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE</td>
-<td style="width: 179px; height: 52px;" rowspan="2">&nbsp;FRIGHT UPTO:</td>
-<td style="width: 222px; height: 26px;">
+<tr style="padding: 2px; height: 2px;">
+
+<td style="padding: 2px; width: 179px; height: 2px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"></td>
+<td style="padding: 2px; width: 222px; height: 6px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
 <p>&nbsp;DATE : <?php echo $row["bokdate"]; ?></p>
 </td>
 </tr>
-<tr style="height: 26px;">
-<td style="width: 20px; height: 26px;" colspan="2"><strong>TRUCK NO. : &nbsp;  <?php echo $row["bok_vehicleno"]; ?></strong></td>
-<td style="width: 334px; height: 26px;" colspan="2"><strong>FROM : <?php echo $row["bokdate"]; ?></strong></td>
-<td style="width: 222px; height: 26px;">
+<tr style="padding: 2px; height: 26px;">
+<td style="padding: 2px; width: 334px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>TRUCK NO. : &nbsp;  <?php echo $row["bok_vehicleno"]; ?></strong></td>
+<td style="padding: 2px; width: 334px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>FROM : <?php echo "Amravati"; ?></strong></td>
+<td style="padding: 2px; width: 222px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
+    <strong>To:&nbsp; <?php echo $row["dcplace_name"]; ?></strong>
+</td>
+<td style="padding: 2px; width: 222px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
 <p>&nbsp;TIME: <?php echo $row["boktime"]; ?></p>
 </td>
 </tr>
-<tr style="height: 55px;">
-<td style="width: 354px; height: 55px;" colspan="4">&nbsp;&nbsp;&nbsp;&nbsp;CONSIGNOR&rsquo;S NAME &amp; ADDRESS &amp; GST :</td>
-<td style="width: 401px; height: 55px;" colspan="2">&nbsp;&nbsp;CONSIGNOR&rsquo;S NAME &amp; ADDRESS &amp; GST :</td>
-</tr>
-<tr style="height: 29px;">
-<td style="width: 530px; height: 29px;" colspan="3">&nbsp; &nbsp; &nbsp;Ph. No.&nbsp;  <?php echo $row["bok_vehicleno"]; ?></td>
-<td style="width: 503px; height: 29px;" colspan="2">&nbsp;PVT. MKS.&nbsp;  <?php echo $row["bok_pivatemark"]; ?></td>
-<td style="width: 222px; height: 29px;">&nbsp;Ph. No.</td>
-</tr>
-<tr style="height: 29px;">
-<td style="width: 530px; height: 29px;" colspan="3">&nbsp;</td>
-<td style="width: 503px; height: 29px;" colspan="3">
-<table style="height: 209px; width: 496px;" id="example" class="table">
-<tbody>
-<tr style="height: 23px;">
-<td style="width: 46px; height: 23px;">ARTICLE</td>
-<td style="width: 157px; height: 23px;">DESCRIPTION / SAID TO CONTAIN</td>
-<td style="width: 66px; height: 23px;">WEIGHT Kg.</td>
-<td style="width: 75px; height: 23px;">RATE / KG.</td>
-<td style="width: 151px; height: 23px;">FRIEGHT</td>
-</tr>
-<tr style="height: 23px;">
-<td style="width: 46px; height: 139px;" rowspan="7">&nbsp;</td>
-<td style="width: 157px; height: 139px;" rowspan="7">&nbsp  <?php echo $row["amountdeclare_desc"]; ?></td>
-<td style="width: 66px; height: 46px;" colspan="2" rowspan="2">&nbsp; <?php echo $row["bok_weight"]; ?></td>
-<td style="width: 151px; height: 23px;">Frieght &nbsp;  <?php echo $row["bok_freight"]; ?></td>
-</tr>
-<tr style="height: 23px;">
-    <td style="width: 151px; height: 23px;">Hamali &nbsp;  <?php echo $row["bok_hamali"]; ?></td>
-</tr>
-<tr style="height: 28px;">
-<td style="width: 66px; height: 24px;" rowspan="2">&nbsp;</td>
-<td style="width: 75px; height: 24px;" rowspan="2">&nbsp;</td>
-<td style="width: 151px; height: 28px;">BC</td>
-</tr>
-<tr style="height: 0px;">
+<tr style="padding: 2px; height: 55px;">
+    <td style="padding: 2px;  height: 55px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="4"><strong>&nbsp;&nbsp;&nbsp;&nbsp;CONSIGNOR&rsquo;S NAME &amp; ADDRESS &amp; GST : &nbsp;  <?php echo $row["sendname"]; echo ","; ?> &nbsp; <?php echo $row["sendaddress"]; echo ","; ?> &nbsp; <?php echo $row["sendgstno"]; ?></strong></td>
+    <td style="padding: 2px;  height: 55px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3"><strong>&nbsp;&nbsp;CONSIGNEE&rsquo;S NAME &amp; ADDRESS &amp; GST : &nbsp;  <?php echo $row["recvname"]; echo ","; ?> &nbsp; <?php echo $row["recvaddress"]; echo ","; ?> &nbsp; <?php echo $row["recvgstno"]; ?></strong></td>
+
 
 </tr>
-<tr style="height: 23px;">
-<td style="width: 66px; height: 69px;" colspan="2" rowspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td style="width: 151px; height: 23px;">Other &nbsp;  <?php echo $row["bok_freight"]; ?></td>
+<tr style="padding: 2px; height: 29px;">
+<td style="padding: 2px; width: 530px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3">&nbsp; &nbsp; &nbsp;Ph. No.&nbsp;  <?php echo $row["sendmobile"]; ?></td>
+<td style="padding: 2px; width: 503px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2">&nbsp;PVT. MKS.&nbsp;  <?php echo $row["bok_pivatemark"]; ?></td>
+<td style="padding: 2px; width: 222px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;Ph. No.&nbsp;  <?php echo $row["recvmobile"]; ?></td>
 </tr>
-<tr style="height: 23px;">
-<td style="width: 151px; height: 23px;">&nbsp;</td>
+<tr style="padding: 2px; height: 29px;">
+<td style="padding: 2px; width: 530px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/term.png" style="width: 185px;"></td>
+<td style="padding: 2px; width: 503px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3">
+<table style="margin-bottom: 0px; font-size: 11px; height: 209px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" id="example" class="table">
+<tbody>
+<tr style="padding: 2px; height: 23px;">
+<td style="padding: 2px; width: 46px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">ARTICLE</td>
+<td style="padding: 2px; width: 342px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">DESCRIPTION / SAID TO CONTAIN</td>
+<td style="padding: 2px; width: 66px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">WEIGHT Kg.</td>
+<td style="padding: 2px; width: 75px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">RATE / KG.</td>
+<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">FRIEGHT</td>
 </tr>
-<tr style="height: 23px;">
-<td style="width: 151px; height: 23px;">Total &nbsp;  <?php echo $row["bok_total"]; ?></td>
+<tr style="padding: 2px; height: 23px;">
+<td style="padding: 2px; width: 46px; height: 139px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="7">&nbsp;&nbsp;&nbsp;<?php echo $row["bok_item"]; ?></td>
+<td style="padding: 2px; width: 157px; height: 139px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="7">&nbsp  <?php echo $row["description"]; ?></td>
+<td style="padding: 2px; width: 66px; height: 46px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="2">&nbsp; <?php echo $row["bok_weight"]; ?></td>
+<td style="padding: 2px; width: 66px; height: 46px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="2">&nbsp; <?php //echo $row["bok_weight"]; ?></td>
+<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Frieght &nbsp;  <?php echo $row["bok_freight"]; ?></td>
 </tr>
-<tr style="height: 23px;">
-<td style="width: 46px; height: 23px;">&nbsp;Remark</td>
-<td style="width: 157px; height: 23px;" colspan="2">&nbsp;&nbsp;</td>
-<td style="width: 75px; height: 23px;" colspan="2"><strong>Total Freight Rs.</strong>&nbsp;&nbsp;</td>
+<tr style="padding: 2px; height: 23px;">
+    <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">GST &nbsp;  <?php $gst=$row["bok_total"]*$row["bok_gst"]/100; echo $gst ; ?></td>
 </tr>
-<tr style="height: 24px;">
-<td style="width: 46px; height: 24px;" colspan="2">&nbsp;&nbsp;Delivery At</td>
-<td style="width: 66px; height: 24px;" colspan="3">
+<tr style="padding: 2px; height: 20px;">
+<td style="padding: 2px; width: 66px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important; font-size: 6px; font-weight:bold;" rowspan="2">WEIGHT CHARGED Kg</td>
+<td style="padding: 2px; width: 75px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important; font-size: 6px; font-weight:bold;" rowspan="2">VALUE DECLARED Rs</td>
+<td style="padding: 2px; width: 151px; height: 20px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Hamali &nbsp;  <?php echo $row["bok_hamali"]; ?></td>
+</tr>
+<tr style="padding: 2px; height: 0px;">
+
+</tr>
+<tr style="padding: 2px; height: 23px;">
+<td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;<?php echo $row["amountdeclare_desc"]; ?> </td>
+<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">BC</td>
+</tr>
+<tr style="padding: 2px; height: 23px;">
+<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Other &nbsp;  <?php echo $row["bok_others"]; ?></td>
+</tr>
+<tr style="padding: 2px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
+<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Total &nbsp;  <?php echo $row["bok_total"]; ?></td>
+</tr>
+<tr style="padding: 2px; height: 23px;">
+<td style="padding: 2px; width: 46px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;Remark</td>
+<td style="padding: 2px; width: 157px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><?php echo $row["bok_remark"]; ?></td>
+<td style="padding: 2px; width: 75px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>Total Freight Rs.</strong>&nbsp; <?php echo $row["bok_total"]+$gst=$row["bok_freight"]*$row["bok_gst"]/100; ?> </td>
+</tr>
+<tr style="padding: 2px; height: 24px;">
+<td style="padding: 2px; width: 46px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2">&nbsp;&nbsp;Delivery At : <?php echo $row["dcty_transport_mobno"]; ?></td>
+<td style="padding: 2px; width: 66px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3">
 <p>&nbsp;&nbsp;&nbsp;For - SHIV CARGO AGENCY</p>
 <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Signature&nbsp;</p>
 </td>
@@ -406,7 +423,108 @@ function printDiv(divName) {
 </tr>
 </tbody>
 </table>
-<!-- DivTable.com -->
+   
+               <span>--------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>                                          
+<table style="margin-bottom: 0px; font-size: 11px; padding: 2px; height: 336px; width: 100%; border-left: 1px solid #c1c1c1;border-right: 1px solid #c1c1c1;border-bottom: 1px solid #c1c1c1;" id="example" class="table">
+                                         <!--<table id="example" class="table table-striped responsive-utilities jambo_table">-->
+<tbody>
+<tr style="padding: 2px; height: 23px;">
+    <td style="padding: 2px; width: 354px; height: 25px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="4" rowspan="3"><img src="images/logo.png" style="padding: 4px; width:575px;"></td>
+<td style="width: 179px; height: 23px; background-color: #e6e4e4; color: black; font-weight: bold; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;<b>AT OWNER&rsquo;S RISK</b></td>
+<td style="width: 222px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Pay Mode: <?php echo $row["bok_paymode"]; ?></td>
+</tr>
+<tr style="padding: 2px; height: 2px;">
+<td style="width: 179px; height: 30px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" >&nbsp;FRIGHT UPTO:</td>
+<td style="width: 222px; height: 30px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"><b>&nbsp;LR No.: <?php echo $row["boklrno"]; ?></b></td>
+</tr>
+<tr style="padding: 2px; height: 2px;">
+
+<td style="padding: 2px; width: 179px; height: 2px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"></td>
+<td style="padding: 2px; width: 222px; height: 6px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
+<p>&nbsp;DATE : <?php echo $row["bokdate"]; ?></p>
+</td>
+</tr>
+<tr style="padding: 2px; height: 26px;">
+<td style="padding: 2px; width: 334px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>TRUCK NO. : &nbsp;  <?php echo $row["bok_vehicleno"]; ?></strong></td>
+<td style="padding: 2px; width: 334px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>FROM : <?php echo "Amravati"; ?></strong></td>
+<td style="padding: 2px; width: 222px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
+    <strong>To:&nbsp; <?php echo $row["dcplace_name"]; ?></strong>
+</td>
+<td style="padding: 2px; width: 222px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
+<p>&nbsp;TIME: <?php echo $row["boktime"]; ?></p>
+</td>
+</tr>
+<tr style="padding: 2px; height: 55px;">
+    <td style="padding: 2px;  height: 55px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="4"><strong>&nbsp;&nbsp;&nbsp;&nbsp;CONSIGNOR&rsquo;S NAME &amp; ADDRESS &amp; GST : &nbsp;  <?php echo $row["sendname"]; echo ","; ?> &nbsp; <?php echo $row["sendaddress"]; echo ","; ?> &nbsp; <?php echo $row["sendgstno"]; ?></strong></td>
+    <td style="padding: 2px;  height: 55px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3"><strong>&nbsp;&nbsp;CONSIGNEE&rsquo;S NAME &amp; ADDRESS &amp; GST : &nbsp;  <?php echo $row["recvname"]; echo ","; ?> &nbsp; <?php echo $row["recvaddress"]; echo ","; ?> &nbsp; <?php echo $row["recvgstno"]; ?></strong></td>
+
+
+</tr>
+<tr style="padding: 2px; height: 29px;">
+<td style="padding: 2px; width: 530px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3">&nbsp; &nbsp; &nbsp;Ph. No.&nbsp;  <?php echo $row["sendmobile"]; ?></td>
+<td style="padding: 2px; width: 503px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2">&nbsp;PVT. MKS.&nbsp;  <?php echo $row["bok_pivatemark"]; ?></td>
+<td style="padding: 2px; width: 222px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;Ph. No.&nbsp;  <?php echo $row["recvmobile"]; ?></td>
+</tr>
+<tr style="padding: 2px; height: 29px;">
+<td style="padding: 2px; width: 530px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/term.png" style="width: 185px;"></td>
+<td style="padding: 2px; width: 503px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3">
+<table style="margin-bottom: 0px; font-size: 11px; height: 209px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" id="example" class="table">
+<tbody>
+<tr style="padding: 2px; height: 23px;">
+<td style="padding: 2px; width: 46px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">ARTICLE</td>
+<td style="padding: 2px; width: 342px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">DESCRIPTION / SAID TO CONTAIN</td>
+<td style="padding: 2px; width: 66px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">WEIGHT Kg.</td>
+<td style="padding: 2px; width: 75px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">RATE / KG.</td>
+<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">FRIEGHT</td>
+</tr>
+<tr style="padding: 2px; height: 23px;">
+<td style="padding: 2px; width: 46px; height: 139px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="7">&nbsp;&nbsp;&nbsp;<?php echo $row["bok_item"]; ?></td>
+<td style="padding: 2px; width: 157px; height: 139px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="7">&nbsp  <?php echo $row["description"]; ?></td>
+<td style="padding: 2px; width: 66px; height: 46px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="2">&nbsp; <?php echo $row["bok_weight"]; ?></td>
+<td style="padding: 2px; width: 66px; height: 46px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="2">&nbsp; <?php //echo $row["bok_weight"]; ?></td>
+<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Frieght &nbsp;  <?php echo $row["bok_freight"]; ?></td>
+</tr>
+<tr style="padding: 2px; height: 23px;">
+    <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">GST &nbsp;  <?php $gst=$row["bok_freight"]*$row["bok_gst"]/100; echo $gst ; ?></td>
+</tr>
+<tr style="padding: 2px; height: 20px;">
+<td style="padding: 2px; width: 66px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important; font-size: 6px; font-weight:bold;" rowspan="2">WEIGHT CHARGED Kg</td>
+<td style="padding: 2px; width: 75px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important; font-size: 6px; font-weight:bold;" rowspan="2">VALUE DECLARED Rs</td>
+<td style="padding: 2px; width: 151px; height: 20px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Hamali &nbsp;  <?php echo $row["bok_hamali"]; ?></td>
+</tr>
+<tr style="padding: 2px; height: 0px;">
+
+</tr>
+<tr style="padding: 2px; height: 23px;">
+<td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;<?php echo $row["amountdeclare_desc"]; ?> </td>
+<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">BC</td>
+</tr>
+<tr style="padding: 2px; height: 23px;">
+<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Other &nbsp;  <?php echo $row["bok_others"]; ?></td>
+</tr>
+<tr style="padding: 2px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
+<td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Total &nbsp;  <?php echo $row["bok_total"]; ?></td>
+</tr>
+<tr style="padding: 2px; height: 23px;">
+<td style="padding: 2px; width: 46px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;Remark</td>
+<td style="padding: 2px; width: 157px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><?php echo $row["bok_remark"]; ?></td>
+<td style="padding: 2px; width: 75px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>Total Freight Rs.</strong>&nbsp; <?php echo $row["bok_total"]+$gst=$row["bok_freight"]*$row["bok_gst"]/100; ?> </td>
+</tr>
+<tr style="padding: 2px; height: 24px;">
+<td style="padding: 2px; width: 46px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2">&nbsp;&nbsp;Delivery At : <?php echo $row["dcty_transport_mobno"]; ?></td>
+<td style="padding: 2px; width: 66px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3">
+<p>&nbsp;&nbsp;&nbsp;For - SHIV CARGO AGENCY</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Signature&nbsp;</p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+               <!-- DivTable.com -->
                     </div>
                 </div>
             </div> <br /> <br /> <br />
