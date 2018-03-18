@@ -310,6 +310,7 @@ function validate_Unload()
                                                                         <a class="btn btn-success"  href="<?php echo $sitename;?>export_dispatch_report.php?bok_memo=<?php echo $_GET["bok_memo"];?>">
                                                                         <i class="fa fa-download"></i> Export In Excel
                                                                         </a>
+                                                                        <button class="btn btn-danger"  onclick="printDiv('receipt_area')"><i class="fa fa-print"></i> Print Receipt</button>
                                                                         <p><b style="color:brown">Note: Please Check Load Data Which You Want To Unload And Click on unload Button. </b></p>
 										<h2><b style="color:red"><span id="bokid"></span></b></h2> 
 						
@@ -596,6 +597,142 @@ function validate_Unload()
                                                                             
 									</div>
                                                                 <?php }} ?>	
+                                                        <div class="x_content" id="receipt_area" style="display:none;">
+                                        
+                                        <?php 
+                                        if(isset($_GET["bok_memo"]))
+                                        {
+                                        $bok_memo=$_GET["bok_memo"];
+                                         $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_memo='$bok_memo'";	
+                                         
+                                        $result=mysql_query($sql) or die(mysql_error());
+                                        }
+                                        
+                                    
+                                      $sql="select *,COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_memo='$bok_memo'";	
+                                      $res=mysql_query($sql) or die(mysql_error());
+                                      $row=mysql_fetch_array($res);
+                                      $count=$row["count"];
+                                      $c=1;
+                                      while($row=mysql_fetch_array($result))
+                                      {
+                                        
+                                        ?>
+                        <table style="margin-bottom: 0px; font-size: 11px; padding: 2px; height: 336px; width: 100%; border-left: 1px solid #c1c1c1;border-right: 1px solid #c1c1c1;border-bottom: 1px solid #c1c1c1;" id="example" class="table">
+                                                                <!--<table id="example" class="table table-striped responsive-utilities jambo_table">-->
+                       <tbody>
+                       <tr style="padding: 2px; height: 23px;">
+                           <td style="padding: 2px; width: 354px; height: 25px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="4" rowspan="3"><img src="images/logo.png" style="padding: 4px; width:575px;"></td>
+                       <td style="width: 179px; height: 23px; background-color: #e6e4e4; color: black; font-weight: bold; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;<b>AT OWNER&rsquo;S RISK</b></td>
+                       <td style="width: 222px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Pay Mode: <?php echo $row["bok_paymode"]; ?></td>
+                       </tr>
+                       <tr style="padding: 2px; height: 2px;">
+                       <td style="width: 179px; height: 30px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" >&nbsp;FRIGHT UPTO:</td>
+                       <td style="width: 222px; height: 30px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"><b>&nbsp;LR No.: <?php echo $row["boklrno"]; ?></b></td>
+                       </tr>
+                       <tr style="padding: 2px; height: 2px;">
+
+                       <td style="padding: 2px; width: 179px; height: 2px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"></td>
+                       <td style="padding: 2px; width: 222px; height: 6px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
+                       <p>&nbsp;DATE : <?php echo $row["bokdate"]; ?></p>
+                       </td>
+                       </tr>
+                       <tr style="padding: 2px; height: 26px;">
+                       <td style="padding: 2px; width: 334px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>TRUCK NO. : &nbsp;  <?php echo $row["bok_vehicleno"]; ?></strong></td>
+                       <td style="padding: 2px; width: 334px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>FROM : <?php echo "Amravati"; ?></strong></td>
+                       <td style="padding: 2px; width: 222px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
+                           <strong>To:&nbsp; <?php echo $row["dcplace_name"]; ?></strong>
+                       </td>
+                       <td style="padding: 2px; width: 222px; height: 26px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
+                       <p>&nbsp;TIME: <?php echo $row["boktime"]; ?></p>
+                       </td>
+                       </tr>
+                       <tr style="padding: 2px; height: 55px;">
+                           <td style="padding: 2px;  height: 55px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="4"><strong>&nbsp;&nbsp;&nbsp;&nbsp;CONSIGNOR&rsquo;S NAME &amp; ADDRESS &amp; GST : &nbsp;  <?php echo $row["sendname"]; echo ","; ?> &nbsp; <?php echo $row["sendaddress"]; echo ","; ?> &nbsp; <?php echo $row["sendgstno"]; ?></strong></td>
+                           <td style="padding: 2px;  height: 55px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3"><strong>&nbsp;&nbsp;CONSIGNEE&rsquo;S NAME &amp; ADDRESS &amp; GST : &nbsp;  <?php echo $row["recvname"]; echo ","; ?> &nbsp; <?php echo $row["recvaddress"]; echo ","; ?> &nbsp; <?php echo $row["recvgstno"]; ?></strong></td>
+
+
+                       </tr>
+                       <tr style="padding: 2px; height: 29px;">
+                       <td style="padding: 2px; width: 530px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3">&nbsp; &nbsp; &nbsp;Ph. No.&nbsp;  <?php echo $row["sendmobile"]; ?></td>
+                       <td style="padding: 2px; width: 503px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2">&nbsp;PVT. MKS.&nbsp;  <?php echo $row["bok_pivatemark"]; ?></td>
+                       <td style="padding: 2px; width: 222px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;Ph. No.&nbsp;  <?php echo $row["recvmobile"]; ?></td>
+                       </tr>
+                       <tr style="padding: 2px; height: 29px;">
+                       <td style="padding: 2px; width: 530px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/term.png" style="width: 185px;"></td>
+                       <td style="padding: 2px; width: 503px; height: 29px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3">
+                       <table style="margin-bottom: 0px; font-size: 11px; height: 209px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" id="example" class="table">
+                       <tbody>
+                       <tr style="padding: 2px; height: 23px;">
+                       <td style="padding: 2px; width: 46px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">ARTICLE</td>
+                       <td style="padding: 2px; width: 342px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">DESCRIPTION / SAID TO CONTAIN</td>
+                       <td style="padding: 2px; width: 66px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">WEIGHT Kg.</td>
+                       <td style="padding: 2px; width: 75px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">RATE / KG.</td>
+                       <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">FRIEGHT</td>
+                       </tr>
+                       <tr style="padding: 2px; height: 23px;">
+                       <td style="padding: 2px; width: 46px; height: 139px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="7">&nbsp;&nbsp;&nbsp;<?php echo $row["bok_item"]; ?></td>
+                       <td style="padding: 2px; width: 157px; height: 139px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" rowspan="7">&nbsp  <?php echo $row["description"]; ?></td>
+                       <td style="padding: 2px; width: 66px; height: 46px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="2">&nbsp; <?php echo $row["bok_weight"]; ?></td>
+                       <td style="padding: 2px; width: 66px; height: 46px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="2">&nbsp; <?php //echo $row["bok_weight"]; ?></td>
+                       <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Frieght &nbsp;  <?php echo $row["bok_freight"]; ?></td>
+                       </tr>
+                       <tr style="padding: 2px; height: 23px;">
+                           <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">GST &nbsp;  <?php $gst=$row["bok_total"]*$row["bok_gst"]/100; echo $gst ; ?></td>
+                       </tr>
+                       <tr style="padding: 2px; height: 20px;">
+                       <td style="padding: 2px; width: 66px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important; font-size: 6px; font-weight:bold;" rowspan="2">WEIGHT CHARGED Kg</td>
+                       <td style="padding: 2px; width: 75px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important; font-size: 6px; font-weight:bold;" rowspan="2">VALUE DECLARED Rs</td>
+                       <td style="padding: 2px; width: 151px; height: 20px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Hamali &nbsp;  <?php echo $row["bok_hamali"]; ?></td>
+                       </tr>
+                       <tr style="padding: 2px; height: 0px;">
+
+                       </tr>
+                       <tr style="padding: 2px; height: 23px;">
+                       <td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                       <td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;<?php echo $row["amountdeclare_desc"]; ?> </td>
+                       <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">BC</td>
+                       </tr>
+                       <tr style="padding: 2px; height: 23px;">
+                       <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Other &nbsp;  <?php echo $row["bok_others"]; ?></td>
+                       </tr>
+                       <tr style="padding: 2px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
+                       <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">Total &nbsp;  <?php echo $row["bok_total"]; ?></td>
+                       </tr>
+                       <tr style="padding: 2px; height: 23px;">
+                       <td style="padding: 2px; width: 46px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;Remark</td>
+                       <td style="padding: 2px; width: 157px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><?php echo $row["bok_remark"]; ?></td>
+                       <td style="padding: 2px; width: 75px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2"><strong>Total Freight Rs.</strong>&nbsp; <?php echo $row["bok_total"]+$gst=$row["bok_freight"]*$row["bok_gst"]/100; ?> </td>
+                       </tr>
+                       <tr style="padding: 2px; height: 24px;">
+                       <td style="padding: 2px; width: 46px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="2">&nbsp;&nbsp;Delivery At : <?php echo $row["dcty_transport_mobno"]; ?></td>
+                       <td style="padding: 2px; width: 66px; height: 24px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="3">
+                       <p>&nbsp;&nbsp;&nbsp;For - SHIV CARGO AGENCY</p>
+                       <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Signature&nbsp;</p>
+                       </td>
+                       </tr>
+                       </tbody>
+                       </table>
+                       </td>
+                       </tr>
+                       </tbody>
+                       </table>
+                 <?php
+                        if($c==2)
+                        {
+                            $c=1;
+                        }
+                        else
+                        { ?>
+                    <span>--------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>                                          
+                  <?php
+                            $c++;
+                        }
+                         
+                        } ?>
+   
+               <!-- DivTable.com -->
+                    </div>
                                             </div> 
                                         </div>
                                     </div>
