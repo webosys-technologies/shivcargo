@@ -486,9 +486,9 @@ if($action=="add_booking")
  date_default_timezone_set($timezone);
 
 ?>
-                                                                                <span class="section"><b>Date :-</b><input type="text" value="<?php echo date("d-m-Y"); ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Time :-</b><input type="time" value="<?php echo date("h:i:s") ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Source City :-</b>  Amravati</span>
+                                                                                <span class="section"><b>Date :-</b><input id='bokdate' name="bokdate" type="text" value="<?php echo date("d-m-Y"); ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Time :-</b><input type="time" value="<?php echo date("h:i:s") ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Source City :-</b>  Amravati</span>
 										<span style="color:red">NOTE : * Indicate Compulsary Fileds</span>	
-                                        <input name="bokdate" value="<?php echo date("d-m-Y"); ?>"  type="hidden"> 
+                                        <!--<input  value="<?php echo date("d-m-Y"); ?>"  type="hidden">--> 
                                         <input name="boktime" value="<?php echo date("h:i:s"); ?>"  type="hidden">  
                                         <div class="row">
                                         <div  class="col-md-6 col-sm-6 col-xs-12" style="border-right: 2px solid #e8e5e5;" >
@@ -1125,3 +1125,9 @@ if($action=="add_booking")
 		jQuery("#total").val(sum.toFixed(2)));
 	}
 </script>-->
+ <script type="text/javascript">
+      $(function () {
+          $("#bokdate").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});  //maxDate:0
+          $('#bokdate').datepicker('setDate', 'today');
+      });
+  </script>

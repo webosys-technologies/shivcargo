@@ -168,7 +168,7 @@ function validateForm()
 													}
 													else
 													{
-														header("location:index.php?do=home");
+														header("location:index.php?do=booking");
 													}
 											}
 											else 
@@ -182,7 +182,7 @@ function validateForm()
 								}
 							?> 
             <div id="login" class="animate form">
-                <h2 align="center"><i class="fa fa-cab" style="font-size: 26px;"></i> SHIV CARGO <i class="fa fa-automobile" style="font-size: 26px;"></i></h2>
+                <h2 align="center"><i class="fa fa-cab" style="font-size: 26px;"></i> SHIV CARGO AGENCY <i class="fa fa-automobile" style="font-size: 26px;"></i></h2>
                 <section class="login_content">
                     <form  enctype="multipart/form-data" method="post" action="" name="myForm" onsubmit="return validateForm()" >
                         <h1>Admin Login Form</h1>

@@ -3,7 +3,7 @@
                         <div class="menu_section">
                             &nbsp;&nbsp;
                             <ul class="nav side-menu">
-                                <li><a href="<?php echo $sitename;?>index.php?do=home"><i class="fa fa-ticket"></i>Home</a> </li>  
+                                <!--<li><a href="<?php echo $sitename;?>index.php?do=home"><i class="fa fa-ticket"></i>Home</a> </li>-->  
                                 <li><a href="<?php echo $sitename;?>index.php?do=dcities"><i class="fa fa-ticket"></i> ADD CITIES</a> </li>  
                                 <!--<li><a href="<?php echo $sitename;?>index.php?do=driver"><i class="fa fa-users"></i> DRIVER</a> </li>--> 
                                 <li><a href="<?php echo $sitename;?>index.php?do=booking"><i class="fa fa-ticket"></i> BOOKING</a> </li> 

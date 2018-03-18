@@ -1,5 +1,11 @@
+<style>
+    .table
+    {
+        width:25% !important;
+    }
+    </style>
 <?php 
-	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"no"; 
+	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"0"; 
 ?> 
 <script> 
 function printDiv(divName) { 
@@ -95,14 +101,72 @@ if($_GET["do"]=="gowden_report" && isset($_GET["bok_descityid"]))
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content" id="printableArea">
-                        <table id="example" class="table table-striped responsive-utilities jambo_table">
+                        <div class="row">
+                            <table id="example" class="table table-striped responsive-utilities jambo_table col-md-3 col-sm-3 col-xs-3">
+                            
+                            
                             <thead>
                                 <tr class="headings">
                                     <th>City</th>
                                     <th>Parcel</th>
+                                </tr>
+                            </thead>
+							<tbody id="search_report">
+							<?php 
+							$smltotal=0;
+							$bigtotal=0; 
+							$total=0;
+//				                       
+                                                        if($bok_descityid==0)
+							{
+								$sql="select *, SUM(bok_item) as parcel_count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='0' GROUP BY dcty_name";	 
+                                                                
+							}
+							else
+							{
+								$sql="select *, SUM(bok_item) as parcel_count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='0' GROUP BY dcty_name";	 
+							}
+							$result=mysql_query($sql) or die(mysql_error());
+                                                        $total_parcel=0;
+                                                        $c=0;
+							while($row=mysql_fetch_array($result))
+							{ 
+								
+								$total=$total+$row["bok_total"];
+							?>
+                                                                 
+								<tr class="even pointer">
+                                                                    <?php 
+                                                                    if($row["dcty_root"]==1)
+                                                                    {   
+                                                                        $c++;
+                                                                        $total_parcel=$total_parcel+$row["parcel_count"];
+                                                                        ?>
+                                                                        <td class="a-center "> <?php echo $row["dcty_name"]; ?></td>
+                                                                        <td class="a-center "> <?php echo $row["parcel_count"]; ?></td>
+                                                                    <?php 
+                                                                    }
+                                                                    
+                                                                    ?>	
+                                                                 </tr>
+								
+							<?php } 
+                                                        
+                                                        
+                                                        ?>
+								<tr> 
+                                                                   	 <td class="a-center "> Total </td>
+									 <td class="a-center "> <?php echo $total_parcel; ?></td>
+                                                                </tr>	 
+                            </tbody>
+						</table>
+                            <table id="example" class="table table-striped responsive-utilities jambo_table col-md-3 col-sm-3 col-xs-3">
+                            
+                            
+                            <thead>
+                                <tr class="headings">
                                     <th>City</th>
                                     <th>Parcel</th>
-                                    
                                 </tr>
                             </thead>
 							<tbody id="search_report">
@@ -124,27 +188,136 @@ if($_GET["do"]=="gowden_report" && isset($_GET["bok_descityid"]))
                                                         $total_parcel=0;
 							while($row=mysql_fetch_array($result))
 							{ 
-								$total_parcel=$total_parcel+$row["parcel_count"];
+								
 								$total=$total+$row["bok_total"];
 							?>
                                                                  
 								<tr class="even pointer">
+                                                                    <?php 
+                                                                    if($row["dcty_root"]==2)
+                                                                    {
+                                                                        $total_parcel=$total_parcel+$row["parcel_count"];
+                                                                        ?>
                                                                         <td class="a-center "> <?php echo $row["dcty_name"]; ?></td>
-                                                                         <td class="a-center "> <?php echo $row["parcel_count"]; ?></td>
-								         <td class="a-center "> <?php echo $row["dcty_name"]; ?></td>
-                                                                         <td class="a-center "> <?php echo $row["parcel_count"]; ?></td>
-									
+                                                                        <td class="a-center "> <?php echo $row["parcel_count"]; ?></td>
+                                                                    <?php 
+                                                                    }
+                                                                    ?>	
                                                                  </tr>
 								
 							<?php } ?>
 								<tr> 
                                                                    	 <td class="a-center "> Total </td>
 									 <td class="a-center "> <?php echo $total_parcel; ?></td>
+                                                                </tr>	 
+                            </tbody>
+						</table>
+                            <table id="example" class="table table-striped responsive-utilities jambo_table col-md-3 col-sm-3 col-xs-3">
+                            
+                            
+                            <thead>
+                                <tr class="headings">
+                                    <th>City</th>
+                                    <th>Parcel</th>
+                                </tr>
+                            </thead>
+							<tbody id="search_report">
+							<?php 
+							$smltotal=0;
+							$bigtotal=0; 
+							$total=0;
+//				                       
+                                                        if($bok_descityid==0)
+							{
+								$sql="select *, SUM(bok_item) as parcel_count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='0' GROUP BY dcty_name";	 
+                                                                
+							}
+							else
+							{
+								$sql="select *, SUM(bok_item) as parcel_count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='0' GROUP BY dcty_name";	 
+							}
+							$result=mysql_query($sql) or die(mysql_error());
+                                                        $total_parcel=0;
+							while($row=mysql_fetch_array($result))
+							{ 
+								
+								$total=$total+$row["bok_total"];
+							?>
+                                                                 
+								<tr class="even pointer">
+                                                                    <?php 
+                                                                    if($row["dcty_root"]==3)
+                                                                    {
+                                                                        $total_parcel=$total_parcel+$row["parcel_count"];
+                                                                        ?>
+                                                                        <td class="a-center "> <?php echo $row["dcty_name"]; ?></td>
+                                                                        <td class="a-center "> <?php echo $row["parcel_count"]; ?></td>
+                                                                    <?php 
+                                                                    }
+                                                                    ?>	
+                                                                 </tr>
+								
+							<?php } ?>
+								<tr> 
                                                                    	 <td class="a-center "> Total </td>
 									 <td class="a-center "> <?php echo $total_parcel; ?></td>
                                                                 </tr>	 
                             </tbody>
 						</table>
+                            <table id="example" class="table table-striped responsive-utilities jambo_table col-md-3 col-sm-3 col-xs-3">
+                            
+                            
+                            <thead>
+                                <tr class="headings">
+                                    <th>City</th>
+                                    <th>Parcel</th>
+                                </tr>
+                            </thead>
+							<tbody id="search_report">
+							<?php 
+							$smltotal=0;
+							$bigtotal=0; 
+							$total=0;
+//				                       
+                                                        if($bok_descityid==0)
+							{
+								$sql="select *, SUM(bok_item) as parcel_count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='0' GROUP BY dcty_name";	 
+                                                                
+							}
+							else
+							{
+								$sql="select *, SUM(bok_item) as parcel_count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='0' GROUP BY dcty_name";	 
+							}
+							$result=mysql_query($sql) or die(mysql_error());
+                                                        $total_parcel=0;
+							while($row=mysql_fetch_array($result))
+							{ 
+								
+								$total=$total+$row["bok_total"];
+							?>
+                                                                 
+								<tr class="even pointer">
+                                                                    <?php 
+                                                                    if($row["dcty_root"]==4)
+                                                                    {
+                                                                        $total_parcel=$total_parcel+$row["parcel_count"];
+                                                                        ?>
+                                                                        <td class="a-center "> <?php echo $row["dcty_name"]; ?></td>
+                                                                        <td class="a-center "> <?php echo $row["parcel_count"]; ?></td>
+                                                                    <?php 
+                                                                    }
+                                                                    ?>	
+                                                                 </tr>
+								
+							<?php } ?>
+								<tr> 
+                                                                   	 <td class="a-center "> Total </td>
+									 <td class="a-center "> <?php echo $total_parcel; ?></td>
+                                                                </tr>	 
+                            </tbody>
+						</table>
+                        </div>
+                        
                     </div>
                 </div>
             </div> <br /> <br /> <br />

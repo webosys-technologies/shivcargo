@@ -7,6 +7,7 @@
 	$dcty_transport_add=isset($_POST["dcty_transport_add"]) ? addslashes($_POST["dcty_transport_add"]):""; 
 	$dcty_transport_mobno=isset($_POST["dcty_transport_mobno"]) ? addslashes($_POST["dcty_transport_mobno"]):""; 
 	$dcty_cutrate=isset($_POST["dcty_cutrate"]) ? addslashes($_POST["dcty_cutrate"]):""; 
+        $dcty_root=isset($_POST["dcty_root"]) ? addslashes($_POST["dcty_root"]):""; 
 	$dcplace_ctyid=isset($_POST["dcplace_ctyid"]) ? addslashes($_POST["dcplace_ctyid"]):""; 
 	$dcplace_name=isset($_POST["dcplace_name"]) ? addslashes($_POST["dcplace_name"]):""; 
 	$dcplace_crossing=isset($_POST["dcplace_crossing"]) ? addslashes($_POST["dcplace_crossing"]):"";
@@ -126,7 +127,7 @@
 			$check_count=duplicate_count($dcty_name); 
 			if($check_count==1)
 			{ 
-				$sql="insert into des_cities(dcty_name,dcty_transport_name,dcty_transport_add,dcty_transport_mobno,dcty_cutrate) values ('$dcty_name','$dcty_transport_name','$dcty_transport_add','$dcty_transport_mobno','$dcty_cutrate')";	
+				$sql="insert into des_cities(dcty_name,dcty_transport_name,dcty_transport_add,dcty_transport_mobno,dcty_cutrate,dcty_root) values ('$dcty_name','$dcty_transport_name','$dcty_transport_add','$dcty_transport_mobno','$dcty_cutrate','$dcty_root')";	
 				if(mysql_query($sql))
 				{
 					$msg="<span style='color:green'>City Added Successfully....</span><meta http-equiv=refresh content='1;url=index.php?do=dcities'>";
@@ -161,7 +162,7 @@
 			if($check_count==1)
 			{ 
 				$dcty_id=$_GET["dcty_id"];
-                                $sql="update des_cities set dcty_name='$dcty_name',dcty_transport_name='$dcty_transport_name',dcty_transport_add='$dcty_transport_add',dcty_transport_mobno='$dcty_transport_mobno',dcty_cutrate='$dcty_cutrate' where dcty_id='$dcty_id'";
+                                $sql="update des_cities set dcty_name='$dcty_name',dcty_transport_name='$dcty_transport_name',dcty_transport_add='$dcty_transport_add',dcty_transport_mobno='$dcty_transport_mobno',dcty_cutrate='$dcty_cutrate',dcty_root='$dcty_root' where dcty_id='$dcty_id'";
 				if(mysql_query($sql))
 				{
 					$msg="<span style='color:green'>City updated Successfully....</span><meta http-equiv=refresh content='1;url=index.php?do=dcities'>";
@@ -208,6 +209,7 @@
 	$dcty_transport_add=$row["dcty_transport_add"];
 	$dcty_transport_mobno=$row["dcty_transport_mobno"];
 	$dcty_cutrate=$row["dcty_cutrate"];
+	$dcty_root=$row["dcty_root"];
         
         }
        if(isset($_GET["dcplace_id"]))
@@ -319,6 +321,18 @@ if($action=="list")
 															<input id="name" class="form-control col-md-7 col-xs-12"  name="dcty_cutrate" value="<?php echo $dcty_cutrate; ?>" required="required" type="text">
 														</div>
 													</div> 
+													<div class="item form-group">
+														<label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Root<span class="required">*</span></label>
+														<div class="col-md-6 col-sm-6 col-xs-12">
+                                                                                                                   
+															<select id="name" class="form-control col-md-7 col-xs-12" style="width:250px;height:35px;"  name="dcty_root" required="required">
+                                                                                                                            <option <?php if($dcty_root==1){ echo "selected"; } ?> value="1">ROOT 1</option>
+                                                                                                                            <option <?php if($dcty_root==2){ echo "selected"; }  ?> value="2">ROOT 2</option>
+                                                                                                                            <option <?php if($dcty_root==3){ echo "selected"; } ?> value="3">ROOT 3</option>
+                                                                                                                            <option <?php if($dcty_root==4){ echo "selected"; } ?> value="4">ROOT 4</option>
+                                                                                                                        </select>
+														</div>
+													</div> 
 													<div class="ln_solid"></div>
 													<div class="form-group">
 														<div class="col-md-6 col-md-offset-3">
@@ -344,6 +358,7 @@ if($action=="list")
 															<th>City Transport Address</th> 
 															<th>City Transport Mobile No</th> 
 															<th>Cut Rate</th> 
+															<th>Root</th> 
 															<th class=" no-link last"><span class="nobr">Action</span></th>
 														</tr>
 													</thead>
@@ -363,6 +378,7 @@ if($action=="list")
 															<td class=" "><?php echo $row["dcty_transport_add"]; ?></td> 
 															<td class=" "><?php echo $row["dcty_transport_mobno"]; ?></td> 
 															<td class=" "><?php echo $row["dcty_cutrate"]; ?></td> 
+															<td class=" "><?php echo $row["dcty_root"]; ?></td> 
 															<td class=" last">  
 																<!--<a href="#" onClick="confirm_delete(<?php echo $row['dcty_id']; ?>);" title="delete"><i class="fa fa-trash"></i></a>-->
                                                                                                                                 <a class="button-getReport" href="index.php?do=dcities&tab=tab_content1&dcty_id=<?php echo $row['dcty_id'] ?>"><i class="fa fa-edit"></i></i></a>
