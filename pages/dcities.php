@@ -162,6 +162,7 @@
 			if($check_count==1)
 			{ 
 				$dcty_id=$_GET["dcty_id"];
+                                
                                 $sql="update des_cities set dcty_name='$dcty_name',dcty_transport_name='$dcty_transport_name',dcty_transport_add='$dcty_transport_add',dcty_transport_mobno='$dcty_transport_mobno',dcty_cutrate='$dcty_cutrate',dcty_root='$dcty_root' where dcty_id='$dcty_id'";
 				if(mysql_query($sql))
 				{
@@ -176,7 +177,7 @@
                         {
                            
                                    $dcty_id=$_GET["dcty_id"];
-                                    $sql="update des_cities set dcty_name='$dcty_name',dcty_transport_name='$dcty_transport_name',dcty_transport_add='$dcty_transport_add',dcty_transport_mobno='$dcty_transport_mobno',dcty_cutrate='$dcty_cutrate' where dcty_id='$dcty_id'";
+                                    $sql="update des_cities set dcty_name='$dcty_name',dcty_transport_name='$dcty_transport_name',dcty_transport_add='$dcty_transport_add',dcty_transport_mobno='$dcty_transport_mobno',dcty_cutrate='$dcty_cutrate',dcty_root='$dcty_root' where dcty_id='$dcty_id'";
                                     if(mysql_query($sql))
                                     {
                                             $msg="<span style='color:green'>City Updated Successfully....</span><meta http-equiv=refresh content='1;url=index.php?do=dcities'>";
