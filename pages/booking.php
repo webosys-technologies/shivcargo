@@ -486,7 +486,7 @@ if($action=="add_booking")
  date_default_timezone_set($timezone);
 
 ?>
-                                                                                <span class="section"><b>Date :-</b><input id='bokdate' name="bokdate" type="text" value="<?php echo date("d-m-Y"); ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Time :-</b><input type="time" value="<?php echo date("h:i:s") ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Source City :-</b>  Amravati</span>
+                                                                                <span class="section"><b>Date :-</b><input id='bokdate' name="bokdate" type="text" value="<?php echo date("d-m-Y"); ?>"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Time :-</b><input type="time" value="now"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Source City :-</b>  Amravati</span>
 										<span style="color:red">NOTE : * Indicate Compulsary Fileds</span>	
                                         <!--<input  value="<?php echo date("d-m-Y"); ?>"  type="hidden">--> 
                                         <input name="boktime" value="<?php echo date("h:i:s"); ?>"  type="hidden">  
@@ -1131,3 +1131,17 @@ if($action=="add_booking")
           $('#bokdate').datepicker('setDate', 'today');
       });
   </script>
+  <script>
+      $(function(){  
+  $('input[type="time"][value="now"]').each(function(){    
+    var d = new Date(),        
+        h = d.getHours(),
+        m = d.getMinutes();
+    if(h < 10) h = '0' + h; 
+    if(m < 10) m = '0' + m; 
+    $(this).attr({
+      'value': h + ':' + m
+    });
+  });
+});
+      </script>
