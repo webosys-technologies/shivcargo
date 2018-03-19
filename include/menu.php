@@ -10,7 +10,6 @@
                                 <li><a href="<?php echo $sitename;?>index.php?do=unloaded_parcel"><i class="fa fa-upload"></i> UNLOADED PARCLE</a> </li> 
                                 <li><a href="<?php echo $sitename;?>index.php?do=loaded_parcel"><i class="fa fa-check"></i> LOADED PARCEL</a> </li> 
                                 <li><a href="<?php echo $sitename;?>index.php?do=booking_report"><i class="fa fa-bar-chart-o"></i> BOOKING REPORT</a> </li> 
-                                <li><a href="<?php echo $sitename;?>index.php?do=bk_report"><i class="fa fa-bar-chart-o"></i> Bk REPORT</a> </li> 
                                 <li><a href="<?php echo $sitename;?>index.php?do=gowden_report"><i class="fa fa-bar-chart-o"></i> GODOWN REPORT</a> </li> 
                                 <li><a href="<?php echo $sitename;?>index.php?do=dispatch"><i class="fa fa-check"></i> DISPATCH</a> </li> 
                                 <li><a href="<?php echo $sitename;?>index.php?do=account_report"><i class="fa fa-bar-chart-o"></i> ACCOUNT REPORT</a> </li> 

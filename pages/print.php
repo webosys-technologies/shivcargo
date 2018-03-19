@@ -108,7 +108,27 @@ if($_GET["do"]=="print" && isset($_GET["bok_descityid"]) && isset($_GET["bok_by"
         $start_lr=$_GET["start_lr"];
         $end_lr=$_GET["end_lr"];
          $memo_no=$_GET["memo_no"];
-        
+         if($bokby==2)
+                                                        {
+                                                          $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where boklrno BETWEEN  '$start_lr' AND '$end_lr'";	 
+                                                          $export_sql="select bokdate,boklrno,sendname,recvname,dcplace_name,CASE WHEN bok_status = '0' THEN 'Unloaded' ELSE 'Loaded' END,bok_total,CASE WHEN bok_parcel = 'Big' THEN bok_item ELSE '0' END,CASE WHEN bok_parcel = 'Small' THEN bok_item ELSE '0' END from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where boklrno BETWEEN  '$start_lr' AND '$end_lr'";	 
+                                                           
+                                                        }
+                                                        elseif($bokby==3)
+                                                        {
+                                                            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_memo=$memo_no";	 
+                                                            $export_sql="select bokdate,boklrno,sendname,recvname,dcplace_name,CASE WHEN bok_status = '0' THEN 'Unloaded' ELSE 'Loaded' END,bok_total,CASE WHEN bok_parcel = 'Big' THEN bok_item ELSE '0' END,CASE WHEN bok_parcel = 'Small' THEN bok_item ELSE '0' END from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_memo=$memo_no";	 
+                                                        }
+                                                        elseif($bok_descityid==0 && $bokby==1)
+                                                        {
+                                                         $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid)"; 	    
+                                                         $export_sql="select bokdate,boklrno,sendname,recvname,dcplace_name,CASE WHEN bok_status = '0' THEN 'Unloaded' ELSE 'Loaded' END,bok_total,CASE WHEN bok_parcel = 'Big' THEN bok_item ELSE '0' END,CASE WHEN bok_parcel = 'Small' THEN bok_item ELSE '0' END from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid)"; 	    
+                                                        }
+							else
+                                                        {
+                                                            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid'"; 	 
+                                                            $export_sql="select bokdate,boklrno,sendname,recvname,dcplace_name,CASE WHEN bok_status = '0' THEN 'Unloaded' ELSE 'Loaded' END,bok_total,CASE WHEN bok_parcel = 'Big' THEN bok_item ELSE '0' END,CASE WHEN bok_parcel = 'Small' THEN bok_item ELSE '0' END from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid'"; 	 
+                                                        }
 ?>				
 <div class="">
 		<div class="clearfix"></div>
@@ -127,7 +147,9 @@ if($_GET["do"]=="print" && isset($_GET["bok_descityid"]) && isset($_GET["bok_by"
 						<button class="btn btn-danger"  onclick="printDiv('printableArea')">
 							<i class="fa fa-print"></i> Print
 						</button>
-                                            
+                                            <a class="btn btn-success"  href="<?php echo $sitename;?>export_printing_report.php?sql=<?php echo $export_sql;?>">
+							<i class="fa fa-download"></i> Export In Excel
+						</a>
                                             <div class="row">
                                       <div class="item form-group"> 
                                       <div class="col-md-4 col-sm-4 col-xs-12">
@@ -155,22 +177,7 @@ if($_GET["do"]=="print" && isset($_GET["bok_descityid"]) && isset($_GET["bok_by"
                             </thead>
 							<tbody id="search_parcel">
 							<?php
-                                                        if($bokby==2)
-                                                        {
-                                                          $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where boklrno BETWEEN  '$start_lr' AND '$end_lr'";	 
-                                                        }
-                                                        elseif($bokby==3)
-                                                        {
-                                                            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_memo=$memo_no";	 
-                                                        }
-                                                        elseif($bok_descityid==0 && $bokby==1)
-                                                        {
-                                                         $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid)"; 	    
-                                                        }
-							else
-                                                        {
-                                                        $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid'"; 	 
-                                                        }
+                                                       
                                                         
 							$result=mysql_query($sql) or die(mysql_error());
 							while($row=mysql_fetch_array($result))
@@ -186,8 +193,8 @@ if($_GET["do"]=="print" && isset($_GET["bok_descityid"]) && isset($_GET["bok_by"
                                     <td class="a-center "> <?php echo $row["dcplace_name"]; ?></td>     
                                     <td class="a-center "> <?php echo $status; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_total"]; ?></td>  
-									 <td class="a-center "> <?php if($row["bok_parcel"]=="Big") { echo $row["bok_item"]; } else { echo "0";}?></td>
-									 <td class="a-center "> <?php if($row["bok_parcel"]=="Small") { echo $row["bok_item"]; } else { echo "0";}?></td>
+                                    <td class="a-center "> <?php if($row["bok_parcel"]=="Big") { echo $row["bok_item"]; } else { echo "0";}?></td>
+                                    <td class="a-center "> <?php if($row["bok_parcel"]=="Small") { echo $row["bok_item"]; } else { echo "0";}?></td>
                                 </tr>
 								</form> 
 							<?php } ?>		

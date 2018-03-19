@@ -51,8 +51,8 @@
 //	$driv_id=isset($_GET["driv_id"]) ? addslashes($_GET["driv_id"]):"";
 	$tab=isset($_REQUEST["tab"]) ? $_REQUEST["tab"]:"tab_content1";  
 	$id=isset($_GET["id"]) ? $_GET["id"]:""; 
-         $start_load_date=isset($_GET["start_load_date"]) ? addslashes($_GET["start_load_date"]):"";;
-        $end_load_date=isset($_GET["end_load_date"]) ? addslashes($_GET["end_load_date"]):"";;
+         $start_load_date=isset($_GET["start_load_date"]) ? addslashes($_GET["start_load_date"]):"";
+        $end_load_date=isset($_GET["end_load_date"]) ? addslashes($_GET["end_load_date"]):"";
 ?>	
 <script> 
 function printDiv(divName) { 
@@ -104,21 +104,7 @@ function printDiv(divName) {
 															<label>Loaded Date *</label> 
 															<input id="name" class="form-control col-md-7 col-xs-12"  name="bok_loaddate" value="<?php echo $bok_loaddate; ?>"  type="date">
 														</div>-->
-                                                                                                             <div class="col-md-3 col-sm-3 col-xs-12">
-											<label>Destination City *</label> 
-												 <select name="bok_descityid" style="width:250px;height:35px;" id="name" onChange="getPackage(this.value)" required="required" >
-												 
-												 <option value="0" <?php if($bok_descityid==0) echo "selected";?>>All City</option>
-                                                                                                 <option <?php if($bok_descityid=='no') echo "selected"; ?> value="no">Select Destination City</option>
-												<?php
-												$res_descity=mysql_query("select * from des_cities");
-												while($f_descity=mysql_fetch_array($res_descity))
-												{
-												?>
-                                                    <option value="<?php echo $f_descity["dcty_id"]?>" <?php if($bok_descityid==$f_descity["dcty_id"]) echo "selected";?>><?php echo $f_descity["dcty_name"]?></option>
-												<?php } ?>		
-												</select>
-                                            </div>  
+                                                                                                               
 <!--														<div class="col-md-3 col-sm-3 col-xs-12">
 															<label>Driver *</label> 
 															<select name="driv_id" style="width:250px;height:35px;" id="name"  required="required" >
@@ -137,7 +123,7 @@ function printDiv(divName) {
                                      
 											 
                                                                                        <div class="col-md-3 col-sm-3 col-xs-12">
-															<label>Start Load Date</label> 
+															<label>Start Load Date1</label> 
 															<input id="start_date" class="form-control col-md-7 col-xs-12"  name="start_load_date" value="<?php echo $start_load_date; ?>"  type="text">
 														
                                                                                        </div>
@@ -147,6 +133,21 @@ function printDiv(divName) {
                                                                                         </div>
                                                                                    
                                        </div>
+                                                                                                        <div class="col-md-3 col-sm-3 col-xs-12">
+											<label>Destination City *</label> 
+												 <select name="bok_descityid" style="width:250px;height:35px;" id="name" onChange="getPackage(this.value)" required="required" >
+												 
+												 <option value="0" <?php if($bok_descityid==0) echo "selected";?>>All City</option>
+                                                                                                 <option <?php if($bok_descityid=='no') echo "selected"; ?> value="no">Select Destination City</option>
+												<?php
+												$res_descity=mysql_query("select * from des_cities");
+												while($f_descity=mysql_fetch_array($res_descity))
+												{
+												?>
+                                                    <option value="<?php echo $f_descity["dcty_id"]?>" <?php if($bok_descityid==$f_descity["dcty_id"]) echo "selected";?>><?php echo $f_descity["dcty_name"]?></option>
+												<?php } ?>		
+												</select>
+                                            </div>
 													<div class="ln_solid"></div>
 													<div class="form-group">
 														<div class="col-md-6 col-md-offset-3">
@@ -178,7 +179,7 @@ function printDiv(divName) {
                                                                         <div id="printableArea">	
 									<span class="section"> 
 												<b>SHIV CARGO AGENCY</b><br/>
-												A-64 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
+												A-26 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
 												AMRAVATI PH : 0721-2590820<br/>
 												BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721-2381577<br/>
 												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -196,6 +197,7 @@ function printDiv(divName) {
 											<tr class="headings"> 
                                                                                             
 												<th>Loaded Date</th>
+												<th>Loaded Time</th>
                                                                                                 <th>Memo No.</th>
 												<th>TO CITY</th>
 												<th>Vehicle No</th>
@@ -206,19 +208,32 @@ function printDiv(divName) {
 										</thead>
 										<tbody id="search_memo">
 										<?php  
-									    
-                                                                                if($bok_descityid==0)
-                                                                                {
-//                                                                                        
-                                                                                        $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1' GROUP BY bok_memo";	 
-                                                                                        
-                                                                                } 
-                                                                                else
-                                                                                {
-//                                                                                    $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_loaddate='$bok_loaddate' OR bok_loaddate BETWEEN '$start_load_date' AND '$end_load_date' AND bok_status='1' GROUP BY bok_memo";	 
-                                                                                        $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR bok_loaddate BETWEEN '$start_load_date' AND '$end_load_date' AND bok_status='1' GROUP BY bok_memo";	 
-                                                                                        
-                                                                                }
+									        
+                                                                                
+                                                        if($bok_descityid=="no")
+                                                        {
+                                                            
+							   // $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' OR bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
+                                                           $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_loaddate BETWEEN '$start_load_date' AND '$end_load_date' AND bok_status='1' GROUP BY bok_memo ORDER BY bok_loaddate DESC";
+                                                        }
+                                                        elseif($bok_descityid==0)
+                                                        {
+
+                                                            $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1' GROUP BY bok_memo ORDER BY bok_loaddate DESC";	 
+                                                        }
+                                                        
+                                                        elseif($start_load_date=="" AND $end_load_date=="")
+                                                        {
+                                                            
+							   // $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' OR boklrno='$lr' OR bokdate='$date' OR s.sendgstno='$s_gst_no' OR r.recvgstno='$r_gst_no' OR bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
+                                                            $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='1' GROUP BY bok_memo ORDER BY bok_loaddate DESC";
+                                                        }
+                                                        else
+                                                        {
+                                                            
+							 
+                                                            $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_loaddate BETWEEN '$start_load_date' AND '$end_load_date' AND bok_status='1' GROUP BY bok_memo ORDER BY bok_loaddate DESC";
+                                                        }
 										$result=mysql_query($sql) or die(mysql_error());
 //										
                                                                                 
@@ -231,6 +246,7 @@ function printDiv(divName) {
 											<tr class="even pointer">  
                                                                                              
 												<td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td>  
+												<td class="a-center "> <?php echo $row["bok_loadtime"]; ?></td>  
 												<td class="a-center "> <?php echo $row["bok_memo"]; ?></td>   
 												<td class="a-center "> <?php echo $row["dcty_name"]; ?></td>   
                                                                                                 <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td>   
@@ -428,7 +444,7 @@ function validate_Unload()
 //                                                                                    join des_city_place cp on (bok.bok_cityplaceid=cp.dcplace_id)
                                                                                      $gst=$row["bok_total"]*$row["bok_gst"]/100;
                                                                                      $bok_paymode=$row["bok_paymode"];
-                                                                                    
+                                                                                    $crossing=$row["dcplace_crossing"]*$row["bok_item"];
                                                                                      
 										?> 
 											<tr class="even pointer">  
@@ -453,7 +469,7 @@ function validate_Unload()
                                                                                                  
                                                                                                  }?></td>    
 												<td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $gst; ?></td>  
-												<td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $row["dcplace_crossing"]; ?></td>  
+												<td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $crossing; ?></td>  
 											</tr> 
                                                                                         
 										<?php 
@@ -463,7 +479,7 @@ function validate_Unload()
                                                                                         
                                                                                         $calcu_commi=$row["bok_total"]*$row["dcty_cutrate"]/100;
                                                                                         $commi=$commi+$calcu_commi;
-                                                                                        $cross=$cross+$row["dcplace_crossing"];
+                                                                                        $cross=$cross+$crossing;
                                                                                         $city=$row["dcty_name"];
                                                                                         $total_gst=$total_gst+$gst;
                                                                                 } ?>

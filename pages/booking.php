@@ -566,7 +566,7 @@ if($action=="add_booking")
                                                 <select name="dcplace_id" style="width: 234px !important; height: 35px !important;" id="name" onChange="getCity(this.value)" required="required"> 
                                                     <option value="">Select Place </option> 
                                                     <?php 
-                                                    $sql_cityplace="select * from des_city_place"; //where dcplace_ctyid='$bok_descityid'
+                                                    $sql_cityplace="select * from des_city_place ORDER BY dcplace_name"; //where dcplace_ctyid='$bok_descityid'
                                                     $res_cityplace=mysql_query($sql_cityplace) or die(mysql_error());
                                                     while($cplace=mysql_fetch_array($res_cityplace))
                                                     {
@@ -919,8 +919,8 @@ if($action=="add_booking")
 
 </tr>
 <tr style="padding: 2px; height: 23px;">
-<td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;<?php echo $row["amountdeclare_desc"]; ?> </td>
+    <td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;<?php echo $row["amountdeclare_desc"]; ?></td>
 <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">BC</td>
 </tr>
 <tr style="padding: 2px; height: 23px;">

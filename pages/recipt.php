@@ -123,9 +123,10 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
                                     <th>Dispatch Date</th>
                                     <th>Memo No</th>
                                     <th>Vehicle No.</th>
+                                    <th>City</th>
                                     <th>Total Amount</th>  
-                                    <th>Paid Status</th>  
                                     <th>Paid Amount</th> 
+                                    <th>Paid Status</th> 
                                      <th>back Dept</th> 
                                     <th>Action</th> 
                                   
@@ -152,6 +153,7 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
 								$sql="select *,SUM(bok_total) as total_bok_amt from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) left join des_city_place dcp on(dcp.dcplace_ctyid=dc.dcty_id) where bok_status='1' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_descityid='$bok_descityid' group by bok_memo";
 							}								
 							$result=mysql_query($sql) or die(mysql_error());
+                                                        $total=0;
 							while($row=mysql_fetch_array($result))
 							{  
 								$sql_rec="select *,SUM(recptamt) as amt from recipt where recptmemono=".$row["bok_memo"]." group by recptmemono";
@@ -162,16 +164,18 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
                                                                 $sql_rec1="select *,SUM(bok_total) as memo_ttl from booking where bok_memo='$memo_no'";
 								$f_rec1=mysql_fetch_array(mysql_query($sql_rec1));
 								$count1=mysql_num_rows(mysql_query($sql_rec1));
+                                                                $total=$total+$row["total_bok_amt"];
 							?> 
 								<tr class="even pointer">
                                     <td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_memo"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td>  
+                                    <td class="a-center "> <?php echo $row["dcty_name"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["total_bok_amt"]; ?></td>   
-                                    <td class="a-center "> <?php if($count==0){ echo "pending";} else { echo "paid"; } ?></td>   
                                     <td class="a-center ">
 										<?php if($count==0){ echo "0";} else { echo $f_rec["amt"]; } ?>
-									</td> 
+                                    </td> 
+                                     <td class="a-center "> <?php if($count==0){ echo "pending";} else { echo "paid"; } ?></td>                                    
                                                                         <td>
                                                                         <?php if($count==0){ echo "0";} else { echo $row["total_bok_amt"]-$f_rec["amt"]; } ?>
                                                                         </td>   
@@ -200,7 +204,23 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
 									</td> 
                                                                         
                                 </tr> 
-							<?php $SrNo++; } ?>	 	
+							<?php $SrNo++; } ?>	
+                                                            
+                                  <tr class="even pointer" >  
+                                    <td class="a-center "style="font-weight: bold;"> Total </td>  
+                                    <td class="a-center " style="font-weight: bold;"></td> 
+                                    <td class="a-center " ></td>  
+                                    <td class="a-center " ></td> 
+                                    <td class="a-center "><?php echo $total; ?> </td>  
+                                    <td class="a-center "></td>
+                                     <td class="a-center "></td>
+                                     <td class="a-center "></td>
+                                     <td class="a-center "> </td>  
+                                    <td class="a-center " ></td>
+                                     
+      
+                                </tr>	
+                                
                             </tbody>
 						</table>
                     </div>

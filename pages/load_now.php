@@ -8,6 +8,7 @@ if(isset($_GET["bokid"]))
 { 
 
 	$bok_loaddate=date("d-m-Y");
+        $bok_loadtime= date("h:i:s");
 	$bok_memo1=rand(100,100000);
 	$SrNo=1;
         $bok_memo_total=0;
@@ -71,8 +72,9 @@ if(isset($_GET["bokid"]))
 			$cityid=$_POST[$cityid];
 			$bok_memo=$cityid.$bok_memo1;
                         $bok_memo_total=$bok_memo_total+$bok_total;
+                        
 //			//bok_freight
-                        $sql_updt="update booking set bok_loaddate='$bok_loaddate',bok_drivername='$bok_drivername',bok_drivermobile='$bok_drivermobile',bok_vehicleno='$bok_vehicleno',bok_memo_total='$bok_memo_total',bok_memo='$bok_memo',bok_status='1' where bokid='$bokid'";
+                        $sql_updt="update booking set bok_loaddate='$bok_loaddate',bok_loadtime='$bok_loadtime',bok_drivername='$bok_drivername',bok_drivermobile='$bok_drivermobile',bok_vehicleno='$bok_vehicleno',bok_memo_total='$bok_memo_total',bok_memo='$bok_memo',bok_status='1' where bokid='$bokid'";
                         
 			if(mysql_query($sql_updt))
 			{
@@ -241,9 +243,9 @@ if(isset($_GET["bokid"]))
                                                 $bok_total=$_GET[$bok_total];
                                                 
                                                  $bok_memo_total=$bok_memo_total+$bok_total;
-                                                $bok_loaddate=date("Y-m-d");
                                                 
-                                                 $sql_updt5="update booking set bok_loaddate='$bok_loaddate',bok_vehicleno='$bok_vehicleno',bok_memo_total='$bok_memo_total',bok_memo='$bok_memo',bok_status='1' where bokid='$newbokid'";  //bok_drivername='$bok_drivername',bok_drivermobile='$bok_drivermobile',
+                                                
+                                                 $sql_updt5="update booking set bok_loaddate='$bok_loaddate',bok_loadtime='$bok_loadtime',bok_vehicleno='$bok_vehicleno',bok_memo_total='$bok_memo_total',bok_memo='$bok_memo',bok_status='1' where bokid='$newbokid'";  //bok_drivername='$bok_drivername',bok_drivermobile='$bok_drivermobile',
 
                                                             if(mysql_query($sql_updt5))
                                                             {
@@ -254,8 +256,8 @@ if(isset($_GET["bokid"]))
                                                             }
                                                             
                                                 }      
-                                                $bok_loaddate=date("d-m-Y");
-                                                 $sql_updt6="update booking set bok_loaddate='$bok_loaddate',bok_vehicleno='$bok_vehicleno',bok_memo_total='$bok_memo_total',bok_status='1' where bok_memo='$bok_memo'";  
+                                                
+                                                 $sql_updt6="update booking set bok_loaddate='$bok_loaddate',bok_loadtime='$bok_loadtime',bok_vehicleno='$bok_vehicleno',bok_memo_total='$bok_memo_total',bok_status='1' where bok_memo='$bok_memo'";  
                                                  mysql_query($sql_updt6);
                                                 }
                                                     $SrNo++;

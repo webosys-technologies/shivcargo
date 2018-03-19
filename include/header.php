@@ -119,7 +119,7 @@ else
                 <div class="left_col scroll-view">
 
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="<?php echo $sitename; ?>" class="site_title"> <span>SHIV CARGO</span></a>
+                        <a href="<?php echo $sitename; ?>" class="site_title"> <span>SHIV CARGO AGENCY</span></a>
                     </div>
                     <div class="clearfix"></div>
 

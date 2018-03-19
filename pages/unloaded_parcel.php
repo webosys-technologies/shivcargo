@@ -41,7 +41,7 @@
                                                                                     <div class="row">
                                                                                         <div class="col-md-3 col-sm-3 col-xs-12">
 											<label>Destination City *</label> 
-                                                                                      <?php  echo $bok_descityid; ?>
+                                                                                     
 												 <select name="bok_descityid" style="width:250px;height:35px;" id="name" onChange="getPackage(this.value)"  required="required" >
                                                                                                     
 												 <option value="0" <?php if($bok_descityid==0) echo "selected"; ?>>All City</option>
@@ -141,7 +141,7 @@ function printDiv(divName) {
                     <div class="x_content" id="printableArea">
 						 <span class="section"> 
 												<b>SHIV CARGO AGENCY</b><br/>
-												A-64 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
+												A-26 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
 												AMRAVATI PH : 0721-2590820<br/>
 												BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721-2381577<br/>
 												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE 
@@ -264,12 +264,12 @@ function printDiv(divName) {
 <script type="text/javascript">
       $(function () {
           $("#start_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
-          $('#start_date').datepicker('setDate', 'today');
+         // $('#start_date').datepicker('setDate', 'today');
       });
   </script>
  <script type="text/javascript">
       $(function () {
           $("#end_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
-          $('#end_date').datepicker('setDate', 'today');
+         // $('#end_date').datepicker('setDate', 'today');
       });
   </script>

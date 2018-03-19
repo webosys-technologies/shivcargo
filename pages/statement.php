@@ -1,3 +1,7 @@
+ <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+  <script type="text/javascript"src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+   <link href="css/datepicker.css" rel="stylesheet" />
 <style>
     .table-striped{ 
         overflow-x:scroll !important; 
@@ -59,7 +63,7 @@ th, td { min-width: 50px;
 														<div class="col-md-3 col-sm-3 col-xs-12">
 															<label>End Date</label> 
 															<input id="end_date" class="form-control col-md-7 col-xs-12"  name="end_date" value="<?php echo $end_date; ?>"  type="text">
-														</div> 
+														</div>  
                                         </div>
                                                                                     </div>
                                                                                     <div class="row">
@@ -126,6 +130,28 @@ if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_de
 	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"0";
 //        $s_name=isset($_GET["s_name"]) ? addslashes($_GET["s_name"]):"-";
 //        $r_name=isset($_GET["r_name"]) ? addslashes($_GET["r_name"]):"-";
+        if($bok_descityid=="no")
+        {
+              $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno AND bok_status='1'";	
+              $export_sql="select bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_paymode,bok_total,bok_gst,bok_memo,bok_loaddate,bok_loadtime,bok_vehicleno from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno AND bok_status='1'";	
+              
+        }
+        elseif($bok_descityid==0)
+        {
+
+                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1'";	
+                $export_sql="select bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_paymode,bok_total,bok_gst,bok_memo,bok_loaddate,bok_loadtime,bok_vehicleno from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1'";	
+        }
+        elseif($start_date=="" AND $end_date=="")
+        {
+                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' AND bok_status='1'";	
+                $export_sql="select bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_paymode,bok_total,bok_gst,bok_memo,bok_loaddate,bok_loadtime,bok_vehicleno from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' AND bok_status='1'";	
+        }
+        else
+        {
+                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
+                $export_sql="select bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_paymode,bok_total,bok_gst,bok_memo,bok_loaddate,bok_loadtime,bok_vehicleno from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
+        }
 ?>
 <script> 
 function printDiv(divName) { 
@@ -151,7 +177,7 @@ function printDiv(divName) {
 						<a class="btn btn-success"  href="<?php echo $sitename;?>index.php?do=make_loaded&bok_descityid=<?php echo $bok_descityid;?>">
 							<i class="fa fa-check"></i> Update To Loaded
 						</a>
-						<a class="btn btn-success"  href="<?php echo $sitename;?>export_unloaded_report.php?bok_descityid=<?php echo $bok_descityid;?>">
+						<a class="btn btn-success"  href="<?php echo $sitename;?>export_statement_report.php?sql=<?php echo $export_sql;?>">
 							<i class="fa fa-download"></i> Export In Excel
 						</a>
                         <div class="clearfix"></div>
@@ -196,23 +222,7 @@ function printDiv(divName) {
                             </thead>
 							<tbody id="search_statement">
 							<?php  
-                                                        if($bok_descityid=="no")
-                                                        {
-                                                            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno AND bok_status='1'";	
-                                                        }
-							elseif($bok_descityid==0)
-							{
-								
-                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1'";	
-							}
-                                                        elseif($start_date=="" AND $end_date=="")
-                                                        {
-                                                                $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' AND bok_status='1'";	
-                                                        }
-							else
-							{
-								$sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
-							}
+                                                        
 							$result=mysql_query($sql) or die(mysql_error());
 							while($row=mysql_fetch_array($result))
 							{
@@ -234,7 +244,7 @@ function printDiv(divName) {
                                      <td class="a-center "> <?php echo $row["bok_gst"]; ?></td>
                                      <td class="a-center "> <?php echo $row["bok_memo"]; ?></td> 
                                      <td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td> 
-                                     <td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td> 
+                                     <td class="a-center "> <?php echo $row["bok_loadtime"]; ?></td>  
                                      <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td> 
                                  
                                 </tr>
@@ -260,18 +270,7 @@ function printDiv(divName) {
     } );
 } );
 </script>
-<script type="text/javascript">
-      $(function () {
-          $("#start_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
-          $('#start_date').datepicker('setDate', 'today');
-      });
-  </script>
- <script type="text/javascript">
-      $(function () {
-          $("#end_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
-          $('#end_date').datepicker('setDate', 'today');
-      });
-  </script>
+
 <script>
 
 
@@ -284,3 +283,15 @@ function printDiv(divName) {
   
    
 </script>
+<script type="text/javascript">
+      $(function () {
+          $("#start_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
+          $("#start_date").datepicker('setDate', 'today');
+      });
+  </script>
+ <script type="text/javascript">
+      $(function () {
+          $("#end_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
+          $('#end_date').datepicker('setDate', 'today');
+      });
+  </script>

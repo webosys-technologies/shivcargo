@@ -5,11 +5,11 @@ if(isset($_GET["sql"]))
 	$sql=$_GET["sql"];
 	// output headers so that the file is downloaded rather than displayed
 	header('Content-Type: text/csv; charset=utf-8');
-	header('Content-Disposition: attachment; filename=loaded_report.csv'); 
+	header('Content-Disposition: attachment; filename=Booking_report.csv'); 
 	// create a file pointer connected to the output stream
 	$output = fopen('php://output', 'w'); 
 	// output the column headings
-	fputcsv($output, array('Date', 'Lr no', 'No of parcel','Freight','Sender','Sender GST','Reciver','Reciver GST','City'));  
+	fputcsv($output, array('Date', 'Lr no','Sender','Sender GST','Reciver','Reciver GST','City','No of parcel','Loaded Amount','GST','Private Mark','Status'));  
 //	if($sql==0)
 //	{
 //		$rows = mysql_query($sql); 
