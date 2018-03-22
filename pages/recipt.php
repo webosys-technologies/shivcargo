@@ -164,6 +164,7 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
                                                                 $sql_rec1="select *,SUM(bok_total) as memo_ttl from booking where bok_memo='$memo_no'";
 								$f_rec1=mysql_fetch_array(mysql_query($sql_rec1));
 								$count1=mysql_num_rows(mysql_query($sql_rec1));
+                                                                
                                                                 $total=$total+$row["total_bok_amt"];
 							?> 
 								<tr class="even pointer">
@@ -171,7 +172,7 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
                                     <td class="a-center "> <?php echo $row["bok_memo"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["dcty_name"]; ?></td>  
-                                    <td class="a-center "> <?php echo $row["total_bok_amt"]; ?></td>   
+                                    <td class="a-center "> <?php echo $f_rec1["memo_ttl"]; ?></td>   
                                     <td class="a-center ">
 										<?php if($count==0){ echo "0";} else { echo $f_rec["amt"]; } ?>
                                     </td> 
