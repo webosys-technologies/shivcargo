@@ -206,7 +206,7 @@ if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_de
                                     <th>Date</th>
                                     <th>Lr no </th>
                                     <th>No of parcel </th>
-                                    <th>Freight</th>
+                                    <th>Load Amount</th>
                                     <th>Sender</th>
                                     <th>Sender GST No</th>
                                     <th>Private Mark</th>
@@ -230,7 +230,7 @@ if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_de
                                     <td class="a-center "> <?php echo $row["bokdate"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["boklrno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_item"]; ?></td>  
-                                    <td class="a-center "><?php echo $row["bok_freight"]; ?></td> 
+                                    <td class="a-center "><?php echo $row["bok_total"]; ?></td> 
                                     <td class="a-center "> <?php echo $row["sendname"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["sendgstno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_pivatemark"]; ?></td>  
