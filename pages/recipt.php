@@ -138,7 +138,7 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
                                                         
                                                         if($bok_descityid=="no")
                                                         {
-                                                                $sql="select *,SUM(bok_total) as total_bok_amt from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) left join des_city_place dcp on(dcp.dcplace_ctyid=dc.dcty_id) where bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1' group by bok_memo";
+                                                                $sql="select *,SUM(bok_total) as total_bok_amt from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) left join des_city_place dcp on(dcp.dcplace_ctyid=dc.dcty_id) where bok_loaddate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1' group by bok_memo";
                                                         }
 							elseif($bok_descityid==0)
 							{
@@ -150,7 +150,7 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
                                                         }
 							else	
 							{
-								$sql="select *,SUM(bok_total) as total_bok_amt from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) left join des_city_place dcp on(dcp.dcplace_ctyid=dc.dcty_id) where bok_status='1' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_descityid='$bok_descityid' group by bok_memo";
+								$sql="select *,SUM(bok_total) as total_bok_amt from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) left join des_city_place dcp on(dcp.dcplace_ctyid=dc.dcty_id) where bok_status='1' AND bok_loaddate BETWEEN  '$start_date' AND '$end_date' AND bok_descityid='$bok_descityid' group by bok_memo";
 							}								
 							$result=mysql_query($sql) or die(mysql_error());
                                                         $total=0;
@@ -165,7 +165,7 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
 								$f_rec1=mysql_fetch_array(mysql_query($sql_rec1));
 								$count1=mysql_num_rows(mysql_query($sql_rec1));
                                                                 
-                                                                $total=$total+$row["total_bok_amt"];
+                                                                $total=$total+$f_rec1["memo_ttl"];
 							?> 
 								<tr class="even pointer">
                                     <td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td>  

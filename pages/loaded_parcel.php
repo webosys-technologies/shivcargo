@@ -221,7 +221,7 @@ if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_de
 							$result=mysql_query($sql) or die(mysql_error());
                                                         $total_parcel=0;
                                                         $total_lr=0;
-                                                        $total_fright=0;
+                                                        $total=0;
 							while($row=mysql_fetch_array($result))
 							{
 							?>
@@ -242,14 +242,14 @@ if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_de
 							<?php 
                                                         $total_parcel=$total_parcel+$row["bok_item"];
                                                         $total_lr=$total_lr+1;
-                                                        $total_fright=$total_fright+$row["bok_freight"];
+                                                        $total=$total+$row["bok_total"];
                                                         
                                                                 } ?>	
                                                         <tr class="even pointer" >  
                                     <td class="a-center "style="font-weight: bold;"> Total </td>  
                                     <td class="a-center " style="font-weight: bold;"> <?php echo $total_lr; ?> </td> 
                                     <td class="a-center " ><?php echo $total_parcel ?></td>  
-                                    <td class="a-center " ><?php echo $total_fright; ?> </td> 
+                                    <td class="a-center " ><?php echo $total; ?> </td> 
                                     <td class="a-center "></td>  
                                     <td class="a-center "></td>
                                      <td class="a-center "></td>
