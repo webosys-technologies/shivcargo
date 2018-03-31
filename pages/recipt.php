@@ -154,6 +154,7 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
 							}								
 							$result=mysql_query($sql) or die(mysql_error());
                                                         $total=0;
+                                                        $parcel_total=0;
 							while($row=mysql_fetch_array($result))
 							{  
 								$sql_rec="select *,SUM(recptamt) as amt from recipt where recptmemono=".$row["bok_memo"]." group by recptmemono";
@@ -166,11 +167,12 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
 								$count1=mysql_num_rows(mysql_query($sql_rec1));
                                                                 
                                                                 $total=$total+$f_rec1["memo_ttl"];
+                                                                $parcel_total=$parcel_total+1;
 							?> 
 								<tr class="even pointer">
                                     <td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_memo"]; ?></td>  
-                                    <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td>  
+                                    <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td> 
                                     <td class="a-center "> <?php echo $row["dcty_name"]; ?></td>  
                                     <td class="a-center "> <?php echo $f_rec1["memo_ttl"]; ?></td>   
                                     <td class="a-center ">
@@ -209,7 +211,7 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
                                                             
                                   <tr class="even pointer" >  
                                     <td class="a-center "style="font-weight: bold;"> Total </td>  
-                                    <td class="a-center " style="font-weight: bold;"></td> 
+                                    <td class="a-center " style="font-weight: bold;"><?php echo $parcel_total; ?></td> 
                                     <td class="a-center " ></td>  
                                     <td class="a-center " ></td> 
                                     <td class="a-center "><?php echo $total; ?> </td>  

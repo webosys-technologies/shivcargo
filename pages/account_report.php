@@ -167,7 +167,7 @@ function printDiv(divName) {
 							{
                                                             
                                                              $memo_no=$row["bok_memo"];
-                                                                $sql_rec1="select *,SUM(bok_total) as memo_ttl from booking where bok_memo='$memo_no'";
+                                                                $sql_rec1="select *,SUM(bok_total) as memo_ttl,SUM(bok_item) as parcel_ttl from booking where bok_memo='$memo_no'";
 								$f_rec1=mysql_fetch_array(mysql_query($sql_rec1));
 								$count1=mysql_num_rows(mysql_query($sql_rec1));
                                                                 
@@ -180,7 +180,7 @@ function printDiv(divName) {
                                     <td class="a-center "> <?php echo $row["bok_memo"]; ?></td>  
                                      <td class="a-center "> <?php echo $row["dcty_name"]; ?></td>     
                                     <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td>  
-                                    <td class="a-center "> <?php echo $row["count"]; ?></td>
+                                    <td class="a-center "> <?php echo $f_rec1["parcel_ttl"]; ?></td>
                                     <td class="a-center "> <?php echo $f_rec1["memo_ttl"]; ?></td>  
 <!--                                    <td class="a-center "> <?php echo $row["bok_total"]*$row["dcty_cutrate"]/100; ?></td>  -->
                                     <td class="a-center "><a class="button-getReport" href="index.php?do=dispatch&tab=tab_content2&bok_loaddate=<?php echo $row["bok_loaddate"] ?>&bok_memo=<?php echo $row["bok_memo"] ?>">Get Report</a></td>  

@@ -276,7 +276,13 @@ if(isset($_GET["bokid"]))
 												BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721-2381577<br/>
 												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									</span> 	-->
-                                                                           
+                                                                          <div class="item form-group" id="search_div"> 
+								<div class="col-md-4 col-sm-4 col-xs-4">
+								<label>Search</label> 
+								<input id="search" placeholder="Search..." size="" class="form-control col-md-7 col-xs-12"  name="search" value=""  type="text">
+								</div>  
+														 
+                                                                           </div>  
 									<table id="example" class="table table-striped responsive-utilities jambo_table">
 										<thead>
 											<tr class="headings"> 
@@ -289,18 +295,18 @@ if(isset($_GET["bokid"]))
 												
 											</tr>
 										</thead>
-										<tbody>
+										<tbody id="search_report">
 										<?php  
 									    
                                                                                 if($bok_descityid==0)
                                                                                 {
 //                                                                                        $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_loaddate='$bok_loaddate' AND bok_status='1'";	 
-                                                                                        $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1' GROUP BY bok_memo";	 
+                                                                                        $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1' GROUP BY bok_memo ORDER BY bok_loaddate DESC";	 
                                                                                         
                                                                                 } 
                                                                                 else
                                                                                 {
-                                                                                        $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='1' GROUP BY bok_memo";	 
+                                                                                        $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='1' GROUP BY bok_memo ORDER BY bok_loaddate DESC";	 
                                                                                         
                                                                                 }
 										$result=mysql_query($sql) or die(mysql_error());
@@ -359,3 +365,16 @@ if(isset($_GET["bokid"]))
  * and open the template in the editor.
  */
 
+?>
+<script>
+
+
+   $("#search").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#search_report tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+  
+  
+</script>
