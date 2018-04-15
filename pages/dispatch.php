@@ -445,6 +445,7 @@ function validate_Unload()
                                                                                      $gst=$row["bok_total"]*$row["bok_gst"]/100;
                                                                                      $bok_paymode=$row["bok_paymode"];
                                                                                     $crossing=$row["dcplace_crossing"]*$row["bok_item"];
+                                                                                    
                                                                                      
 										?> 
 											<tr class="even pointer">  
@@ -482,6 +483,8 @@ function validate_Unload()
                                                                                         $cross=$cross+$crossing;
                                                                                         $city=$row["dcty_name"];
                                                                                         $total_gst=$total_gst+$gst;
+                                                                                        $net_total=$memo_total-$commi-$cross;
+                                                                                        $net_total=$net_total+$total_gst;
                                                                                 } ?>
                                                                                        <tr> 
                                                                                             <td class="a-center 1no-border" style="border-left: 1px solid #dddddd !important"></td>

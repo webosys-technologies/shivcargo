@@ -101,7 +101,7 @@ function validate_Unload()
                     <div class="x_content" id="printableArea">
 						 <span class="section"> 
 												<b>SHIV CARGO AGENCY</b><br/>
-												A-64 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
+												A-26 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
 												AMRAVATI PH : 0721-2590820<br/>
 												BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721-2381577<br/>
 												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE 
@@ -163,7 +163,7 @@ function validate_Unload()
                                     <td class="a-center "> <?php echo $row["recvname"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["recvgstno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["dcplace_name"]; ?></td> 
-                                    <td class="a-center "><input type="hidden" name="dcplace_id<?php echo $row["bokid"]; ?>" value="<?php echo $row["dcplace_id"]; ?>"> <input id="name" class="form-control col-md-7 col-xs-12" placeholder="Enter Cross Charge" name="bok_cross<?php echo $row["bokid"]; ?>" value="<?php echo $row["dcplace_crossing"]*$row["bok_item"]; ?>" type="text"> </td> 
+                                    <td class="a-center "><input type="hidden" name="dcplace_id<?php echo $row["bokid"]; ?>" value="<?php echo $row["dcplace_id"]; ?>"> <input id="name" class="form-control col-md-7 col-xs-12" placeholder="Enter Cross Charge" name="bok_cross<?php echo $row["bokid"]; ?>" value="<?php echo $row["dcplace_crossing"]*$row["bok_item"]; ?>" type="text" readonly="true"> </td> 
                                 </tr> 
 							<?php $SrNo++; } ?>		
                             </tbody>

@@ -9,7 +9,7 @@ if(isset($_GET["bokid"]))
 
 	$bok_loaddate=date("d-m-Y");
         $bok_loadtime= date("h:i:s");
-	$bok_memo1=rand(100,100000);
+       	$bok_memo1=rand(100,100000);
 	$SrNo=1;
         $bok_memo_total=0;
 	
@@ -54,8 +54,8 @@ if(isset($_GET["bokid"]))
                 mysql_query($sql2);
                 
                 $dcplace_id=$_GET["dcplace_id".$newbokid];
-                 $sql3="update des_city_place set dcplace_crossing='$bok_cross' where dcplace_id='$dcplace_id'";
-                 mysql_query($sql3);
+                // $sql3="update des_city_place set dcplace_crossing='$bok_cross' where dcplace_id='$dcplace_id'";
+                // mysql_query($sql3);
                 
 		if(isset($_POST[$do_unloaded_parcel])) 
 		{

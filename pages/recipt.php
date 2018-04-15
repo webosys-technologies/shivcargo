@@ -2,7 +2,7 @@
 	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"no";
         $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
 	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
-	//$bokdate=isset($_GET["bokdate"]) ? addslashes($_GET["bokdate"]):"";
+	//$bokdate=isset($_GET["bokdate"]) ? addslashes($_GET["bokdate"]):""; 
 ?> 
 <script> 
 function printDiv(divName) { 
@@ -155,6 +155,7 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
 							$result=mysql_query($sql) or die(mysql_error());
                                                         $total=0;
                                                         $parcel_total=0;
+                                                       
 							while($row=mysql_fetch_array($result))
 							{  
 								$sql_rec="select *,SUM(recptamt) as amt from recipt where recptmemono=".$row["bok_memo"]." group by recptmemono";
@@ -168,13 +169,42 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
                                                                 
                                                                 $total=$total+$f_rec1["memo_ttl"];
                                                                 $parcel_total=$parcel_total+1;
+                                                                
+                                                            $sql5="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_memo='$memo_no'";	
+                                                            $result5=mysql_query($sql5) or die(mysql_error());
+                                                            $co=mysql_num_rows(mysql_query($sql5));
+                                                            $memo_total=0;
+                                                            $commi=0;
+                                                            $cross=0;
+                                                            $total_gst=0;
+                                                            $net_total=0;
+                                                            $c=0;
+                                                            while($row5=mysql_fetch_array($result5))
+                                                            {
+                                                                   $calcu_commi=$row5["bok_total"]*$row5["dcty_cutrate"]/100;
+                                                                   $commi=$commi+$calcu_commi;
+                                                                    
+                                                                   $crossing=$row5["dcplace_crossing"]*$row5["bok_item"];
+                                                                   $cross=$cross+$crossing;
+                                                                    
+                                                                   $gst=$row5["bok_total"]*$row5["bok_gst"]/100;
+                                                                   $total_gst=$total_gst+$gst;
+                                                                   
+                                                                   $memo_total=$memo_total+$row5["bok_total"];
+                                                                     
+                                                                   $net_total=$f_rec1["memo_ttl"]-$commi-$cross;
+                                                                   $net_total=$net_total+$total_gst;
+                                                                   
+                                                            }
+                                                                
 							?> 
 								<tr class="even pointer">
                                     <td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_memo"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td> 
                                     <td class="a-center "> <?php echo $row["dcty_name"]; ?></td>  
-                                    <td class="a-center "> <?php echo $f_rec1["memo_ttl"]; ?></td>   
+                                    <td class="a-center "> <?php echo $net_total; ?></td>   
+                                    <!--$f_rec1["memo_ttl"]-->
                                     <td class="a-center ">
 										<?php if($count==0){ echo "0";} else { echo $f_rec["amt"]; } ?>
                                     </td> 
