@@ -4,6 +4,7 @@
         $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
 	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
 ?> 
+
 <script> 
 function printDiv(divName) { 
      var printContents = document.getElementById(divName).innerHTML;
