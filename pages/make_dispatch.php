@@ -101,7 +101,7 @@ function validate_Unload()
                     <div class="x_content" id="printableArea">
 						 <span class="section"> 
 												<b>SHIV CARGO AGENCY</b><br/>
-												A-64 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
+												A-26 , RAM LAXMAN SANKUL , NEW COTTON MARKET ROAD<br/>
 												AMRAVATI PH : 0721-2590820<br/>
 												BRANCH : BUSYLAND COMPLEX NANDGAON PETH PH : 0721-	2381577<br/>
 												BRANCH : CITYLAND COMPLEX , BORGAON DHARMALE 
