@@ -44,16 +44,16 @@ if(isset($_GET["bokid"]))
                 $bok_drivermobile="bok_drivermobile";
                 $bok_vehicleno="bok_vehicleno";
                 $bok_total="bok_total".$newbokid;  
-                $bok_cross="bok_cross".$newbokid; 
+              //  $bok_cross="bok_cross".$newbokid; 
 		$bokid="bokid".$SrNo;
 		$cityid="cityid".$SrNo;
                 
                 $bok_total=$_GET[$bok_total];
-                $bok_cross=$_GET[$bok_cross];
+               // $bok_cross=$_GET[$bok_cross];
                 $sql2="update booking set bok_total='$bok_total' where bokid='$newbokid'";
                 mysql_query($sql2);
                 
-                $dcplace_id=$_GET["dcplace_id".$newbokid];
+               // $dcplace_id=$_GET["dcplace_id".$newbokid];
                 // $sql3="update des_city_place set dcplace_crossing='$bok_cross' where dcplace_id='$dcplace_id'";
                 // mysql_query($sql3);
                 

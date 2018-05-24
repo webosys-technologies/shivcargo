@@ -163,7 +163,8 @@ function validate_Unload()
                                     <td class="a-center "> <?php echo $row["recvname"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["recvgstno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["dcplace_name"]; ?></td> 
-                                    <td class="a-center "><input type="hidden" name="dcplace_id<?php echo $row["bokid"]; ?>" value="<?php echo $row["dcplace_id"]; ?>"> <input id="name" class="form-control col-md-7 col-xs-12" placeholder="Enter Cross Charge" name="bok_cross<?php echo $row["bokid"]; ?>" value="<?php echo $row["dcplace_crossing"]*$row["bok_item"]; ?>" type="text" readonly="true"> </td> 
+                                    <td class="a-center "><?php echo $row["dcplace_crossing"]*$row["bok_item"]; ?></td> 
+                                    <!--<td class="a-center "><input type="hidden" name="dcplace_id<?php //echo $row["bokid"]; ?>" value="<?php //echo $row["dcplace_id"]; ?>"> <input id="name" class="form-control col-md-7 col-xs-12" placeholder="Enter Cross Charge" name="bok_cross<?php //echo $row["bokid"]; ?>" value="<?php //echo $row["dcplace_crossing"]*$row["bok_item"]; ?>" type="text" readonly="true"> </td>--> 
                                 </tr> 
 							<?php $SrNo++; } ?>		
                             </tbody>
