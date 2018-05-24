@@ -1,5 +1,7 @@
 <?php 
 	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"";
+        $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
+	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
 ?> 
 				<div class="">
 				<div class="clearfix"></div>
@@ -19,6 +21,16 @@
 									<input type="hidden" name="do" value="make_loaded">
 										<?php if(isset($msg)) echo $msg;?>
                                        <center> <span class="section"><b>SEARCH UNLOADED PARCEL</b></span></center>
+                                       <div class="item form-group"> 
+														<div class="col-md-3 col-sm-3 col-xs-12">
+															<label>Start Date</label> 
+															<input id="start_date" class="form-control col-md-7 col-xs-12"  name="start_date" value="<?php echo $start_date; ?>"  type="text">
+														</div>  
+														<div class="col-md-3 col-sm-3 col-xs-12">
+															<label>End Date</label> 
+															<input id="end_date" class="form-control col-md-7 col-xs-12"  name="end_date" value="<?php echo $end_date; ?>"  type="text">
+														</div>  
+                                        </div> 
 										<div class="item form-group">  
                                             <div class="col-md-3 col-sm-3 col-xs-12">
 											<label>Destination City *</label> 
@@ -139,14 +151,41 @@ function validate_Unload()
 							<tbody id="search_report">
 							<?php 
 							$SrNo=1;
-							if($bok_descityid==0)
-							{
-								$sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='0' ORDER BY boklrno";	
-							}
-							else
-							{
-								$sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' && bok_status='0' ORDER BY boklrno";	
-							}	
+//							if($bok_descityid==0)
+//							{
+//								$sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='0' ORDER BY boklrno";	
+//							}
+//							else
+//							{
+//								$sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' && bok_status='0' ORDER BY boklrno";	
+//							}	
+                                                        
+                                                        
+        if($bok_descityid=="no")
+        {
+
+           $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='0' ORDER BY boklrno";	
+        }
+        elseif($bok_descityid==0)
+        {
+
+            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='0' ORDER BY boklrno";	
+            
+        }
+        elseif($start_date=="" AND $end_date=="")
+        {
+
+           $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' AND bok_status='0' ORDER BY boklrno";	
+        }
+        else
+        {
+
+            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='0' ORDER BY boklrno";	 
+            
+        }
+                                                        
+                                                        
+                                                        
 							$result=mysql_query($sql);
 							while($row=mysql_fetch_array($result))
 							{
@@ -177,7 +216,19 @@ function validate_Unload()
     </div>
 <?php
 }
-?>	
+?>
+<script type="text/javascript">
+      $(function () {
+          $("#start_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
+          $('#start_date').datepicker('setDate', 'today');
+      });
+  </script>
+ <script type="text/javascript">
+      $(function () {
+          $("#end_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
+          $('#end_date').datepicker('setDate', 'today');
+      });
+  </script>
 <script>
 
 
