@@ -46,17 +46,13 @@
 <?php
         $bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"no"; 
         $bok_loaddate=isset($_GET["bok_loaddate"]) ? addslashes($_GET["bok_loaddate"]):""; 
-        $bok_loaddate=date_format(date_create($bok_loaddate),"Y-m-d");
         
 	$bok_memo=isset($_GET["bok_memo"]) ? addslashes($_GET["bok_memo"]):"";
 //	$driv_id=isset($_GET["driv_id"]) ? addslashes($_GET["driv_id"]):"";
 	$tab=isset($_REQUEST["tab"]) ? $_REQUEST["tab"]:"tab_content1";  
 	$id=isset($_GET["id"]) ? $_GET["id"]:""; 
-        $start_load_date=isset($_GET["start_load_date"]) ? addslashes($_GET["start_load_date"]):"";
+         $start_load_date=isset($_GET["start_load_date"]) ? addslashes($_GET["start_load_date"]):"";
         $end_load_date=isset($_GET["end_load_date"]) ? addslashes($_GET["end_load_date"]):"";
-        
-        $start_load_date=date_format(date_create($start_load_date),"Y-m-d");
-        $end_load_date=date_format(date_create($end_load_date),"Y-m-d");
 ?>	
 <script> 
 function printDiv(divName) { 
@@ -167,7 +163,8 @@ function printDiv(divName) {
                                                                     
                                                                     $bok_descityid=$_GET["bok_descityid"]; 
                                                                   //  $bok_loaddate=$_GET["bok_loaddate"]; 
-                                                                    
+                                                                     $start_load_date=$_GET["start_load_date"];
+                                                                    $end_load_date=$_GET["end_load_date"];
 //									$sql_memo="select * from booking where bok_memo=".$_GET["bok_memo"];
 //									$res_memo=mysql_query($sql_memo);
 //									$count_memo=mysql_num_rows($res_memo);
@@ -248,13 +245,13 @@ function printDiv(divName) {
 										?> 
 											<tr class="even pointer">  
                                                                                              
-												<td class="a-center "> <?php echo date_format(date_create($row["bok_loaddate"]),"d-m-Y"); ?></td>  
+												<td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td>  
 												<td class="a-center "> <?php echo $row["bok_loadtime"]; ?></td>  
 												<td class="a-center "> <?php echo $row["bok_memo"]; ?></td>   
 												<td class="a-center "> <?php echo $row["dcty_name"]; ?></td>   
                                                                                                 <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td>   
 												<td class="a-center "> <?php echo $row["count"]; ?></td>  
-                                                                                                <td class="a-center "><a class="button-getReport" href="index.php?do=dispatch&tab=tab_content2&bok_loaddate=<?php echo date_format(date_create($row["bok_loaddate"]),"d-m-Y") ?>&bok_memo=<?php echo $row["bok_memo"] ?>">Get Report</a> </td> 
+                                                                                                <td class="a-center "><a class="button-getReport" href="index.php?do=dispatch&tab=tab_content2&bok_loaddate=<?php echo $row["bok_loaddate"] ?>&bok_memo=<?php echo $row["bok_memo"] ?>">Get Report</a> </td> 
                                                                                                                                 
 											</tr> 
 										<?php } ?>		
@@ -369,7 +366,7 @@ function validate_Unload()
                                                                         </div>
                                                                              <div class="col-md-4 col-sm-4 col-xs-4">
                                                                                  <label for="name"><b>memo Date :</b> </label>
-                                                                        <?php echo ucwords(date_format(date_create($f_memo["bok_loaddate"]),"d-m-Y"));?>
+                                                                        <?php echo ucwords($f_memo["bok_loaddate"]);?>
                                                                         </div>
                                                                         </div>
                                                                          <div class="row" style="font-size: 17px;">
@@ -453,7 +450,7 @@ function validate_Unload()
 										?> 
 											<tr class="even pointer">  
                                                                                              <td class="a-center "><input class="chkbox" type="checkbox" name="bokid[]" value="<?php echo $row["bokid"]; ?>"> </td>  
-												<td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo date_format(date_create($row["bokdate"]),"d-m-Y"); ?></td>  
+												<td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $row["bokdate"]; ?></td>  
 												<td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $row["boklrno"]; ?></td>  
                                                                                                 <td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $row["bok_item"]; ?></td>    
                                                                                                 <td class="a-center" style="border-left: 1px solid #dddddd !important"> <?php echo $row["sendname"]; ?></td>
@@ -656,7 +653,7 @@ function validate_Unload()
 
                        <td style="padding: 2px; width: 179px; height: 2px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"></td>
                        <td style="padding: 2px; width: 222px; height: 6px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
-                       <p>&nbsp;DATE : <?php echo date_format(date_create($row["bokdate"]),"d-m-Y"); ?></p>
+                       <p>&nbsp;DATE : <?php echo $row["bokdate"]; ?></p>
                        </td>
                        </tr>
                        <tr style="padding: 2px; height: 26px;">

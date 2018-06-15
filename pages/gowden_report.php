@@ -3,9 +3,6 @@
 	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"0"; 
         $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
 	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
-        
-        $start_date=date_format(date_create($start_date),"Y-m-d");
-        $end_date=date_format(date_create($end_date),"Y-m-d");
 ?> 
 
 <script> 
@@ -141,24 +138,24 @@ if($_GET["do"]=="gowden_report" && isset($_GET["bok_descityid"]))
                                                         if($bok_descityid=="no")
                                                         {
                                                             $sql="select *, SUM(bok_item) as parcel_count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='0' GROUP BY dcty_name";	 
-                                                            //$export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,bok_vehicleno,bok_memo,bok_paymode,dcplace_name,CASE WHEN bok_status = 0 THEN 'Unloaded' ELSE 'Loaded' END,bok_loaddate,bok_total,bok_item from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date'";	
+                                                            //$export_sql="select bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,bok_vehicleno,bok_memo,bok_paymode,dcplace_name,CASE WHEN bok_status = 0 THEN 'Unloaded' ELSE 'Loaded' END,bok_loaddate,bok_total,bok_item from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date'";	
 
                                                         }
                                                         elseif($bok_descityid==0)
                                                         {
 
                                                             $sql="select *, SUM(bok_item) as parcel_count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='0' GROUP BY dcty_name";	 
-                                                           // $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,bok_vehicleno,bok_memo,bok_paymode,dcplace_name,CASE WHEN bok_status = 0 THEN 'Unloaded' ELSE 'Loaded' END,bok_loaddate,bok_total,bok_item from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid)";	
+                                                           // $export_sql="select bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,bok_vehicleno,bok_memo,bok_paymode,dcplace_name,CASE WHEN bok_status = 0 THEN 'Unloaded' ELSE 'Loaded' END,bok_loaddate,bok_total,bok_item from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid)";	
                                                         }
                                                         elseif($start_date=="" AND $end_date=="")
                                                         {
                                                             $sql="select *, SUM(bok_item) as parcel_count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='0' GROUP BY dcty_name";	 
-                                                           // $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,bok_vehicleno,bok_memo,bok_paymode,dcplace_name,CASE WHEN bok_status = 0 THEN 'Unloaded' ELSE 'Loaded' END,bok_loaddate,bok_total,bok_item from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid'";	
+                                                           // $export_sql="select bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,bok_vehicleno,bok_memo,bok_paymode,dcplace_name,CASE WHEN bok_status = 0 THEN 'Unloaded' ELSE 'Loaded' END,bok_loaddate,bok_total,bok_item from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid'";	
                                                         }
                                                         else
                                                         {
                                                             $sql="select *, SUM(bok_item) as parcel_count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_descityid='$bok_descityid' AND bok_status='0' GROUP BY dcty_name";	 
-                                                           // $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,bok_vehicleno,bok_memo,bok_paymode,dcplace_name,CASE WHEN bok_status = 0 THEN 'Unloaded' ELSE 'Loaded' END,bok_loaddate,bok_total,bok_item from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date'";	
+                                                           // $export_sql="select bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,bok_vehicleno,bok_memo,bok_paymode,dcplace_name,CASE WHEN bok_status = 0 THEN 'Unloaded' ELSE 'Loaded' END,bok_loaddate,bok_total,bok_item from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date'";	
                                                         }
                                                         
                                                        

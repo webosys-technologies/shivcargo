@@ -2,9 +2,6 @@
 	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"";
         $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
 	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
-        
-        $start_date=date_format(date_create($start_date),"Y-m-d");
-        $end_date=date_format(date_create($end_date),"Y-m-d");
 ?> 
 				<div class="">
 				<div class="clearfix"></div>
@@ -196,7 +193,7 @@ function validate_Unload()
 							?> 
 								<tr class="even pointer">
                                     <td class="a-center "><input type="checkbox" name="bokid[]" value="<?php echo $row["bokid"]; ?>"> </td>  
-                                    <td class="a-center "> <?php echo date_format(date_create($row["bokdate"]),"d-m-Y"); ?></td>  
+                                    <td class="a-center "> <?php echo $row["bokdate"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["boklrno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_item"]; ?></td>  
                                     <td class="a-center "> <input id="name" class="form-control col-md-7 col-xs-12" placeholder="Enter Ammount" name="bok_total<?php echo $row["bokid"]; ?>" value="<?php echo $row["bok_total"]; ?>" type="text"> </td> 

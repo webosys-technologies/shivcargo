@@ -62,7 +62,7 @@ if(isset($_GET["bokid"]))
 		$result=mysql_query($sql) or die(mysql_error());
 		$row=mysql_fetch_array($result);
 ?>
-									   <b>Date</b> :  <?php echo date_format(date_create($row["bokdate"]),"d-m-Y"); ?>&nbsp;&nbsp;&nbsp;
+									   <b>Date</b> :  <?php echo $row["bokdate"]; ?>&nbsp;&nbsp;&nbsp;
 									   <b>Lr no </b> :  <?php echo $row["boklrno"]; ?>&nbsp;&nbsp;&nbsp;
 									   <b>No of parcel</b> :  <?php echo $row["bok_parcel"]; ?>&nbsp;&nbsp;&nbsp;
 									   <b>Sender</b> :  <?php echo $row["sendname"]; ?>&nbsp;&nbsp;&nbsp;

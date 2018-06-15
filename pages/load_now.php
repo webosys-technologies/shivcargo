@@ -7,7 +7,7 @@ $tab=isset($_REQUEST["tab"]) ? $_REQUEST["tab"]:"tab_content1";
 if(isset($_GET["bokid"]))
 { 
 
-	$bok_loaddate=date("Y-m-d");
+	$bok_loaddate=date("d-m-Y");
         $bok_loadtime= date("h:i:s");
        	$bok_memo1=rand(100,100000);
 	$SrNo=1;
@@ -114,7 +114,7 @@ if(isset($_GET["bokid"]))
 		$row=mysql_fetch_array($result);
 ?>              
                                                                             <div>
-									   <b>Date</b> :  <?php echo date_format(date_create($row["bokdate"]),"d-m-Y"); ?>&nbsp;&nbsp;&nbsp;
+									   <b>Date</b> :  <?php echo $row["bokdate"]; ?>&nbsp;&nbsp;&nbsp;
 									   <b>Lr no </b> :  <?php echo $row["boklrno"]; ?>&nbsp;&nbsp;&nbsp;
 									   <b>No of parcel</b> :  <?php echo $row["bok_item"]; ?>&nbsp;&nbsp;&nbsp;
 									   <b>Sender</b> :  <?php echo $row["sendname"]; ?>&nbsp;&nbsp;&nbsp;
@@ -326,14 +326,14 @@ if(isset($_GET["bokid"]))
                                                                                 <input type="hidden" name="do_existing_load" value="true"> 
                                                                                 
 											<tr class="even pointer">  
-												<td class="a-center "><?php echo date_format(date_create($row["bok_loaddate"]),"d-m-Y"); ?></td>  
+												<td class="a-center "><?php echo $row["bok_loaddate"]; ?></td>  
 												<td class="a-center "> <?php echo $row["bok_memo"]; ?></td>   
 												<td class="a-center "> <?php echo $row["dcty_name"]; ?></td>   
                                                                                                 <td class="a-center "> <input id="name" class="form-control col-md-7 col-xs-12" placeholder="Vehicle Number" name="bok_vehicleno" value="<?php echo $row["bok_vehicleno"]; ?>" type="text"></td>   
 												<td class="a-center "> <?php echo $row["count"]; ?></td>  
                                                                                                 <td class="a-center ">
                                                                                                     
-                                                                                                    <input type="hidden" name="bok_loaddate" value="<?php echo date_format(date_create($row["bok_loaddate"]),"d-m-Y"); ?>">
+                                                                                                    <input type="hidden" name="bok_loaddate" value="<?php echo $row["bok_loaddate"]; ?>">
                                                                                                     <input type="hidden" name="bok_memo" value="<?php echo $row["bok_memo"]; ?>">
                                                                                                     <input type="hidden" name="bok_descityid" value="<?php echo $row["dcty_id"]; ?>">
                                                                                                     <input type="hidden" name="bok_memo_total" value="<?php echo $row["bok_memo_total"]; ?>"> 

@@ -23,10 +23,6 @@ th, td { min-width: 50px;
 <?php 
 	$start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
 	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
-        
-        $start_date=date_format(date_create($start_date),"Y-m-d");
-        $end_date=date_format(date_create($end_date),"Y-m-d");
-        
          $bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"no";
         $lr=isset($_GET["lr"]) ? addslashes($_GET["lr"]):"";
         $date=isset($_GET["date"]) ? addslashes($_GET["date"]):"";
@@ -125,6 +121,8 @@ th, td { min-width: 50px;
 if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_descityid"]) || isset($_GET["lr"]) || isset($_GET["date"]) || isset($_GET["s_gst_no"]) || isset($_GET["r_gst_no"]))
 {  
     
+	$start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
+	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
         $bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"0"; 
         //$lr=isset($_GET["lr"]) ? addslashes($_GET["lr"]):""; 
         //$date=isset($_GET["date"]) ? addslashes($_GET["date"]):""; 
@@ -148,26 +146,26 @@ if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_de
         {
 
            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
-           $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_total,bok_total*bok_gst/100 as gst,bok_pivatemark,CASE WHEN bok_status = '0' THEN 'Unloaded' ELSE 'Loaded' END from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
+           $export_sql="select bokdate,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_total,bok_total*bok_gst/100 as gst,bok_pivatemark,CASE WHEN bok_status = '0' THEN 'Unloaded' ELSE 'Loaded' END from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
         }
         elseif($bok_descityid==0)
         {
 
             $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) ORDER BY boklrno";	 
-            $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_total,bok_total*bok_gst/100 as gst,bok_pivatemark,CASE WHEN bok_status = 0 THEN 'Unloaded' ELSE 'Loaded' END from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) ORDER BY boklrno";	 
+            $export_sql="select bokdate,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_total,bok_total*bok_gst/100 as gst,bok_pivatemark,CASE WHEN bok_status = 0 THEN 'Unloaded' ELSE 'Loaded' END from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) ORDER BY boklrno";	 
         }
 
         elseif($start_date=="" AND $end_date=="")
         {
 
            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' ORDER BY boklrno";	
-           $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_total,bok_total*bok_gst/100 as gst,bok_pivatemark,CASE WHEN bok_status = 0 THEN 'Unloaded' ELSE 'Loaded' END from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' ORDER BY boklrno";	
+           $export_sql="select bokdate,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_total,bok_total*bok_gst/100 as gst,bok_pivatemark,CASE WHEN bok_status = 0 THEN 'Unloaded' ELSE 'Loaded' END from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' ORDER BY boklrno";	
         }
         else
         {
 
             $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
-            $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_total,bok_total*bok_gst/100 as gst,bok_pivatemark,CASE WHEN bok_status = 0 THEN 'Unloaded' ELSE 'Loaded' END from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
+            $export_sql="select bokdate,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_total,bok_total*bok_gst/100 as gst,bok_pivatemark,CASE WHEN bok_status = 0 THEN 'Unloaded' ELSE 'Loaded' END from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno";	 
         }
 ?>
 <?php if(isset($msg)) echo $msg;?>
@@ -269,8 +267,7 @@ function exportDiv(divName) {
                                                             <form method="post" action="">
                                                                  <tbody id="search_body">
                                                              <tr class="even pointer">  
-                                                                
-                                                                 <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo date_format(date_create($row["bokdate"]),"d-m-Y"); ?></td>  
+                                                                 <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["bokdate"]; ?></td>  
                                                                 <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["boklrno"]; ?></td>  
                                                                 <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["sendname"]; ?></td>  
                                                                 <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["sendgstno"]; ?></td>  
