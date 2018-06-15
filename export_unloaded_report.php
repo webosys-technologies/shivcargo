@@ -13,11 +13,11 @@ if(isset($_GET["bok_descityid"]))
 	// fetch the data 
 	if($bok_descityid==0)
 	{
-		$rows = mysql_query("select bokdate,boklrno,bok_item,bok_freight,sendname,sendgstno,recvname,recvgstno,dcplace_name from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where  bok_status='0'"); 
+		$rows = mysql_query("select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boklrno,bok_item,bok_freight,sendname,sendgstno,recvname,recvgstno,dcplace_name from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where  bok_status='0'"); 
 	}
 	else
 	{
-		$rows = mysql_query("select bokdate,boklrno,bok_item,bok_freight,sendname,sendgstno,recvname,recvgstno,dcplace_name from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' && bok_status='0'"); 
+		$rows = mysql_query("select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boklrno,bok_item,bok_freight,sendname,sendgstno,recvname,recvgstno,dcplace_name from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' && bok_status='0'"); 
 	}	
 	// loop over the rows, outputting them
 	while ($row = mysql_fetch_assoc($rows)) fputcsv($output, ($row));

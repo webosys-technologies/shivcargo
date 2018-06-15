@@ -18,6 +18,10 @@ th, td { min-width: 50px;
 <?php 
        $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
 	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
+        
+        $start_date=date_format(date_create($start_date),"Y-m-d");
+        $end_date=date_format(date_create($end_date),"Y-m-d");
+ 
 //	$lr=isset($_GET["lr"]) ? addslashes($_GET["lr"]):"-";
 //	$date=isset($_GET["date"]) ? addslashes($_GET["date"]):"";
 //	$gst=isset($_GET["gst"]) ? addslashes($_GET["gst"]):"-";
@@ -133,24 +137,24 @@ if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_de
         if($bok_descityid=="no")
         {
               $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno AND bok_status='1'";	
-              $export_sql="select bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_paymode,bok_total,bok_gst,bok_memo,bok_loaddate,bok_loadtime,bok_vehicleno from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno AND bok_status='1'";	
+              $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_paymode,bok_total,bok_gst,bok_memo,bok_loaddate,bok_loadtime,bok_vehicleno from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokdate BETWEEN  '$start_date' AND '$end_date' ORDER BY boklrno AND bok_status='1'";	
               
         }
         elseif($bok_descityid==0)
         {
 
                 $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1'";	
-                $export_sql="select bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_paymode,bok_total,bok_gst,bok_memo,bok_loaddate,bok_loadtime,bok_vehicleno from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1'";	
+                $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_paymode,bok_total,bok_gst,bok_memo,bok_loaddate,bok_loadtime,bok_vehicleno from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1'";	
         }
         elseif($start_date=="" AND $end_date=="")
         {
                 $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' AND bok_status='1'";	
-                $export_sql="select bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_paymode,bok_total,bok_gst,bok_memo,bok_loaddate,bok_loadtime,bok_vehicleno from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' AND bok_status='1'";	
+                $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_paymode,bok_total,bok_gst,bok_memo,bok_loaddate,bok_loadtime,bok_vehicleno from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' AND bok_status='1'";	
         }
         else
         {
                 $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
-                $export_sql="select bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_paymode,bok_total,bok_gst,bok_memo,bok_loaddate,bok_loadtime,bok_vehicleno from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
+                $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boktime,boklrno,sendname,sendgstno,recvname,recvgstno,dcplace_name,bok_item,bok_paymode,bok_total,bok_gst,bok_memo,bok_loaddate,bok_loadtime,bok_vehicleno from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok.bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
         }
 ?>
 <script> 
@@ -230,7 +234,7 @@ function printDiv(divName) {
 							?>
                                 <form method="post" action="">
 								<tr class="even pointer">  
-                                     <td class="a-center "> <?php echo $row["bokdate"]; ?></td>  
+                                     <td class="a-center "> <?php echo date_format(date_create($row["bokdate"]),"d-m-Y"); ?></td>  
                                      <td class="a-center "> <?php echo $row["boktime"]; ?></td>
                                      <td class="a-center "> <?php echo $row["boklrno"]; ?></td>  
                                      <td class="a-center "> <?php echo $row["sendname"]; ?></td>  
