@@ -802,7 +802,7 @@ if($action=="add_booking")
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Amount declare
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input id="name" class="form-control col-md-7 col-xs-12" name="amountdeclare" value="<?php echo $amountdeclare; ?>"   type="text">
+                                                <input id="name" class="form-control col-md-7 col-xs-12" name="amountdeclare_desc" value="<?php echo $amountdeclare_desc; ?>"   type="text">
                                             </div>
                                         </div>
                                               <div class="item form-group">
@@ -921,7 +921,7 @@ if($action=="add_booking")
 </tr>
 <tr style="padding: 2px; height: 23px;">
     <td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;<?php echo $row["amountdeclare"]; ?></td>
+<td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;<?php echo $row["amountdeclare_desc"]; ?></td>
 <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">BC</td>
 </tr>
 <tr style="padding: 2px; height: 23px;">
@@ -1022,7 +1022,7 @@ if($action=="add_booking")
 </tr>
 <tr style="padding: 2px; height: 23px;">
 <td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;<?php echo $row["amountdeclare"]; ?> </td>
+<td style="padding: 2px; width: 66px; height: 69px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;" colspan="" rowspan="3">&nbsp;<?php echo $row["amountdeclare_desc"]; ?> </td>
 <td style="padding: 2px; width: 151px; height: 23px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">BC</td>
 </tr>
 <tr style="padding: 2px; height: 23px;">
