@@ -2,6 +2,9 @@
 	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"no";
         $start_load_date=isset($_GET["start_load_date"]) ? addslashes($_GET["start_load_date"]):"";;
         $end_load_date=isset($_GET["end_load_date"]) ? addslashes($_GET["end_load_date"]):"";
+        
+        $start_load_date=date_format(date_create($start_load_date),"Y-m-d");
+        $end_load_date=date_format(date_create($end_load_date),"Y-m-d");
 ?> 
 				<div class="">
 				<div class="clearfix"></div>
@@ -75,28 +78,28 @@ if(isset($_GET["bok_descityid"]))
         {
 
            $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_loaddate BETWEEN '$start_load_date' AND '$end_load_date' AND bok_status='1' GROUP BY bok_memo";
-           $export_sql="select bok_loaddate,bok_memo,dcty_name,bok_vehicleno,COUNT(*) as count,SUM(bok_total) as memo_ttl from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_loaddate BETWEEN '$start_load_date' AND '$end_load_date' AND bok_status='1' GROUP BY bok_memo";
+           $export_sql="select DATE_FORMAT(bok_loaddate, '%d-%m-%Y') bok_loaddate,bok_memo,dcty_name,bok_vehicleno,COUNT(*) as count,SUM(bok_total) as memo_ttl from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_loaddate BETWEEN '$start_load_date' AND '$end_load_date' AND bok_status='1' GROUP BY bok_memo";
             
         }
         elseif($bok_descityid==0)
         {
 
             $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1' GROUP BY bok_memo";	 
-            $export_sql="select bok_loaddate,bok_memo,dcty_name,bok_vehicleno,COUNT(*) as count,SUM(bok_total) as memo_ttl from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1' GROUP BY bok_memo";	 
+            $export_sql="select DATE_FORMAT(bok_loaddate, '%d-%m-%Y') bok_loaddate,bok_memo,dcty_name,bok_vehicleno,COUNT(*) as count,SUM(bok_total) as memo_ttl from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1' GROUP BY bok_memo";	 
         }
 
         elseif($start_load_date=="" AND $end_load_date=="")
         {
 
            $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='1' GROUP BY bok_memo";
-           $export_sql="select bok_loaddate,bok_memo,dcty_name,bok_vehicleno,COUNT(*) as count,SUM(bok_total) as memo_ttl from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='1' GROUP BY bok_memo";
+           $export_sql="select DATE_FORMAT(bok_loaddate, '%d-%m-%Y') bok_loaddate,bok_memo,dcty_name,bok_vehicleno,COUNT(*) as count,SUM(bok_total) as memo_ttl from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='1' GROUP BY bok_memo";
         }
         else
         {
 
 
             $sql="select *, COUNT(*) as count from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_loaddate BETWEEN '$start_load_date' AND '$end_load_date' AND bok_status='1' GROUP BY bok_memo";
-            $export_sql="select bok_loaddate,bok_memo,dcty_name,bok_vehicleno,COUNT(*) as count,SUM(bok_total) as memo_ttl from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_loaddate BETWEEN '$start_load_date' AND '$end_load_date' AND bok_status='1' GROUP BY bok_memo";
+            $export_sql="select DATE_FORMAT(bok_loaddate, '%d-%m-%Y') bok_loaddate,bok_memo,dcty_name,bok_vehicleno,COUNT(*) as count,SUM(bok_total) as memo_ttl from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_loaddate BETWEEN '$start_load_date' AND '$end_load_date' AND bok_status='1' GROUP BY bok_memo";
         }
 ?>
 <script> 
@@ -176,7 +179,7 @@ function printDiv(divName) {
 							?>
                                 <form method="post" action="">
 								<tr class="even pointer">  
-                                    <td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td>  
+                                    <td class="a-center "> <?php echo date_format(date_create($row["bok_loaddate"]),"d-m-Y"); ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_memo"]; ?></td>  
                                      <td class="a-center "> <?php echo $row["dcty_name"]; ?></td>     
                                     <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td>  

@@ -161,7 +161,7 @@ function validate_Unload()
 							?> 
 								<tr class="even pointer">
                                     <td class="a-center "><input type="checkbox" name="bokid[]" value="<?php echo $row["bokid"]; ?>"> </td>  
-                                    <td class="a-center "> <?php echo $row["bokdate"]; ?></td>  
+                                    <td class="a-center "> <?php echo date_format(date_create($row["bokdate"]),"d-m-Y"); ?></td>  
                                     <td class="a-center "> <?php echo $row["boklrno"]; ?></td>    
                                     <td class="a-center "> <?php echo $row["recvname"]; ?> <?php echo $row["recvgstno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["sendname"]; ?></td> 

@@ -2,6 +2,10 @@
 	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"no";
         $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
 	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
+        
+        $start_date=date_format(date_create($start_date),"Y-m-d");
+        $end_date=date_format(date_create($end_date),"Y-m-d");
+        
 	//$bokdate=isset($_GET["bokdate"]) ? addslashes($_GET["bokdate"]):""; 
 ?> 
 <script> 
@@ -83,8 +87,7 @@ function printDiv(divName) {
 if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_descityid"]) || isset($_GET["bokdate"]))
 { 
        
-	$start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
-	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
+	
 	//$bok_descityid=$_GET["bok_descityid"];
 	//$bokdate=$_GET["bokdate"];
 ?>				
@@ -199,7 +202,7 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
                                                                 
 							?> 
 								<tr class="even pointer">
-                                    <td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td>  
+                                    <td class="a-center "> <?php echo date_format(date_create($row["bok_loaddate"]),"d-m-Y"); ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_memo"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td> 
                                     <td class="a-center "> <?php echo $row["dcty_name"]; ?></td>  

@@ -52,6 +52,7 @@ th, td { min-width: 50px;
 	$lr_cap=isset($_POST["lr_cap"]) ? addslashes($_POST["lr_cap"]):""; 
 	$bok_srccitybranchid=isset($_POST["bok_srccitybranchid"]) ? addslashes($_POST["bok_srccitybranchid"]):""; 
 	$bokdate=isset($_POST["bokdate"]) ? addslashes($_POST["bokdate"]):"";
+        $bokdate=date_format(date_create($bokdate),"Y-m-d"); 
 	$boktime=isset($_POST["boktime"]) ? addslashes($_POST["boktime"]):"";
 	$bok_descityid=isset($_POST["bok_descityid"]) ? addslashes($_POST["bok_descityid"]):"";
 //	$bok_cityplaceid=isset($_POST["bok_cityplaceid"]) ? addslashes($_POST["bok_cityplaceid"]):"";
@@ -419,7 +420,7 @@ if($action=="add_booking")
 	$boklrno=$row["boklrno"];
 	$bok_srccitybranchid=$row["bok_srccitybranchid"];
 	$bokdate=$row["bokdate"];
-	$boktime=$row["boktime"];
+        $boktime=$row["boktime"];
 	$bok_descityid=$row["bok_descityid"];
 	$dcty_name=$row["dcty_name"];
 
@@ -864,7 +865,7 @@ if($action=="add_booking")
 
 <td style="padding: 2px; width: 179px; height: 2px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;GSTIN 27ADLPL0993P1ZQ</td>
 <td style="padding: 2px; width: 222px; height: 6px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
-<p>&nbsp;DATE : <?php echo $row["bokdate"]; ?></p>
+<p>&nbsp;DATE : <?php echo date_format(date_create($row["bokdate"]),"d-m-Y"); ?></p>
 </td>
 </tr>
 <tr style="padding: 2px; height: 26px;">
@@ -965,7 +966,7 @@ if($action=="add_booking")
 
 <td style="padding: 2px; width: 179px; height: 2px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">&nbsp;GSTIN 27ADLPL0993P1ZQ</td>
 <td style="padding: 2px; width: 222px; height: 6px; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
-<p>&nbsp;DATE : <?php echo $row["bokdate"]; ?></p>
+<p>&nbsp;DATE : <?php echo date_format(date_create($row["bokdate"]),"d-m-Y"); ?></p>
 </td>
 </tr>
 <tr style="padding: 2px; height: 26px;">

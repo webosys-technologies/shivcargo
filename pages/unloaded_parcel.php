@@ -2,6 +2,10 @@
 	$bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"no";
         $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
 	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
+        
+        $start_date=date_format(date_create($start_date),"Y-m-d");
+        $end_date=date_format(date_create($end_date),"Y-m-d");
+        
         $lr=isset($_GET["lr"]) ? addslashes($_GET["lr"]):"";
         $date=isset($_GET["date"]) ? addslashes($_GET["date"]):"";
         $s_gst_no=isset($_GET["s_gst_no"]) ? addslashes($_GET["s_gst_no"]):"";
@@ -101,8 +105,7 @@
 if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_descityid"]) || isset($_GET["lr"]) || isset($_GET["date"])|| isset($_GET["s_gst_no"]) || isset($_GET["r_gst_no"]) || isset($_GET["bok_sorting"]))
 { 
 	$bok_descityid=$_GET["bok_descityid"];
-        $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
-	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
+      
         //$lr=isset($_GET["lr"]) ? addslashes($_GET["lr"]):"";
         //$date=isset($_GET["date"]) ? addslashes($_GET["date"]):"";
         //$s_gst_no=isset($_GET["s_gst_no"]) ? addslashes($_GET["s_gst_no"]):"";
@@ -209,7 +212,7 @@ function printDiv(divName) {
 							?>
                                 <form method="post" action="">
 								<tr class="even pointer">  
-                                    <td class="a-center "> <?php echo $row["bokdate"]; ?></td>  
+                                    <td class="a-center "> <?php echo date_format(date_create($row["bokdate"]),"d-m-Y"); ?></td>  
                                     <td class="a-center "> <?php echo $row["boklrno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_item"]; ?></td>  
                                     <td class="a-center "><?php echo $row["bok_freight"]; ?></td> 
@@ -264,12 +267,12 @@ function printDiv(divName) {
 <script type="text/javascript">
       $(function () {
           $("#start_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
-         // $('#start_date').datepicker('setDate', 'today');
+          $('#start_date').datepicker('setDate', 'today');
       });
   </script>
  <script type="text/javascript">
       $(function () {
           $("#end_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
-         // $('#end_date').datepicker('setDate', 'today');
+          $('#end_date').datepicker('setDate', 'today');
       });
   </script>
