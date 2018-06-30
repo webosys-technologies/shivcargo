@@ -598,6 +598,13 @@ if($action=="add_booking")
                                             </div>
                                         </div>
                                         <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Amount declare
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="name" class="form-control col-md-7 col-xs-12" name="amountdeclare_desc" value="<?php echo $amountdeclare_desc; ?>"   type="text">
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Private Mark
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -798,13 +805,7 @@ if($action=="add_booking")
                                             </div>
                                         </div>  
 										 
-                                             <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Amount declare
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input id="name" class="form-control col-md-7 col-xs-12" name="amountdeclare_desc" value="<?php echo $amountdeclare_desc; ?>"   type="text">
-                                            </div>
-                                        </div>
+                                             
                                               <div class="item form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Description
                                             </label>
