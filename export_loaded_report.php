@@ -9,7 +9,7 @@ if(isset($_GET["sql"]))
 	// create a file pointer connected to the output stream
 	$output = fopen('php://output', 'w'); 
 	// output the column headings
-	fputcsv($output, array('Date', 'Lr no', 'No of parcel','Freight','Sender','Sender GST','Reciver','Reciver GST','City'));  
+	fputcsv($output, array('Date', 'Lr no', 'No of parcel','Load Amount','Sender','Sender GST','Reciver','Reciver GST','City'));  
 //	if($sql==0)
 //	{
 //		$rows = mysql_query($sql); 

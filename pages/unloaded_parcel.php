@@ -3,8 +3,11 @@
         $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
 	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
         
+        if($start_date!="" || $end_date!="")
+       {
         $start_date=date_format(date_create($start_date),"Y-m-d");
         $end_date=date_format(date_create($end_date),"Y-m-d");
+       }
         
         $lr=isset($_GET["lr"]) ? addslashes($_GET["lr"]):"";
         $date=isset($_GET["date"]) ? addslashes($_GET["date"]):"";
@@ -222,6 +225,12 @@ function printDiv(divName) {
                                     <td class="a-center "> <?php echo $row["recvname"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["recvgstno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["dcplace_name"]; ?></td>  
+                                    <td class="a-center " style="display:none; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php 
+                                                                 
+                                                                 $branch_id=$row["bok_srccitybranchid"];
+                                                                 $res_srccitybnch=mysql_query("select * from src_cities_branch where scbrnch_id='$branch_id'");
+                                                                 $branch=mysql_fetch_array($res_srccitybnch);
+                                                                 echo $branch["scbrnch_name"]; ?></td> 
                                 </tr>
 								</form> 
 							<?php 
@@ -267,12 +276,12 @@ function printDiv(divName) {
 <script type="text/javascript">
       $(function () {
           $("#start_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
-          $('#start_date').datepicker('setDate', 'today');
+        //  $('#start_date').datepicker('setDate', 'today');
       });
   </script>
  <script type="text/javascript">
       $(function () {
           $("#end_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
-          $('#end_date').datepicker('setDate', 'today');
+        //  $('#end_date').datepicker('setDate', 'today');
       });
   </script>

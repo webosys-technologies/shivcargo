@@ -1,7 +1,7 @@
- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
   <script type="text/javascript"src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-   <link href="css/datepicker.css" rel="stylesheet" />
+   <link href="css/datepicker.css" rel="stylesheet" />-->
 <style>
     .table-striped{ 
         overflow-x:scroll !important; 
@@ -63,7 +63,7 @@ th, td { min-width: 50px;
 														<div class="col-md-3 col-sm-3 col-xs-12">
 															<label>Start Date</label> 
 															<input id="start_date" class="form-control col-md-7 col-xs-12"  name="start_date" value="<?php echo $start_date; ?>"  type="text">
-														</div>  
+                                                                                                                </div>  
 														<div class="col-md-3 col-sm-3 col-xs-12">
 															<label>End Date</label> 
 															<input id="end_date" class="form-control col-md-7 col-xs-12"  name="end_date" value="<?php echo $end_date; ?>"  type="text">
@@ -211,6 +211,7 @@ function printDiv(divName) {
                                     <th>Lr no </th>
                                     <th>Sender</th>
                                     <th>Sender GST</th>
+                                    <th>Private Mark</th>
                                     <th>Reciver</th>
                                     <th>Receiver GST</th>
                                     <th>City</th>
@@ -239,6 +240,7 @@ function printDiv(divName) {
                                      <td class="a-center "> <?php echo $row["boklrno"]; ?></td>  
                                      <td class="a-center "> <?php echo $row["sendname"]; ?></td>  
                                      <td class="a-center "> <?php echo $row["sendgstno"]; ?></td>  
+                                     <td class="a-center "> <?php echo $row["bok_pivatemark"]; ?></td>  
                                      <td class="a-center "> <?php echo $row["recvname"]; ?></td>  
                                      <td class="a-center "> <?php echo $row["recvgstno"]; ?></td>  
                                       <td class="a-center "> <?php echo $row["dcplace_name"]; ?></td>   
@@ -250,6 +252,12 @@ function printDiv(divName) {
                                      <td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td> 
                                      <td class="a-center "> <?php echo $row["bok_loadtime"]; ?></td>  
                                      <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td> 
+                                     <td class="a-center " style="display:none; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php 
+                                                                 
+                                                                 $branch_id=$row["bok_srccitybranchid"];
+                                                                 $res_srccitybnch=mysql_query("select * from src_cities_branch where scbrnch_id='$branch_id'");
+                                                                 $branch=mysql_fetch_array($res_srccitybnch);
+                                                                 echo $branch["scbrnch_name"]; ?></td> 
                                  
                                 </tr>
 								</form> 
@@ -289,13 +297,14 @@ function printDiv(divName) {
 </script>
 <script type="text/javascript">
       $(function () {
-          $("#start_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
+          $("#start_date").datepicker({dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
           $("#start_date").datepicker('setDate', 'today');
       });
   </script>
+
  <script type="text/javascript">
       $(function () {
-          $("#end_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
+          $("#end_date").datepicker({dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
           $('#end_date').datepicker('setDate', 'today');
       });
   </script>

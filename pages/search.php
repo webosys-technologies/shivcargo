@@ -204,6 +204,7 @@ function printDiv(divName) {
                                     <th>Lr no </th>
                                     <th>Sender</th>
                                     <th>Sender GST</th>
+                                     <th>Private Mark</th>
                                     <th>Reciver</th>
                                     <th>Reciver GST</th>
                                     <th>Vehicle no.</th>
@@ -232,6 +233,7 @@ function printDiv(divName) {
                                     <td class="a-center "> <?php echo $row["boklrno"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["sendname"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["sendgstno"]; ?></td>  
+                                    <td class="a-center "> <?php echo $row["bok_pivatemark"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["recvname"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["recvgstno"]; ?></td>  
                                      <td class="a-center "> <?php echo $row["bok_vehicleno"]; ?></td> 
@@ -242,7 +244,12 @@ function printDiv(divName) {
                                     <td class="a-center "> <?php echo $row["bok_loaddate"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_total"]; ?></td>  
                                     <td class="a-center "> <?php echo $row["bok_item"]?></td>
-                                   
+                                   <td class="a-center " style="display:none; border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php 
+                                                                 
+                                                                 $branch_id=$row["bok_srccitybranchid"];
+                                                                 $res_srccitybnch=mysql_query("select * from src_cities_branch where scbrnch_id='$branch_id'");
+                                                                 $branch=mysql_fetch_array($res_srccitybnch);
+                                                                 echo $branch["scbrnch_name"]; ?></td> 
                                 </tr>
 								</form> 
 							<?php } ?>		
