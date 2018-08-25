@@ -3,8 +3,14 @@
         $start_date=isset($_GET["start_date"]) ? addslashes($_GET["start_date"]):"";
 	$end_date=isset($_GET["end_date"]) ? addslashes($_GET["end_date"]):"";
         
-        $start_date=date_format(date_create($start_date),"Y-m-d");
-        $end_date=date_format(date_create($end_date),"Y-m-d");
+        if($start_date!="" || $end_date!="")
+        {
+            $start_date=date_format(date_create($start_date),"Y-m-d");
+            $end_date=date_format(date_create($end_date),"Y-m-d");
+            
+        }
+            
+        
 ?> 
 				<div class="">
 				<div class="clearfix"></div>
