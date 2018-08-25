@@ -223,13 +223,13 @@ function validate_Unload()
 <script type="text/javascript">
       $(function () {
           $("#start_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
-          $('#start_date').datepicker('setDate', 'today');
+//          $('#start_date').datepicker('setDate', 'today');
       });
   </script>
  <script type="text/javascript">
       $(function () {
           $("#end_date").datepicker({ dateFormat: 'dd-mm-yy',changeMonth: true,changeYear: true,showAnim: 'slide'});
-          $('#end_date').datepicker('setDate', 'today');
+//          $('#end_date').datepicker('setDate', 'today');
       });
   </script>
 <script>
