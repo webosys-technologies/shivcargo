@@ -109,6 +109,9 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
 						<button class="btn btn-danger"  onclick="printDiv('printableArea')">
 							<i class="fa fa-print"></i> Print
 						</button>
+<!--                                            <a class="btn btn-success"  href="<?php echo $sitename;?>export_receipt.php?sql=<?php echo $export_sql;?>">
+							<i class="fa fa-download"></i> Export In Excel
+						</a>-->
                                             
                                             <div class="row">
                                       <div class="item form-group"> 
@@ -148,6 +151,7 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
 							elseif($bok_descityid==0)
 							{
 								$sql="select *,SUM(bok_total) as total_bok_amt from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) left join des_city_place dcp on(dcp.dcplace_ctyid=dc.dcty_id) where bok_status='1' group by bok_memo";
+                                                              //  $export_sql="select DATE_FORMAT(bok_loaddate, '%d-%m-%Y') bok_loaddate,bok_memo,dcty_name,bok_vehicleno,COUNT(*) as count,SUM(bok_total) as memo_ttl from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1' GROUP BY bok_memo";	 
 							}
                                                         elseif($start_date=="" AND $end_date=="")
                                                         {
@@ -159,6 +163,9 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
 							}								
 							$result=mysql_query($sql) or die(mysql_error());
                                                         $total=0;
+                                                        $paid_total=0;
+                                                        $backdept_total=0;
+                                                        $memo_count=0;
                                                         $parcel_total=0;
                                                        
 							while($row=mysql_fetch_array($result))
@@ -173,7 +180,7 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
 								$count1=mysql_num_rows(mysql_query($sql_rec1));
                                                                 
                                                                // $total=$total+$f_rec1["memo_ttl"];
-                                                                $parcel_total=$parcel_total+1;
+                                                                $memo_count=$memo_count+1;
                                                                 
                                                             $sql5="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_memo='$memo_no'";	
                                                             $result5=mysql_query($sql5) or die(mysql_error());
@@ -212,15 +219,18 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
                                     <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["bok_vehicleno"]; ?></td> 
                                     <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $row["dcty_name"]; ?></td>  
                                     <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $total_memo_parcel; ?></td>  
+                                      <?php $parcel_total=$parcel_total+$total_memo_parcel; ?>
                                     <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php echo $net_total; ?></td>   
                                     <?php $total=$total+$net_total; ?>
                                     <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
 										<?php if($count==0){ echo "0";} else { echo $f_rec["amt"]; } ?>
                                     </td> 
+                                    <?php $paid_total=$paid_total+$f_rec["amt"]?>
                                      <td class="a-center " style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;"> <?php if($count==0){ echo "pending";} else { echo "paid"; } ?></td>                                    
                                                                         <td style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">
-                                                                        <?php if($count==0){ echo "0";} else { echo $net_total-$f_rec["amt"]; } ?>
-                                                                        </td>   
+                                                                        <?php if($count==0){ echo "0";} else { echo $backdept=$net_total-$f_rec["amt"]; } ?>
+                                                                        </td>  
+                                                                        <?php $backdept_total=$backdept_total+$backdept; ?>
                                                                         
                                                                         <td id="action" style="border-left: 1px solid #c1c1c1 !important; border-right: 1px solid #c1c1c1 !important; border-bottom: 1px solid #c1c1c1 !important;">  
 									<script>
@@ -242,7 +252,11 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
 												  
 											</div> 
                                                                                         <div class="col-md-5 col-sm-5 col-xs-12">
-												  <input id="name" placeholder="Remark" class="form-control col-md-7 col-xs-12" name="receipt_remark" value=""  required="required" type="text">
+                                                                                            <?php
+                                                                                            $sql_recept="select * from recipt where recptmemono=".$row["bok_memo"]." ORDER BY recptid DESC";
+                                                                                            $f_recept=mysql_fetch_array(mysql_query($sql_recept));
+                                                                                            ?>
+												  <input id="name" placeholder="Remark" class="form-control col-md-7 col-xs-12" name="receipt_remark" value="<?php echo $f_recept["receipt_remark"] ?>"  required="required" type="text">
                                                                                                   
 											</div> 
                                                                                     <button id="send" type="button" onclick="return Addpayment<?php echo $SrNo;?>();" class="btn btn-success">Add Payment </button> 
@@ -256,14 +270,14 @@ if($_GET["do"]=="recipt" || isset($_GET["start_date"]) || isset($_GET["end_date"
                                                             
                                   <tr class="even pointer" >  
                                     <td class="a-center "style="font-weight: bold;"> Total </td>  
-                                    <td class="a-center " style="font-weight: bold;"><?php echo $parcel_total; ?></td> 
+                                    <td class="a-center " style="font-weight: bold;"><?php echo $memo_count; ?></td> 
                                     <td class="a-center " ></td>  
                                     <td class="a-center " ></td> 
-                                    <td class="a-center "></td>  
+                                    <td class="a-center "><?php echo $parcel_total; ?></td>  
                                     <td class="a-center "><?php echo $total; ?> </td>
+                                     <td class="a-center "><?php echo $paid_total; ?> </td>
                                      <td class="a-center "></td>
-                                     <td class="a-center "></td>
-                                     <td class="a-center "> </td>  
+                                     <td class="a-center "> <?php echo $backdept; ?> </td>  
                                     <td class="a-center " ></td>
                                      
       

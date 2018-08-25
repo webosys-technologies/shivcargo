@@ -132,13 +132,13 @@ if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_de
                                                             
 							   
                                                            $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where  bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
-                                                           $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boklrno,bok_total,bok_freight,sendname,sendgstno,recvname,recvgstno,dcty_name from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where  bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
+                                                           $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boklrno,bok_item,bok_total,sendname,sendgstno,recvname,recvgstno,dcplace_name from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where  bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
                                                         }
                                                         elseif($bok_descityid==0)
                                                         {
 
                                                             $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1'";	
-                                                            $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boklrno,bok_total,bok_freight,sendname,sendgstno,recvname,recvgstno,dcty_name from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1'";	
+                                                            $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boklrno,bok_item,bok_total,sendname,sendgstno,recvname,recvgstno,dcplace_name from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_status='1'";	
                                                         }
                                                         
                                                         elseif($start_date=="" AND $end_date=="")
@@ -146,14 +146,14 @@ if(isset($_GET["start_date"]) || isset($_GET["end_date"]) || isset($_GET["bok_de
                                                           
 							   
                                                             $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='1'";	
-                                                            $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boklrno,bok_total,bok_freight,sendname,sendgstno,recvname,recvgstno,dcty_name from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='1'";	
+                                                            $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boklrno,bok_item,bok_total,sendname,sendgstno,recvname,recvgstno,dcplace_name from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bok_status='1'";	
                                                         }
                                                         else
                                                         {
                                                             
 							 
                                                             $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
-                                                            $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boklrno,bok_total,bok_freight,sendname,sendgstno,recvname,recvgstno,dcty_name from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
+                                                            $export_sql="select DATE_FORMAT(bokdate, '%d-%m-%Y') bokdate,boklrno,bok_item,bok_total,sendname,sendgstno,recvname,recvgstno,dcplace_name from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join des_city_place dcp on (bok.bok_cityplaceid=dcp.dcplace_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bok_descityid='$bok_descityid' AND bokdate BETWEEN  '$start_date' AND '$end_date' AND bok_status='1'";	
                                                         }
         
 ?>				
