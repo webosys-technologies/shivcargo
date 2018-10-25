@@ -18,6 +18,8 @@
                                 <li><a href="<?php echo $sitename;?>index.php?do=search"><i class="fa fa-ticket"></i>SEARCH</a> </li>  
                                 <li><a href="<?php echo $sitename;?>index.php?do=statement"><i class="fa fa-ticket"></i>STATEMENT</a> </li>  
                                 <li><a href="<?php echo $sitename;?>index.php?do=profile"><i class="fa fa-user"></i> MY ACCOUNT</a> </li> 
+                                <li><a href="<?php echo $sitename;?>index.php?do=backup"><i class="fa fa-download"></i> BACKUP</a> </li> 
+                                
 								<li>
 									<a href="<?php echo $sitename;?>?do=logout" >
 										<i class="fa fa-sign-out"></i> LOGOUT
