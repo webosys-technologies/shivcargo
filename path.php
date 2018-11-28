@@ -10,7 +10,11 @@
            include("./pages/db_backup.php");
             header("Location:index.php?do=backup");
         }else
-            
+         if(isset($_POST['do']))
+         {
+             $action=$_POST["do"];
+             include("./pages/".$action.".php");
+         }else
 	{
 		include("./pages/booking.php");
 	}

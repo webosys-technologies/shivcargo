@@ -91,7 +91,7 @@ th, td { min-width: 50px;
                  
                 <?php
               
-                $sqlsel="select * from backup order by id desc  LIMIT 2 ";
+                $sqlsel="select * from backup order by id desc  LIMIT 20 ";
 		$result=mysql_query($sqlsel);
                
 //		$row=mysql_fetch_assoc($result);
