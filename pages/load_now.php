@@ -1,10 +1,10 @@
 	
 
-<?php $bok_descityid=isset($_GET["bok_descityid"]) ? addslashes($_GET["bok_descityid"]):"";  
+<?php $bok_descityid=isset($_POST["bok_descityid"]) ? addslashes($_POST["bok_descityid"]):"";  
 $tab=isset($_REQUEST["tab"]) ? $_REQUEST["tab"]:"tab_content1";
 
 
-if(isset($_GET["bokid"]))
+if(isset($_POST["bokid"]))
 { 
 
 	$bok_loaddate=date("Y-m-d");
@@ -33,7 +33,7 @@ if(isset($_GET["bokid"]))
 												
                                             			<?php
 
-        foreach($_GET["bokid"] as $newbokid)
+        foreach($_POST["bokid"] as $newbokid)
 	{ 
             
 		$do_unloaded_parcel="do_unloaded".$SrNo;
@@ -48,12 +48,12 @@ if(isset($_GET["bokid"]))
 		$bokid="bokid".$SrNo;
 		$cityid="cityid".$SrNo;
                 
-                $bok_total=$_GET[$bok_total];
-               // $bok_cross=$_GET[$bok_cross];
+                $bok_total=$_POST[$bok_total];
+               // $bok_cross=$_POST[$bok_cross];
                 $sql2="update booking set bok_total='$bok_total' where bokid='$newbokid'";
                 mysql_query($sql2);
                 
-               // $dcplace_id=$_GET["dcplace_id".$newbokid];
+               // $dcplace_id=$_POST["dcplace_id".$newbokid];
                 // $sql3="update des_city_place set dcplace_crossing='$bok_cross' where dcplace_id='$dcplace_id'";
                 // mysql_query($sql3);
                 
@@ -107,7 +107,7 @@ if(isset($_GET["bokid"]))
 									<form class="form-horizontal form-label-left" enctype="multipart/form-data" method="post" action="" novalidate>
 <?php  
 	$SrNo=1;
-	foreach($_GET["bokid"] as $newbokid)
+	foreach($_POST["bokid"] as $newbokid)
 	{ 
 		$sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokid='$newbokid' && bok_status='0'";
 		$result=mysql_query($sql) or die(mysql_error());
@@ -127,6 +127,8 @@ if(isset($_GET["bokid"]))
                                                                            <input type="hidden" name="do_unloaded<?php echo $SrNo; ?>" value="true"> 
 									   <input type="hidden" name="bokid<?php echo $SrNo; ?>" value="<?php echo $newbokid;?>"> 
 									   <input type="hidden" name="cityid<?php echo $SrNo; ?>" value="<?php echo $row["bok_descityid"]; ?>"> 
+                                                                           <input type="hidden" value="<?php echo $_POST["bokid"];?>" name="bokid[]">
+                                                                           <input type="hidden" name="do" value="load_now">
 <!--										<div class="item form-group">  
                                             <div class="col-md-3 col-sm-3 col-xs-12"> 
                                                 <input id="name" class="form-control col-md-7 col-xs-12" placeholder="Enter Ammount" name="bok_amt<?php echo $SrNo; ?>" value="<?php echo $row["bok_freight"]; ?>" required="required" type="text"> 
@@ -221,7 +223,7 @@ if(isset($_GET["bokid"]))
                                         {
                                          
                                              $SrNo=1;
-                                            foreach($_GET["bokid"] as $newbokid)
+                                            foreach($_POST["bokid"] as $newbokid)
                                             {
                                               
                                                 $sql="select * from booking bok join des_cities dc on (bok.bok_descityid=dc.dcty_id) join sender s on (bok.bok_senderid=s.sendid) join recivers r on (bok.bok_reciverid=r.recvid) where bokid='$newbokid' && bok_status='0'";
@@ -240,7 +242,7 @@ if(isset($_GET["bokid"]))
                                                 {
                                                   
                                                 $bok_total="bok_total".$newbokid;  
-                                                $bok_total=$_GET[$bok_total];
+                                                $bok_total=$_POST[$bok_total];
                                                 
                                                  $bok_memo_total=$bok_memo_total+$bok_total;
                                                 
@@ -249,7 +251,7 @@ if(isset($_GET["bokid"]))
 
                                                             if(mysql_query($sql_updt5))
                                                             {
-//                                                                    if(count($_GET["bokid"])==$SrNo)
+//                                                                    if(count($_POST["bokid"])==$SrNo)
 //                                                                    {
                                                                             $msg="Parcel Loaded Successfully..<meta http-equiv=refresh content=0;url=index.php?do=make_loaded>";
 //                                                                    }
