@@ -129,7 +129,7 @@ function validate_Unload()
 										</span>
 										<p><b style="color:brown">Note: Please Check Unload Data Which You Want To Load And Click on Load Button. </b></p>
 										<h2><b style="color:red"><span id="bokid"></span></b></h2> 
-						<form name="Load" method="post" action="index.php"> 
+						<form name="Load" method="get" action="index.php"> 
 							<input type="hidden" name="do" value="load_now">
 							<input type="submit" name="do_load" value="Load" class="btn btn-info" onclick="return validate_Unload();">
 							<input type="reset"  value="Reset" class="btn btn-white">
